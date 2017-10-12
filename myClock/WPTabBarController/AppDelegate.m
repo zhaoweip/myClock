@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "WPTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    WPTabBarController *tab = [[WPTabBarController alloc] init];
+    self.window.rootViewController = tab;
+    NSLog(@"test github");
+    
     return YES;
 }
 
