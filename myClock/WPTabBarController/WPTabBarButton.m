@@ -9,7 +9,7 @@
 #import "WPTabBarButton.h"
 
 #define TitleFontSize [UIFont systemFontOfSize:10]
-#define ImageRatio 0.7
+#define ImageRatio 0.65
 
 @implementation WPTabBarButton
 
@@ -18,8 +18,8 @@
     if (self = [super initWithFrame:frame]) {
         
         //设置字体颜色
-        [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor colorWithRed:243/255.0 green:211/255.0 blue:120/255.0 alpha:1] forState:UIControlStateSelected];
         
         //图片居中
         self.imageView.contentMode = UIViewContentModeCenter;
@@ -54,7 +54,7 @@
     
     //title
     CGFloat titleX = 0;
-    CGFloat titleY = imageH - 30;
+    CGFloat titleY = imageH - 3;
     CGFloat titleW = self.bounds.size.width;
     CGFloat titleH = self.bounds.size.height - titleY;
     self.titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);

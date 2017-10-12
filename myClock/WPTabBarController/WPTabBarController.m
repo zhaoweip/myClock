@@ -47,17 +47,17 @@
     //时钟首页
     HomePageViewController *home = [[HomePageViewController alloc] init];
     UINavigationController *homeNavCtl = [[UINavigationController alloc] initWithRootViewController:home];
-    [self setUpOneChildViewController:homeNavCtl image:nil selectedImage:nil title:@"时钟"];
+    [self setUpOneChildViewController:homeNavCtl image:[UIImage imageNamed:@"home_sz_normal.png"] selectedImage:[UIImage imageNamed:@"home_sz_selected.png"] title:@"时钟"];
     
     //查询
     SearchPageViewController *search = [[SearchPageViewController alloc] init];
     UINavigationController *searchNavCtl = [[UINavigationController alloc] initWithRootViewController:search];
-    [self setUpOneChildViewController:searchNavCtl image:nil selectedImage:nil title:@"查询"];
+    [self setUpOneChildViewController:searchNavCtl image:[UIImage imageNamed:@"home_cx_normal.png"] selectedImage:[UIImage imageNamed:@"home_cx_selected.png"] title:@"查询"];
     
     //关于我们
     AboutMePageViewController *me = [[AboutMePageViewController alloc] init];
     UINavigationController *meNavCtl = [[UINavigationController alloc] initWithRootViewController:me];
-    [self setUpOneChildViewController:meNavCtl image:nil selectedImage:nil title:@"关于我们"];
+    [self setUpOneChildViewController:meNavCtl image:[UIImage imageNamed:@"home_me_normal.png"] selectedImage:[UIImage imageNamed:@"home_me_selected.png"] title:@"关于我们"];
 }
 #pragma mark -添加一个子控制器
 - (void)setUpOneChildViewController:(UIViewController *)vc image:(UIImage *)image selectedImage:(UIImage *)selectedImage title:(NSString *)title {
@@ -77,7 +77,6 @@
 - (void)setTabBar{
     
     WPTabBar *myTabBar = [[WPTabBar alloc] initWithFrame:self.tabBar.bounds];
-    myTabBar.backgroundColor = [UIColor whiteColor];
     
     myTabBar.delegate = self;
     //给tabBar传递tabBarItem模型

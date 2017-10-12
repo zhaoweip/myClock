@@ -70,6 +70,10 @@
     
     [super layoutSubviews];
     
+    //设置tabbar背景图片
+    UIImageView *tabbarBackImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_bottom_bg.png"]];
+    tabbarBackImage.frame = self.frame;
+    [self addSubview:tabbarBackImage];
     
     CGFloat w = self.bounds.size.width;
     CGFloat h = self.bounds.size.height;
@@ -93,10 +97,9 @@
         i++;
         [self addSubview:tabBarButton] ;
     }
-    
-    
     //设计加号按钮的位置
 //    self.addButton.center = CGPointMake(w * 0.5, h * 0.5);
+    
 }
 
 @end
