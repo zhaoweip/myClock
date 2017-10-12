@@ -8,13 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
-		E2F9711D1F8DE8C300B49001 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F9711C1F8DE8C300B49001 /* ViewController.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
 		E2F971221F8DE8C300B49001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F971211F8DE8C300B49001 /* Assets.xcassets */; };
 		E2F971251F8DE8C300B49001 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F971231F8DE8C300B49001 /* LaunchScreen.storyboard */; };
 		E2F971281F8DE8C300B49001 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971271F8DE8C300B49001 /* main.m */; };
 		E2F971321F8DE8C300B49001 /* myClockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971311F8DE8C300B49001 /* myClockTests.m */; };
 		E2F9713D1F8DE8C300B49001 /* myClockUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F9713C1F8DE8C300B49001 /* myClockUITests.m */; };
+		E2F9714D1F8DE98800B49001 /* WPTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F9714C1F8DE98800B49001 /* WPTabBarController.m */; };
+		E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971521F8DEA1200B49001 /* HomePageViewController.m */; };
+		E2F971561F8DEA2600B49001 /* SearchPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971551F8DEA2600B49001 /* SearchPageViewController.m */; };
+		E2F971591F8DEA3B00B49001 /* AboutMePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971581F8DEA3B00B49001 /* AboutMePageViewController.m */; };
+		E2F9715C1F8E050800B49001 /* WPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F9715B1F8E050800B49001 /* WPTabBar.m */; };
+		E2F9715F1F8E059D00B49001 /* WPTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F9715E1F8E059D00B49001 /* WPTabBarButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +43,6 @@
 		E2F971151F8DE8C200B49001 /* myClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F971181F8DE8C200B49001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E2F971191F8DE8C200B49001 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E2F9711B1F8DE8C200B49001 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E2F9711C1F8DE8C300B49001 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E2F9711F1F8DE8C300B49001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2F971211F8DE8C300B49001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F971241F8DE8C300B49001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +54,18 @@
 		E2F971381F8DE8C300B49001 /* myClockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = myClockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F9713C1F8DE8C300B49001 /* myClockUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = myClockUITests.m; sourceTree = "<group>"; };
 		E2F9713E1F8DE8C300B49001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2F9714B1F8DE98800B49001 /* WPTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPTabBarController.h; sourceTree = "<group>"; };
+		E2F9714C1F8DE98800B49001 /* WPTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPTabBarController.m; sourceTree = "<group>"; };
+		E2F971511F8DEA1200B49001 /* HomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
+		E2F971521F8DEA1200B49001 /* HomePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
+		E2F971541F8DEA2600B49001 /* SearchPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchPageViewController.h; sourceTree = "<group>"; };
+		E2F971551F8DEA2600B49001 /* SearchPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchPageViewController.m; sourceTree = "<group>"; };
+		E2F971571F8DEA3B00B49001 /* AboutMePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutMePageViewController.h; sourceTree = "<group>"; };
+		E2F971581F8DEA3B00B49001 /* AboutMePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutMePageViewController.m; sourceTree = "<group>"; };
+		E2F9715A1F8E050800B49001 /* WPTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPTabBar.h; sourceTree = "<group>"; };
+		E2F9715B1F8E050800B49001 /* WPTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPTabBar.m; sourceTree = "<group>"; };
+		E2F9715D1F8E059D00B49001 /* WPTabBarButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPTabBarButton.h; sourceTree = "<group>"; };
+		E2F9715E1F8E059D00B49001 /* WPTabBarButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPTabBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +116,10 @@
 		E2F971171F8DE8C200B49001 /* myClock */ = {
 			isa = PBXGroup;
 			children = (
-				E2F971181F8DE8C200B49001 /* AppDelegate.h */,
-				E2F971191F8DE8C200B49001 /* AppDelegate.m */,
-				E2F9711B1F8DE8C200B49001 /* ViewController.h */,
-				E2F9711C1F8DE8C300B49001 /* ViewController.m */,
+				E2F971501F8DE9F200B49001 /* Me */,
+				E2F9714F1F8DE9DC00B49001 /* Search */,
+				E2F9714E1F8DE9D200B49001 /* Home */,
+				E2F9714A1F8DE94A00B49001 /* WPTabBarController */,
 				E2F9711E1F8DE8C300B49001 /* Main.storyboard */,
 				E2F971211F8DE8C300B49001 /* Assets.xcassets */,
 				E2F971231F8DE8C300B49001 /* LaunchScreen.storyboard */,
@@ -130,6 +145,48 @@
 				E2F9713E1F8DE8C300B49001 /* Info.plist */,
 			);
 			path = myClockUITests;
+			sourceTree = "<group>";
+		};
+		E2F9714A1F8DE94A00B49001 /* WPTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				E2F971181F8DE8C200B49001 /* AppDelegate.h */,
+				E2F971191F8DE8C200B49001 /* AppDelegate.m */,
+				E2F9714B1F8DE98800B49001 /* WPTabBarController.h */,
+				E2F9714C1F8DE98800B49001 /* WPTabBarController.m */,
+				E2F9715A1F8E050800B49001 /* WPTabBar.h */,
+				E2F9715B1F8E050800B49001 /* WPTabBar.m */,
+				E2F9715D1F8E059D00B49001 /* WPTabBarButton.h */,
+				E2F9715E1F8E059D00B49001 /* WPTabBarButton.m */,
+			);
+			path = WPTabBarController;
+			sourceTree = "<group>";
+		};
+		E2F9714E1F8DE9D200B49001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E2F971511F8DEA1200B49001 /* HomePageViewController.h */,
+				E2F971521F8DEA1200B49001 /* HomePageViewController.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E2F9714F1F8DE9DC00B49001 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E2F971541F8DEA2600B49001 /* SearchPageViewController.h */,
+				E2F971551F8DEA2600B49001 /* SearchPageViewController.m */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		E2F971501F8DE9F200B49001 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				E2F971571F8DEA3B00B49001 /* AboutMePageViewController.h */,
+				E2F971581F8DEA3B00B49001 /* AboutMePageViewController.m */,
+			);
+			path = Me;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,8 +322,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2F9711D1F8DE8C300B49001 /* ViewController.m in Sources */,
+				E2F9715C1F8E050800B49001 /* WPTabBar.m in Sources */,
+				E2F971591F8DEA3B00B49001 /* AboutMePageViewController.m in Sources */,
+				E2F9715F1F8E059D00B49001 /* WPTabBarButton.m in Sources */,
+				E2F971561F8DEA2600B49001 /* SearchPageViewController.m in Sources */,
 				E2F971281F8DE8C300B49001 /* main.m in Sources */,
+				E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */,
+				E2F9714D1F8DE98800B49001 /* WPTabBarController.m in Sources */,
 				E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
