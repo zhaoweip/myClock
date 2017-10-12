@@ -21,7 +21,7 @@
     
     WPTabBarController *tab = [[WPTabBarController alloc] init];
     self.window.rootViewController = tab;
-    NSLog(@"test github");
+    NSLog(@"change test github");
     
     return YES;
 }
