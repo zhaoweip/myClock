@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E054CAADA119670C39175ED3 /* libPods-myClock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB20429DC6F17B3088ADB85E /* libPods-myClock.a */; };
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
 		E2F971221F8DE8C300B49001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F971211F8DE8C300B49001 /* Assets.xcassets */; };
@@ -40,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		528DD24880DD66D6E5100E57 /* Pods-myClock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.debug.xcconfig"; sourceTree = "<group>"; };
+		77685FC525D4EA25059907E6 /* Pods-myClock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.release.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.release.xcconfig"; sourceTree = "<group>"; };
+		AB20429DC6F17B3088ADB85E /* libPods-myClock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-myClock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E255DD161F90586F007C347B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E2F971151F8DE8C200B49001 /* myClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F971181F8DE8C200B49001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E054CAADA119670C39175ED3 /* libPods-myClock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B79FD1A2C350BE80E306326 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB20429DC6F17B3088ADB85E /* libPods-myClock.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2F9710C1F8DE8C200B49001 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +114,8 @@
 				E2F971301F8DE8C300B49001 /* myClockTests */,
 				E2F9713B1F8DE8C300B49001 /* myClockUITests */,
 				E2F971161F8DE8C200B49001 /* Products */,
+				EE3411EAB00C9A0F4DF89D2F /* Pods */,
+				0B79FD1A2C350BE80E306326 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +206,15 @@
 			path = Me;
 			sourceTree = "<group>";
 		};
+		EE3411EAB00C9A0F4DF89D2F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				528DD24880DD66D6E5100E57 /* Pods-myClock.debug.xcconfig */,
+				77685FC525D4EA25059907E6 /* Pods-myClock.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,9 +222,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2F971411F8DE8C300B49001 /* Build configuration list for PBXNativeTarget "myClock" */;
 			buildPhases = (
+				8453D0C7EF48B83ECDF740C6 /* [CP] Check Pods Manifest.lock */,
 				E2F971111F8DE8C200B49001 /* Sources */,
 				E2F971121F8DE8C200B49001 /* Frameworks */,
 				E2F971131F8DE8C200B49001 /* Resources */,
+				B56DEA376A747C22702DAE07 /* [CP] Embed Pods Frameworks */,
+				2339DE16DC61C32A811FB759 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -318,6 +345,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2339DE16DC61C32A811FB759 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-myClock/Pods-myClock-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8453D0C7EF48B83ECDF740C6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-myClock-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B56DEA376A747C22702DAE07 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-myClock/Pods-myClock-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2F971111F8DE8C200B49001 /* Sources */ = {
@@ -492,6 +570,7 @@
 		};
 		E2F971421F8DE8C300B49001 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 528DD24880DD66D6E5100E57 /* Pods-myClock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -508,6 +587,7 @@
 		};
 		E2F971431F8DE8C300B49001 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77685FC525D4EA25059907E6 /* Pods-myClock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
