@@ -15,6 +15,7 @@
 
 
 #define LOGOWIDTH 100
+#define AAAA 1000
 
 
 #endif /* PrefixHeader_pch */
