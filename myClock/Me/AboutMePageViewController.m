@@ -44,9 +44,15 @@
     
     //logo
     UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"me_logo_top.png"]];
-    logo.frame = CGRectMake(0, 120, LOGOWIDTH, 75);
-    logo.center = CGPointMake(_scrollView.frame.size.width/2, 160);
+//    logo.frame = CGRectMake(0, 120, LOGOWIDTH, 75);
+//    logo.center = CGPointMake(_scrollView.frame.size.width/2, 160);
     [_scrollView addSubview:logo];
+    [logo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(50);
+        make.top.mas_equalTo(50);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(100);
+    }];
 //
 //    //title
 //    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
