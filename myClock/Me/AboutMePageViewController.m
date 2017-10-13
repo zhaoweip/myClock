@@ -32,7 +32,7 @@
 - (void)setAboutMeContent{
     //logo
     UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_bottom_bg.png"]];
-    logo.frame = CGRectMake(0, 0, 100, 100);
+    logo.frame = CGRectMake(0, 0, LOGOWIDTH, 100);
     logo.center = CGPointMake(self.view.frame.size.width/2, 120);
     [self.view addSubview:logo];
     
