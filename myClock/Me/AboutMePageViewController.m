@@ -10,6 +10,8 @@
 
 @interface AboutMePageViewController ()<UINavigationControllerDelegate>
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+
 @end
 
 @implementation AboutMePageViewController
@@ -30,19 +32,29 @@
     [self.view addSubview:backImage];
 }
 - (void)setAboutMeContent{
-    //logo
-    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_bottom_bg.png"]];
-    logo.frame = CGRectMake(0, 0, LOGOWIDTH, 100);
-    logo.center = CGPointMake(self.view.frame.size.width/2, 120);
-    [self.view addSubview:logo];
     
-    //title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-    title.center = CGPointMake(self.view.frame.size.width/2, 200);
-    title.text = @"关于我们";
-    title.font = [UIFont systemFontOfSize:24];
-    title.textColor = [UIColor whiteColor];
-    [self.view addSubview:title];
+    UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+//    scrollView.backgroundColor = [UIColor redColor];
+    scrollView.contentSize = CGSizeMake(0, self.view.frame.size.height);
+//    scrollView.contentOffset = CGPointMake(30, 30);
+    scrollView.showsVerticalScrollIndicator = YES;
+    scrollView.showsHorizontalScrollIndicator = YES;
+    _scrollView = scrollView;
+    [self.view addSubview:_scrollView];
+    
+    //logo
+    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"me_logo_top.png"]];
+    logo.frame = CGRectMake(0, 120, LOGOWIDTH, 75);
+    logo.center = CGPointMake(_scrollView.frame.size.width/2, 160);
+    [_scrollView addSubview:logo];
+//
+//    //title
+//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
+//    title.center = CGPointMake(self.view.frame.size.width/2, 200);
+//    title.text = @"关于我们";
+//    title.font = [UIFont systemFontOfSize:24];
+//    title.textColor = [UIColor whiteColor];
+//    [self.view addSubview:title];
 }
 
 - (void)didReceiveMemoryWarning {
