@@ -16,6 +16,7 @@
 
 #define LOGOWIDTH 100
 #define AAAA 1000
+#define BBBB 2000 //测试Xcode提交代码
 
 
 #endif /* PrefixHeader_pch */
