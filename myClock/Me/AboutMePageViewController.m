@@ -8,9 +8,14 @@
 
 #import "AboutMePageViewController.h"
 
-#define TextFontSize 15
-#define TextLabelHeight 25
-#define Margin 33
+#define LogoToTop                FitSize(45,60,65,85)
+#define Margin_OF_Title_And_Logo FitSize(18,22,25,25)
+#define SectionMargin            FitSize(18,20,22,22)
+#define Margin                   FitSize(26,30,33,33)
+#define Title_FontSize           FitSize(22,25,28,28)
+#define TextFontSize             FitSize(13,14,15,15)
+
+
 
 @interface AboutMePageViewController ()<UINavigationControllerDelegate>
 
@@ -38,23 +43,17 @@
 - (void)setAboutMeContent{
     
     UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-//    scrollView.backgroundColor = [UIColor redColor];
     scrollView.contentSize = CGSizeMake(0, self.view.frame.size.height);
-//    scrollView.contentOffset = CGPointMake(30, 30);
-    scrollView.showsVerticalScrollIndicator = YES;
-    scrollView.showsHorizontalScrollIndicator = YES;
     _scrollView = scrollView;
     [self.view addSubview:_scrollView];
     
     //logo
     UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"me_logo_top.png"]];
-//    logo.frame = CGRectMake(0, 120, LOGOWIDTH, 75);
-//    logo.center = CGPointMake(_scrollView.frame.size.width/2, 160);
     [_scrollView addSubview:logo];
     [logo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(70);
         make.height.mas_equalTo(48);
-        make.top.mas_equalTo(65);
+        make.top.mas_equalTo(LogoToTop);
         make.centerX.equalTo(self.view);
     }];
 
@@ -62,13 +61,12 @@
     UILabel *title = [[UILabel alloc] init];
     title.text = @"关于我们";
     title.textAlignment = NSTextAlignmentCenter;
-    [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:28]];
+    [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:Title_FontSize]];
     title.textColor = [UIColor whiteColor];
-//    title.backgroundColor = [UIColor redColor];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(250);
-        make.top.equalTo(logo.mas_bottom).offset(25);
+        make.top.equalTo(logo.mas_bottom).offset(Margin_OF_Title_And_Logo);
         make.centerX.equalTo(logo);
     }];
     
@@ -77,7 +75,6 @@
     label1.text = @"知己知彼 百戰百勝";
     label1.font = [UIFont systemFontOfSize:TextFontSize];
     label1.textColor = [UIColor whiteColor];
-//    label1.backgroundColor = [UIColor blueColor];
     [self.view addSubview:label1];
     [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
@@ -90,7 +87,6 @@
     label2.font = [UIFont systemFontOfSize:TextFontSize];
     label2.textColor = [UIColor whiteColor];
     label2.numberOfLines = 0;
-//    label2.backgroundColor = [UIColor redColor];
     [self.view addSubview:label2];
     [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
@@ -104,12 +100,11 @@
     label3.font = [UIFont systemFontOfSize:TextFontSize];
     label3.textColor = [UIColor whiteColor];
     label3.numberOfLines = 0;
-//    label3.backgroundColor = [UIColor redColor];
     [self.view addSubview:label3];
     [label3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
         make.right.mas_equalTo(-Margin);
-        make.top.equalTo(label2.mas_bottom).offset(22);
+        make.top.equalTo(label2.mas_bottom).offset(SectionMargin);
     }];
     
     //label4
@@ -122,7 +117,7 @@
     [label4 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
         make.right.mas_equalTo(-Margin);
-        make.top.equalTo(label3.mas_bottom).offset(22);
+        make.top.equalTo(label3.mas_bottom).offset(SectionMargin);
     }];
     
     //label5
@@ -135,7 +130,7 @@
     [label5 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
         make.right.mas_equalTo(-Margin);
-        make.top.equalTo(label4.mas_bottom).offset(22);
+        make.top.equalTo(label4.mas_bottom).offset(SectionMargin);
     }];
     
     //label6
@@ -161,7 +156,7 @@
     [label7 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
         make.right.mas_equalTo(-Margin);
-        make.top.equalTo(label6.mas_bottom).offset(22);
+        make.top.equalTo(label6.mas_bottom).offset(SectionMargin);
     }];
     
     //label8
@@ -174,7 +169,7 @@
     [label8 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(Margin);
         make.right.mas_equalTo(-Margin);
-        make.top.equalTo(label7.mas_bottom).offset(22);
+        make.top.equalTo(label7.mas_bottom).offset(SectionMargin);
     }];
 }
 - (void)didReceiveMemoryWarning {

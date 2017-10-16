@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E054CAADA119670C39175ED3 /* libPods-myClock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB20429DC6F17B3088ADB85E /* libPods-myClock.a */; };
+		E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2556B601F945E7200329E30 /* WPLayoutUtils.m */; };
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
 		E2F971221F8DE8C300B49001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F971211F8DE8C300B49001 /* Assets.xcassets */; };
@@ -44,6 +45,8 @@
 		528DD24880DD66D6E5100E57 /* Pods-myClock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.debug.xcconfig"; sourceTree = "<group>"; };
 		77685FC525D4EA25059907E6 /* Pods-myClock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.release.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.release.xcconfig"; sourceTree = "<group>"; };
 		AB20429DC6F17B3088ADB85E /* libPods-myClock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-myClock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2556B5F1F945E7200329E30 /* WPLayoutUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPLayoutUtils.h; sourceTree = "<group>"; };
+		E2556B601F945E7200329E30 /* WPLayoutUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPLayoutUtils.m; sourceTree = "<group>"; };
 		E255DD161F90586F007C347B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E2F971151F8DE8C200B49001 /* myClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F971181F8DE8C200B49001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,6 +110,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E2556B5E1F945E3800329E30 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				E2556B5F1F945E7200329E30 /* WPLayoutUtils.h */,
+				E2556B601F945E7200329E30 /* WPLayoutUtils.m */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		E2F9710C1F8DE8C200B49001 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +144,7 @@
 		E2F971171F8DE8C200B49001 /* myClock */ = {
 			isa = PBXGroup;
 			children = (
+				E2556B5E1F945E3800329E30 /* utils */,
 				E2F971501F8DE9F200B49001 /* Me */,
 				E2F9714F1F8DE9DC00B49001 /* Search */,
 				E2F9714E1F8DE9D200B49001 /* Home */,
@@ -408,6 +421,7 @@
 				E2F971561F8DEA2600B49001 /* SearchPageViewController.m in Sources */,
 				E2F971281F8DE8C300B49001 /* main.m in Sources */,
 				E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */,
+				E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */,
 				E2F9714D1F8DE98800B49001 /* WPTabBarController.m in Sources */,
 				E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */,
 			);
