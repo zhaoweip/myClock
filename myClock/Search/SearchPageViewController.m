@@ -11,6 +11,7 @@
 @interface SearchPageViewController ()<UINavigationControllerDelegate>
 
 @property (nonatomic, weak) UIButton *maleSelectedButton;
+@property (nonatomic, weak) UIButton *dataSelectedButton;
 
 
 @end
@@ -61,56 +62,61 @@
     UIButton *manBtn = [[UIButton alloc] init];
     [manBtn setTitle:@"男" forState:UIControlStateNormal];
     [manBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [manBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateHighlighted];
+    [manBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
     [self.view addSubview:manBtn];
     [manBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelTagText.mas_bottom).offset(25);
         make.left.mas_equalTo(90);
     }];
-    [manBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchDown];
+    [manBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     
     UIButton *womanBtn = [[UIButton alloc] init];
     [womanBtn setTitle:@"女" forState:UIControlStateNormal];
     [womanBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [womanBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateHighlighted];
+    [womanBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
     [self.view addSubview:womanBtn];
     [womanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelTagText.mas_bottom).offset(25);
         make.left.equalTo(manBtn.mas_left).offset(150);
     }];
-    [womanBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchDown];
+    [womanBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     
     UIButton *oldDataBtn = [[UIButton alloc] init];
     [oldDataBtn setTitle:@"农历" forState:UIControlStateNormal];
     [oldDataBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [oldDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateHighlighted];
+    [oldDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
     [self.view addSubview:oldDataBtn];
     [oldDataBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(womanBtn.mas_bottom).offset(21);
         make.left.mas_equalTo(90);
     }];
-    
+    [oldDataBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+
     UIButton *newDataBtn = [[UIButton alloc] init];
     [newDataBtn setTitle:@"阳历" forState:UIControlStateNormal];
     [newDataBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [newDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateHighlighted];
+    [newDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
     [self.view addSubview:newDataBtn];
     [newDataBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(womanBtn.mas_bottom).offset(21);
         make.left.equalTo(oldDataBtn.mas_left).offset(150);
     }];
+    [newDataBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+
     
-    [self maleBtnClick:manBtn];
 }
 //点击调用
 - (void)maleBtnClick:(UIButton *)button {
-    NSLog(@"%@",button);
     _maleSelectedButton.selected = NO;
     button.selected = YES;
     _maleSelectedButton = button;
-    
+}
+- (void)dataBtnClick:(UIButton *)button {
+    _dataSelectedButton.selected = NO;
+    button.selected = YES;
+    _dataSelectedButton = button;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
