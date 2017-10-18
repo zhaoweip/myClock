@@ -8,6 +8,23 @@
 
 #import "SearchPageViewController.h"
 
+#define LabelTagToTop            FitSize(50,70,70,90)
+#define LabelTagEdgeMargin       FitSize(30,42,42,42)
+#define LabelTagAndImgOffset     FitSize(5,7,7,7)
+#define LabelTagImgWidth         FitSize(10,10,12,12)
+#define LabelTagFontSize         FitSize(16,18,20,20)
+
+#define SelectedButtonEdgeMargin FitSize(60,90,90,90)
+#define SelectedButtonToLeft     FitSize(120,150,150,150)
+
+#define SearchButtonMarginToTop  FitSize(70,100,130,130)
+
+#define DatePickHeight           SCREEN_HEIGHT*0.3
+#define DatePickContentHeight    SCREEN_HEIGHT*0.3+60
+#define DatePickContentY         SCREEN_HEIGHT*0.7-60
+
+
+
 @interface SearchPageViewController ()<UINavigationControllerDelegate,UITextFieldDelegate>
 
 @property (nonatomic, weak) UIButton *maleSelectedButton;
@@ -22,13 +39,8 @@
 @property (nonatomic, strong) UIButton *oldDateBtn;
 @property (nonatomic, strong) UIButton *internationalDateBtn;
 
-
 @property (nonatomic, strong) UITextField *date;
 @property (nonatomic, strong) UITextField *time;
-
-
-
-
 
 @end
 
@@ -55,29 +67,29 @@
     UIImageView *labelTagImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"label_tag.png"]];
     [self.view addSubview:labelTagImg];
     [labelTagImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(12);
-        make.height.mas_equalTo(12);
-        make.left.mas_equalTo(42);
-        make.top.mas_equalTo(70);
+        make.width.mas_equalTo(LabelTagImgWidth);
+        make.height.mas_equalTo(LabelTagImgWidth);
+        make.left.mas_equalTo(LabelTagEdgeMargin);
+        make.top.mas_equalTo(LabelTagToTop);
     }];
     //labeltagText
     UILabel *labelTagText = [[UILabel alloc] init];
     labelTagText.text = @"请输入要查询的日期，‘小天’可以快速查询你想要的八字哦！";
-    labelTagText.font = [UIFont systemFontOfSize:20];
+    labelTagText.font = [UIFont systemFontOfSize:LabelTagFontSize];
     labelTagText.textColor = [UIColor whiteColor];
     labelTagText.numberOfLines = 0;
     [self.view addSubview:labelTagText];
     [labelTagText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(labelTagImg.mas_right).offset(14);
-        make.right.mas_equalTo(-45);
-        make.top.equalTo(labelTagImg.mas_top).offset(-7);
+        make.right.mas_equalTo(-LabelTagEdgeMargin);
+        make.top.equalTo(labelTagImg.mas_top).offset(-LabelTagAndImgOffset);
     }];
     
     
     _manBtn = [self createButtonWithTitle:@"男"];
     [_manBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelTagText.mas_bottom).offset(25);
-        make.left.mas_equalTo(90);
+        make.left.mas_equalTo(SelectedButtonEdgeMargin);
     }];
     [_manBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -92,7 +104,7 @@
     _oldDateBtn = [self createButtonWithTitle:@"农历"];
     [_oldDateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_womanBtn.mas_bottom).offset(21);
-        make.left.mas_equalTo(90);
+        make.left.mas_equalTo(SelectedButtonEdgeMargin);
     }];
     [_oldDateBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -109,7 +121,6 @@
     _time = [self createTextFieldWithTag:2 andLastView:_date];
 
     
-    
     //查询按钮
     UIButton *searchBtn = [[UIButton alloc] init];
     [searchBtn setImage:[UIImage imageNamed:@"search_btn.png"] forState:UIControlStateNormal];
@@ -117,7 +128,7 @@
     [searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(100);
-        make.top.equalTo(_time.mas_bottom).offset(130);
+        make.top.equalTo(_time.mas_bottom).offset(SearchButtonMarginToTop);
         make.centerX.equalTo(self.view);
     }];
     [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchDown];
@@ -168,19 +179,20 @@
 }
 
 - (void)searchBtnClick{
-    NSLog(@"www");
+    NSLog(@"%@-----%@",_dataSelectedButton.titleLabel.text,_maleSelectedButton.titleLabel.text);
+    NSLog(@"%@-----%@",_date.text,_time.text);
 }
 //日期选择器
 - (void)showDatePick:(UITextField *)textField{
     
     if (_datePicker == nil) {
         
-        UIView *contenView = [[UIView alloc] initWithFrame:CGRectMake(0,440,SCREEN_WIDTH,SCREEN_HEIGHT*0.3+60)];
+        UIView *contenView = [[UIView alloc] initWithFrame:CGRectMake(0,DatePickContentY,SCREEN_WIDTH,DatePickContentHeight)];
         contenView.backgroundColor = [UIColor whiteColor];
         _contentView = contenView;
         [self.view addSubview:_contentView];
         //日期时间选择器
-        UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0,60,SCREEN_WIDTH,SCREEN_HEIGHT*0.3)];
+        UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0,60,SCREEN_WIDTH,DatePickHeight)];
         if (textField.tag == 1) {
             datePicker.datePickerMode = UIDatePickerModeDate;
         }else{
@@ -243,7 +255,8 @@
         dateFormatter.dateFormat = @"HH:mm";
         _time.text = [dateFormatter stringFromDate:theDate];
     }
-    NSLog(@"%@",[dateFormatter stringFromDate:theDate]);
+//    NSLog(@"%@",[dateFormatter stringFromDate:theDate]);
+    _contentView.hidden = YES;
 }
 
 //点击调用
