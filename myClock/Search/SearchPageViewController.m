@@ -8,10 +8,26 @@
 
 #import "SearchPageViewController.h"
 
-@interface SearchPageViewController ()<UINavigationControllerDelegate>
+@interface SearchPageViewController ()<UINavigationControllerDelegate,UITextFieldDelegate>
 
 @property (nonatomic, weak) UIButton *maleSelectedButton;
 @property (nonatomic, weak) UIButton *dataSelectedButton;
+@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) UIButton *cancelBtn;
+@property (nonatomic, strong) UIButton *confirmBtn;
+
+@property (nonatomic, strong) UIButton *manBtn;
+@property (nonatomic, strong) UIButton *womanBtn;
+@property (nonatomic, strong) UIButton *oldDateBtn;
+@property (nonatomic, strong) UIButton *internationalDateBtn;
+
+
+@property (nonatomic, strong) UITextField *date;
+@property (nonatomic, strong) UITextField *time;
+
+
+
 
 
 @end
@@ -23,7 +39,6 @@
     // Do any additional setup after loading the view.
     [self setBackImage];
     [self setSearceContent];
-//    [self setDatePick];
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
 
@@ -50,7 +65,6 @@
     labelTagText.text = @"请输入要查询的日期，‘小天’可以快速查询你想要的八字哦！";
     labelTagText.font = [UIFont systemFontOfSize:20];
     labelTagText.textColor = [UIColor whiteColor];
-//    labelTagText.backgroundColor = [UIColor blueColor];
     labelTagText.numberOfLines = 0;
     [self.view addSubview:labelTagText];
     [labelTagText mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -59,96 +73,42 @@
         make.top.equalTo(labelTagImg.mas_top).offset(-7);
     }];
     
-    UIButton *manBtn = [[UIButton alloc] init];
-    [manBtn setTitle:@"男" forState:UIControlStateNormal];
-    [manBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [manBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
-    [self.view addSubview:manBtn];
-    [manBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    _manBtn = [self createButtonWithTitle:@"男"];
+    [_manBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelTagText.mas_bottom).offset(25);
         make.left.mas_equalTo(90);
     }];
-    [manBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_manBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     
-    UIButton *womanBtn = [[UIButton alloc] init];
-    [womanBtn setTitle:@"女" forState:UIControlStateNormal];
-    [womanBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [womanBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
-    [self.view addSubview:womanBtn];
-    [womanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _womanBtn = [self createButtonWithTitle:@"女"];
+    [_womanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelTagText.mas_bottom).offset(25);
-        make.left.equalTo(manBtn.mas_left).offset(150);
+        make.left.equalTo(_manBtn.mas_left).offset(150);
     }];
-    [womanBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_womanBtn addTarget:self action:@selector(maleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
-    
-    UIButton *oldDataBtn = [[UIButton alloc] init];
-    [oldDataBtn setTitle:@"农历" forState:UIControlStateNormal];
-    [oldDataBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [oldDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
-    [self.view addSubview:oldDataBtn];
-    [oldDataBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(womanBtn.mas_bottom).offset(21);
+    _oldDateBtn = [self createButtonWithTitle:@"农历"];
+    [_oldDateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_womanBtn.mas_bottom).offset(21);
         make.left.mas_equalTo(90);
     }];
-    [oldDataBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_oldDateBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
-    UIButton *newDataBtn = [[UIButton alloc] init];
-    [newDataBtn setTitle:@"阳历" forState:UIControlStateNormal];
-    [newDataBtn setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
-    [newDataBtn setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
-    [self.view addSubview:newDataBtn];
-    [newDataBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(womanBtn.mas_bottom).offset(21);
-        make.left.equalTo(oldDataBtn.mas_left).offset(150);
+
+    _internationalDateBtn = [self createButtonWithTitle:@"阳历"];
+    [_internationalDateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_womanBtn.mas_bottom).offset(21);
+        make.left.equalTo(_oldDateBtn.mas_left).offset(150);
     }];
-    [newDataBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_internationalDateBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    //日期输入框
-    UITextField *date = [[UITextField alloc] init];
-    date.backgroundColor = [UIColor whiteColor];
-    date.enabled = NO;
-    date.layer.cornerRadius = 10;
-    [self.view addSubview:date];
-    [date mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(oldDataBtn.mas_bottom).offset(20);
-        make.left.mas_equalTo(38);
-        make.right.mas_equalTo(-38);
-        make.height.mas_equalTo(45);
-    }];
     
-    UIImageView *dateTag = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"date_tag.png"]];
-    [date addSubview:dateTag];
-    [dateTag mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-        make.right.mas_equalTo(-10);
-        make.centerY.equalTo(date);
-        
-    }];
+    _date = [self createTextFieldWithTag:1 andLastView:_oldDateBtn];
+    _time = [self createTextFieldWithTag:2 andLastView:_date];
+
     
-    UITextField *time = [[UITextField alloc] init];
-    time.backgroundColor = [UIColor whiteColor];
-    time.enabled = NO;
-    time.layer.cornerRadius = 10;
-    [self.view addSubview:time];
-    [time mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(date.mas_bottom).offset(10);
-        make.left.mas_equalTo(38);
-        make.right.mas_equalTo(-38);
-        make.height.mas_equalTo(45);
-    }];
-    
-    UIImageView *timeTag = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"date_tag.png"]];
-    [time addSubview:timeTag];
-    [timeTag mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-        make.right.mas_equalTo(-10);
-        make.centerY.equalTo(time);
-        
-    }];
     
     //查询按钮
     UIButton *searchBtn = [[UIButton alloc] init];
@@ -157,38 +117,135 @@
     [searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(100);
-        make.top.equalTo(time.mas_bottom).offset(130);
+        make.top.equalTo(_time.mas_bottom).offset(130);
         make.centerX.equalTo(self.view);
     }];
     [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchDown];
     
 
 }
+//创建单选按钮
+- (UIButton *)createButtonWithTitle:(NSString *)title{
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"Inquire_selected.png"] forState:UIControlStateSelected];
+    [self.view addSubview:button];
+    return button;
+}
+//创建textfield
+- (UITextField *)createTextFieldWithTag:(NSInteger)tag andLastView:(UIView *)lastView{
+    UITextField *textField = [[UITextField alloc] init];
+    textField.backgroundColor = [UIColor whiteColor];
+    textField.textColor = [UIColor grayColor];
+    textField.layer.cornerRadius = 10;
+    //设置左边视图的宽度
+    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 0)];
+    //设置显示模式为永远显示(默认不显示 必须设置 否则没有效果)
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    [self.view addSubview:textField];
+    
+    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lastView.mas_bottom).offset(20);
+        make.left.mas_equalTo(38);
+        make.right.mas_equalTo(-38);
+        make.height.mas_equalTo(45);
+    }];
+
+    textField.delegate = self;
+    textField.tag = tag;
+    [textField addTarget:self action:@selector(showDatePick:) forControlEvents:UIControlEventTouchDown];
+    
+    UIImageView *textFieldTag = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"date_tag.png"]];
+    [textField addSubview:textFieldTag];
+    [textFieldTag mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(25);
+        make.height.mas_equalTo(25);
+        make.right.mas_equalTo(-10);
+        make.centerY.equalTo(textField);
+    }];
+    return textField;
+}
+
 - (void)searchBtnClick{
     NSLog(@"www");
 }
-////日期选择器
-//- (void)setDatePick{
-//    //日期时间选择器
-//    UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0,500,SCREEN_WIDTH,SCREEN_HEIGHT*0.3)];
-//    datePicker.backgroundColor = [UIColor yellowColor];
-//    datePicker.datePickerMode = UIDatePickerModeDate;
-//    datePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
-//    [self.view addSubview: datePicker];
-//    [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-////    datePicker.hidden = YES;
-//
-//}
+//日期选择器
+- (void)showDatePick:(UITextField *)textField{
+    
+    if (_datePicker == nil) {
+        
+        UIView *contenView = [[UIView alloc] initWithFrame:CGRectMake(0,440,SCREEN_WIDTH,SCREEN_HEIGHT*0.3+60)];
+        contenView.backgroundColor = [UIColor whiteColor];
+        _contentView = contenView;
+        [self.view addSubview:_contentView];
+        //日期时间选择器
+        UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0,60,SCREEN_WIDTH,SCREEN_HEIGHT*0.3)];
+        if (textField.tag == 1) {
+            datePicker.datePickerMode = UIDatePickerModeDate;
+        }else{
+            datePicker.datePickerMode = UIDatePickerModeTime;
+            
+        }
+        datePicker.backgroundColor = [UIColor whiteColor];
+        datePicker.locale = [NSLocale localeWithLocaleIdentifier:@"zh"];
+        _datePicker = datePicker;
+        [_contentView addSubview: _datePicker];
+        
+        UIButton *cancelButton = [[UIButton alloc]init];
+        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _cancelBtn = cancelButton;
+        [_contentView addSubview:_cancelBtn];
+        [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(10);
+            make.top.mas_equalTo(5);
+            make.width.mas_equalTo(45);
+            make.height.mas_equalTo(45);
+        }];
+        UIButton *confirmButton = [[UIButton alloc]init];
+        [confirmButton setTitle:@"确定" forState:UIControlStateNormal];
+        [confirmButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        _confirmBtn = confirmButton;
+        [_contentView addSubview:_confirmBtn];
+        [_confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-10);
+            make.top.mas_equalTo(5);
+            make.width.mas_equalTo(45);
+            make.height.mas_equalTo(45);
+        }];
+        
+        [_cancelBtn addTarget:self action:@selector(hideDatePicker) forControlEvents:UIControlEventTouchDown];
+        [_confirmBtn addTarget:self action:@selector(confirmDateOrTime) forControlEvents:UIControlEventTouchDown];
 
-//- (void)dateChanged:(UIDatePicker *)datePicker
-//{
-//    NSDate *theDate = datePicker.date;
-//    NSLog(@"%@",[theDate descriptionWithLocale:[NSLocale currentLocale]]);
-//
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    dateFormatter.dateFormat = @"YYYY-MM-dd";
-//    NSLog(@"%@",[dateFormatter stringFromDate:theDate]);
-//}
+        
+    }else{
+        if (textField.tag == 1) {
+            _datePicker.datePickerMode = UIDatePickerModeDate;
+        }else{
+            _datePicker.datePickerMode = UIDatePickerModeTime;
+            
+        }
+    }
+    _contentView.hidden = NO;
+}
+
+- (void)hideDatePicker{
+    _contentView.hidden = YES;
+}
+- (void)confirmDateOrTime{
+    NSDate *theDate = _datePicker.date;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    if (_datePicker.datePickerMode == UIDatePickerModeDate) {
+        dateFormatter.dateFormat = @"YYYY-MM-dd";
+        _date.text = [dateFormatter stringFromDate:theDate];
+    }else{
+        dateFormatter.dateFormat = @"HH:mm";
+        _time.text = [dateFormatter stringFromDate:theDate];
+    }
+    NSLog(@"%@",[dateFormatter stringFromDate:theDate]);
+}
+
 //点击调用
 - (void)maleBtnClick:(UIButton *)button {
     _maleSelectedButton.selected = NO;
@@ -209,5 +266,10 @@
     BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
     [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
 }
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    return NO;
+}
+
 
 @end
