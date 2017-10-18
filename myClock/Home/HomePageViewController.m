@@ -7,8 +7,13 @@
 //
 
 #import "HomePageViewController.h"
+#import "HomePageHeaderView.h"
+#import "HomePageTableViewCell.h"
 
-@interface HomePageViewController ()<UINavigationControllerDelegate>
+@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *homePageTableView;
+
 
 @end
 
@@ -17,10 +22,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackImage];
-    [self setHeaderImage];
     
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
+    
+    //设置tableview
+    _homePageTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _homePageTableView.backgroundColor = [UIColor clearColor];
+    _homePageTableView.delegate = self;
+    _homePageTableView.dataSource = self;
+    _homePageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_homePageTableView];
+    
+    //头视图
+    HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
+    headerView.backgroundColor = [UIColor clearColor];
+    self.homePageTableView.tableHeaderView = headerView;
 }
 //设置背景图片
 - (void)setBackImage{
@@ -28,11 +45,39 @@
     backImage.frame = self.view.frame;
     [self.view addSubview:backImage];
 }
-//添加头部图片
-- (void)setHeaderImage{
-    UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_header_bg.png"]];
-    backImage.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.5);
-    [self.view addSubview:backImage];
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    static NSString *ID  = @"cell";
+    //1.从复用池中（复用队列）中根据标识取一个cell
+    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    //2.如果取不到则创建一个cell 并指定一个复用标识
+    if (cell == nil) {
+        cell = [[HomePageTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.textLabel.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+        NSLog(@"creat cell:%ld", indexPath.row);
+    }
+    return cell;
+}
+
+
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
