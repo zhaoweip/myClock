@@ -43,6 +43,11 @@
 @property (nonatomic, strong) UITextField *date;
 @property (nonatomic, strong) UITextField *time;
 
+@property (nonatomic, strong) UIVisualEffectView *baziAlertView;
+@property (nonatomic, strong) UIView *baziContent;
+@property (nonatomic, strong) UILabel *character;
+
+
 @end
 
 @implementation SearchPageViewController
@@ -52,10 +57,12 @@
     // Do any additional setup after loading the view.
     [self setBackImage];
     [self setSearceContent];
+    [self setBaziInfoAlertView];
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
 
 }
+
 //设置背景图片
 - (void)setBackImage{
     UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
@@ -133,9 +140,39 @@
         make.centerX.equalTo(self.view);
     }];
     [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchDown];
-    
 
 }
+- (void)setBaziInfoAlertView{
+    //八字模版
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    _baziAlertView = [[UIVisualEffectView alloc] initWithEffect:effect];
+    _baziAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:_baziAlertView];
+
+    _baziContent = [[UIView alloc] init];
+    [self.view addSubview:_baziContent];
+    _baziContent.backgroundColor = [UIColor lightGrayColor];
+    [_baziContent mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(SCREEN_WIDTH*0.85);
+        make.height.mas_equalTo(SCREEN_HEIGHT*0.55);
+        make.center.equalTo(self.view);
+    }];
+    _baziContent.hidden = YES;
+    _baziAlertView.hidden = YES;
+    
+    _character = [[UILabel alloc] init];
+    _character.text = @"";
+    _character.numberOfLines = 0;
+    [_baziContent addSubview:_character];
+    [_character mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(300);
+//        make.height.mas_equalTo(45);
+        make.center.equalTo(self.view);
+    }];
+    
+}
+//- (void)showBaziInfoAlertView:(Bazi *)bazi{
+//}
 //创建单选按钮
 - (UIButton *)createButtonWithTitle:(NSString *)title{
     UIButton *button = [[UIButton alloc] init];
@@ -181,7 +218,8 @@
 
 - (void)searchBtnClick{
 //    NSLog(@"%@-----%@",_dataSelectedButton.titleLabel.text,_maleSelectedButton.titleLabel.text);
-    NSLog(@"%@-----%@",_date.text,_time.text);
+//    NSLog(@"%@-----%@",_date.text,_time.text);
+    NSString *time = [NSString stringWithFormat:@"%@ %@",_date.text,_time.text];
     
     //1.创建会话管理者
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -190,11 +228,10 @@
     //2.封装参数
     NSDictionary *dict = @{
                            @"action":@"getSiZhuAndCharacterDate",
-                           @"dateTime":@"2017-10-19 10:15",
+                           @"dateTime":time,
                            };
     //3.get请求
     [manager GET:@"http://rcwifa.com/imade/index.php/Home/SiZhu/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"-------%@-------",responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][0]);
         Bazi *bazi = [[Bazi alloc] init];
         bazi.timeTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][0];
         bazi.timeDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][1];
@@ -205,14 +242,31 @@
         bazi.yearTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][0];
         bazi.yearDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][1];
         
-        NSLog(@"%@",bazi);
+        //将八字信息保存到用户信息里，以便以后访问
+        [[UserDataManager shareInstance] saveMyBaziInfo:bazi];
+        [self showBaziContent:bazi withTime:time andCharacter:responseObject[@"data"][@"character"]];
 
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"failure--%@",error);
     }];
 }
-
+- (void)showBaziContent:(Bazi *)bazi withTime:(NSString *)time andCharacter:(NSString *) character{
+    _baziContent.hidden = NO;
+    _baziAlertView.hidden = NO;
+    _character.text = character;
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    CGPoint point = [[touches anyObject] locationInView:self.view];
+    point = [self.baziContent.layer convertPoint:point fromLayer:self.view.layer];
+    if ([self.baziContent.layer containsPoint:point]) {
+        NSLog(@"in---!!!");
+    }else{
+        NSLog(@"out------");
+        _baziContent.hidden = YES;
+        _baziAlertView.hidden = YES;
+    }
+}
 //日期选择器
 - (void)showDatePick:(UITextField *)textField{
     

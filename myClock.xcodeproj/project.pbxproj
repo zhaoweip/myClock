@@ -11,6 +11,7 @@
 		E24CAEA51F97398200082216 /* HomePageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24CAEA41F97398200082216 /* HomePageHeaderView.m */; };
 		E24CAEA81F97459400082216 /* HomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E24CAEA71F97459400082216 /* HomePageTableViewCell.m */; };
 		E251DB8B1F9854D900AA8C32 /* Bazi.m in Sources */ = {isa = PBXBuildFile; fileRef = E251DB8A1F9854D900AA8C32 /* Bazi.m */; };
+		E251DB8E1F98767000AA8C32 /* UserDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E251DB8D1F98767000AA8C32 /* UserDataManager.m */; };
 		E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2556B601F945E7200329E30 /* WPLayoutUtils.m */; };
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
@@ -54,6 +55,8 @@
 		E24CAEA71F97459400082216 /* HomePageTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewCell.m; sourceTree = "<group>"; };
 		E251DB891F9854D900AA8C32 /* Bazi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bazi.h; sourceTree = "<group>"; };
 		E251DB8A1F9854D900AA8C32 /* Bazi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bazi.m; sourceTree = "<group>"; };
+		E251DB8C1F98767000AA8C32 /* UserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDataManager.h; sourceTree = "<group>"; };
+		E251DB8D1F98767000AA8C32 /* UserDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDataManager.m; sourceTree = "<group>"; };
 		E2556B5F1F945E7200329E30 /* WPLayoutUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPLayoutUtils.h; sourceTree = "<group>"; };
 		E2556B601F945E7200329E30 /* WPLayoutUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPLayoutUtils.m; sourceTree = "<group>"; };
 		E255DD161F90586F007C347B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 			children = (
 				E251DB891F9854D900AA8C32 /* Bazi.h */,
 				E251DB8A1F9854D900AA8C32 /* Bazi.m */,
+				E251DB8C1F98767000AA8C32 /* UserDataManager.h */,
+				E251DB8D1F98767000AA8C32 /* UserDataManager.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F9715C1F8E050800B49001 /* WPTabBar.m in Sources */,
+				E251DB8E1F98767000AA8C32 /* UserDataManager.m in Sources */,
 				E2F971591F8DEA3B00B49001 /* AboutMePageViewController.m in Sources */,
 				E2F9715F1F8E059D00B49001 /* WPTabBarButton.m in Sources */,
 				E24CAEA81F97459400082216 /* HomePageTableViewCell.m in Sources */,

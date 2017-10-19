@@ -38,7 +38,22 @@
     HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
     headerView.backgroundColor = [UIColor clearColor];
     self.homePageTableView.tableHeaderView = headerView;
+    
+//    [NotificationCenter addObserver:self
+//                           selector:@selector(setBazi)
+//                               name:@"MyBaziStatusChangedNotification"
+//                             object:nil];
+    
 }
+//- (void)dealloc
+//{
+//    [NotificationCenter removeObserver:self];
+//}
+//- (void)setBazi{
+//    if ( [UserDataManager shareInstance].myBazi) {
+//        NSLog(@"-----------%@",[UserDataManager shareInstance].myBazi);
+//    }
+//}
 //设置背景图片
 - (void)setBackImage{
     UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];

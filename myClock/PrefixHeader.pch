@@ -13,6 +13,7 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #import "Masonry.h"
 #import "AFNetworking.h"
+#import "UserDataManager.h"
 #import "WPLayoutUtils.h"
 
 #define MainScreen            [UIScreen mainScreen]
@@ -30,6 +31,8 @@
 
 
 #define FitSize(i5, i6, i6p,ipx)  [WPLayoutUtils fitSize:i5 iphone6Size:i6 iphone6PlusSize:i6p iphoneXSize:ipx]
+
+#define NotificationCenter    [NSNotificationCenter defaultCenter]
 
 
 #define LOGOWIDTH 100
