@@ -7,6 +7,7 @@
 //
 
 #import "SearchPageViewController.h"
+#import "Bazi.h"
 
 #define LabelTagToTop            FitSize(50,70,70,90)
 #define LabelTagEdgeMargin       FitSize(30,42,42,42)
@@ -179,9 +180,39 @@
 }
 
 - (void)searchBtnClick{
-    NSLog(@"%@-----%@",_dataSelectedButton.titleLabel.text,_maleSelectedButton.titleLabel.text);
+//    NSLog(@"%@-----%@",_dataSelectedButton.titleLabel.text,_maleSelectedButton.titleLabel.text);
     NSLog(@"%@-----%@",_date.text,_time.text);
+    
+    //1.创建会话管理者
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml",@"text/html", @"application/json",@"text/plain",nil];
+    
+    //2.封装参数
+    NSDictionary *dict = @{
+                           @"action":@"getSiZhuAndCharacterDate",
+                           @"dateTime":@"2017-10-19 10:15",
+                           };
+    //3.get请求
+    [manager GET:@"http://rcwifa.com/imade/index.php/Home/SiZhu/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"-------%@-------",responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][0]);
+        Bazi *bazi = [[Bazi alloc] init];
+        bazi.timeTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][0];
+        bazi.timeDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][1];
+        bazi.dataTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][0];
+        bazi.dataDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][1];
+        bazi.monthTianGan   = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"monthGanZhi_Arr"][0];
+        bazi.monthDiZhi     = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"monthGanZhi_Arr"][1];
+        bazi.yearTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][0];
+        bazi.yearDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][1];
+        
+        NSLog(@"%@",bazi);
+
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure--%@",error);
+    }];
 }
+
 //日期选择器
 - (void)showDatePick:(UITextField *)textField{
     
