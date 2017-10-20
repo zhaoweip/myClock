@@ -19,4 +19,9 @@
 @property (nonatomic, copy) NSString *yearTianGan;
 @property (nonatomic, copy) NSString *yearDiZhi;
 
+@property (nonatomic, copy) NSString *detailTime;
+@property (nonatomic, copy) NSString *character;
+
+
+
 @end

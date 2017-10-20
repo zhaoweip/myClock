@@ -31,6 +31,9 @@
 
 
 #define FitSize(i5, i6, i6p,ipx)  [WPLayoutUtils fitSize:i5 iphone6Size:i6 iphone6PlusSize:i6p iphoneXSize:ipx]
+#define random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
+#define randomColor random(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
 
 #define NotificationCenter    [NSNotificationCenter defaultCenter]
 
