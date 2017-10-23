@@ -15,6 +15,7 @@
 		E251DB8E1F98767000AA8C32 /* UserDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E251DB8D1F98767000AA8C32 /* UserDataManager.m */; };
 		E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2556B601F945E7200329E30 /* WPLayoutUtils.m */; };
 		E2569CCA1F9D85AD004B9D97 /* HomePageFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */; };
+		E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */; };
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
 		E2F971221F8DE8C300B49001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F971211F8DE8C300B49001 /* Assets.xcassets */; };
@@ -66,6 +67,8 @@
 		E255DD161F90586F007C347B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E2569CC81F9D85AD004B9D97 /* HomePageFootView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageFootView.h; sourceTree = "<group>"; };
 		E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageFootView.m; sourceTree = "<group>"; };
+		E2581B561F9DC738008E90C4 /* AddAlarmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddAlarmViewController.h; sourceTree = "<group>"; };
+		E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddAlarmViewController.m; sourceTree = "<group>"; };
 		E2F971151F8DE8C200B49001 /* myClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F971181F8DE8C200B49001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E2F971191F8DE8C200B49001 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				E24CAEA71F97459400082216 /* HomePageTableViewCell.m */,
 				E2569CC81F9D85AD004B9D97 /* HomePageFootView.h */,
 				E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */,
+				E2581B561F9DC738008E90C4 /* AddAlarmViewController.h */,
+				E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				E24CAEA81F97459400082216 /* HomePageTableViewCell.m in Sources */,
 				E2F971561F8DEA2600B49001 /* SearchPageViewController.m in Sources */,
 				E2F971281F8DE8C300B49001 /* main.m in Sources */,
+				E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */,
 				E24CAEA51F97398200082216 /* HomePageHeaderView.m in Sources */,
 				E251DB8B1F9854D900AA8C32 /* Bazi.m in Sources */,
 				E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */,

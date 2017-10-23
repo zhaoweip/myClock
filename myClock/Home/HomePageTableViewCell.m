@@ -49,15 +49,23 @@
         make.top.equalTo(title.mas_bottom).offset(5);
     }];
 
-    UIButton *button = [[UIButton alloc] init];
-    [button setImage:[UIImage imageNamed:@"home_clock_normal.png"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"home_clock_selected.png"] forState:UIControlStateSelected];
-    [self addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+//    UIButton *button = [[UIButton alloc] init];
+//    [button setImage:[UIImage imageNamed:@"home_clock_normal.png"] forState:UIControlStateNormal];
+//    [button setImage:[UIImage imageNamed:@"home_clock_selected.png"] forState:UIControlStateSelected];
+//    [self addSubview:button];
+//    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(-21);
+//        make.centerY.equalTo(self);
+//    }];
+    UISwitch *switchBtn = [[UISwitch alloc]init];
+    switchBtn.on = YES;
+    switchBtn.onTintColor = [UIColor colorWithRed:245/255.0 green:218/255.0 blue:142/255.0 alpha:1];
+    switchBtn.tintColor = [UIColor colorWithRed:30/255.0 green:56/255.0 blue:90/255.0 alpha:1];
+    [self addSubview:switchBtn];
+    [switchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-21);
         make.centerY.equalTo(self);
     }];
-    
     return self;
 }
 

@@ -36,7 +36,6 @@
     
     if ([touch view] == _addImage)
     {
-        NSLog(@"ccc");
         //通知控制器操作页面
         if ([_delegate respondsToSelector:@selector(footViewClickAddButton)]) {
             [_delegate footViewClickAddButton];

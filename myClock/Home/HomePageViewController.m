@@ -10,6 +10,7 @@
 #import "HomePageHeaderView.h"
 #import "HomePageTableViewCell.h"
 #import "HomePageFootView.h"
+#import "AddAlarmViewController.h"
 
 
 @interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
@@ -114,7 +115,10 @@
 #pragma mark - MyHomePageFootViewDelegate
 - (void)footViewClickAddButton
 {
-    NSLog(@"控制器上实现footView点击加号添加事件");
+    AddAlarmViewController *addAlarm = [[AddAlarmViewController alloc]init];
+    addAlarm.title = @"添加闹钟";
+    addAlarm.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:addAlarm animated:YES];
 }
 
 @end
