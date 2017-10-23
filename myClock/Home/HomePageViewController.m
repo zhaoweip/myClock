@@ -9,8 +9,10 @@
 #import "HomePageViewController.h"
 #import "HomePageHeaderView.h"
 #import "HomePageTableViewCell.h"
+#import "HomePageFootView.h"
 
-@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>
+
+@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
 
 @property (nonatomic, strong) UITableView *homePageTableView;
 
@@ -38,6 +40,13 @@
     HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
     headerView.backgroundColor = [UIColor clearColor];
     self.homePageTableView.tableHeaderView = headerView;
+    
+    //尾视图
+    HomePageFootView *footView = [[HomePageFootView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
+    footView.backgroundColor = [UIColor clearColor];
+    footView.delegate = self;
+    self.homePageTableView.tableFooterView = footView;
+    
     
 //    [NotificationCenter addObserver:self
 //                           selector:@selector(setBazi)
@@ -78,7 +87,6 @@
         
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        cell.textLabel.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
         NSLog(@"creat cell:%ld", indexPath.row);
     }
     return cell;
@@ -102,6 +110,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - MyHomePageFootViewDelegate
+- (void)footViewClickAddButton
+{
+    NSLog(@"控制器上实现footView点击加号添加事件");
 }
 
 @end
