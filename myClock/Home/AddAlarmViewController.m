@@ -10,10 +10,18 @@
 
 @interface AddAlarmViewController ()<UIPickerViewDataSource,UIPickerViewDelegate>
 
-@property(nonatomic,strong) UIPickerView *timePickerView;
 @property(nonatomic,strong) NSArray *pickerShiChenData;
 @property(nonatomic,strong) NSArray *pickerHourData;
 @property(nonatomic,strong) NSArray *pickerMinuteChenData;
+
+@property(nonatomic,strong) UIPickerView *timePickerView;
+@property(nonatomic,strong) UITextField *ringTextField;
+@property(nonatomic,strong) UIButton *selectRingBtn;
+@property(nonatomic,strong) UILabel *remindTag;
+@property(nonatomic,strong) UITextView *remarkTextView;
+
+@property(nonatomic,strong) UIButton *cancelBtn;
+@property(nonatomic,strong) UIButton *confirmBtn;
 
 @end
 
@@ -29,15 +37,10 @@
     
     
     [self setBackImage];
-    [self.navigationItem setHidesBackButton:YES];
+//    [self.navigationItem setHidesBackButton:YES];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    _timePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0,0,SCREEN_WIDTH,250)];
-    _timePickerView.backgroundColor = [UIColor greenColor];
-    [self.view addSubview:_timePickerView];
-    self.timePickerView.delegate = self;
-    self.timePickerView.dataSource = self;
-    
+    [self setSubView];
 }
 //设置背景图片
 - (void)setBackImage{
@@ -45,7 +48,89 @@
     backImage.frame = self.view.frame;
     [self.view addSubview:backImage];
 }
+- (void)setSubView{
+    _timePickerView = [[UIPickerView alloc] init];
+    _timePickerView.backgroundColor = [UIColor clearColor];
+    _timePickerView.layer.cornerRadius = 10;
+    _timePickerView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _timePickerView.layer.borderWidth = 1;
+    [self.view addSubview:_timePickerView];
+    self.timePickerView.delegate = self;
+    self.timePickerView.dataSource = self;
+    [_timePickerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(40);
+        make.right.mas_equalTo(-40);
+        make.top.mas_equalTo(84);
+        make.height.mas_equalTo(150);
+    }];
+    
+    _ringTextField = [[UITextField alloc] init];
+    _ringTextField.backgroundColor = [UIColor whiteColor];
+    _ringTextField.layer.cornerRadius = 10;
+    [self.view addSubview:_ringTextField];
+    [_ringTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_timePickerView);
+        make.top.equalTo(_timePickerView.mas_bottom).offset(15);
+        make.height.mas_equalTo(40);
+        make.width.mas_equalTo(230);
+    }];
+    
+    _selectRingBtn = [[UIButton alloc] init];
+    [_selectRingBtn setTitle:@"选择铃声" forState:UIControlStateNormal];
+    [_selectRingBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _selectRingBtn.layer.cornerRadius = 10;
+    _selectRingBtn.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_selectRingBtn];
+    [_selectRingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_ringTextField.mas_right).offset(10);
+        make.right.mas_equalTo(-40);
+        make.height.equalTo(_ringTextField);
+        make.centerY.equalTo(_ringTextField);
+    }];
+    
+    _remindTag = [[UILabel alloc] init];
+    _remindTag.text = @"活动提醒:";
+    _remindTag.textColor = [UIColor whiteColor];
+    [self.view addSubview:_remindTag];
+    [_remindTag mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_timePickerView);
+        make.top.equalTo(_ringTextField.mas_bottom).offset(15);
+    }];
+    
+    _remarkTextView = [[UITextView alloc] init];
+    _remarkTextView.layer.cornerRadius = 10;
+    _remarkTextView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_remarkTextView];
+    [_remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_timePickerView);
+        make.right.equalTo(_timePickerView);
+        make.top.equalTo(_remindTag.mas_bottom).offset(15);
+        make.height.mas_equalTo(180);
+    }];
+    
+    _cancelBtn = [[UIButton alloc] init];
+    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+//    _cancelBtn.backgroundColor = [UIColor redColor];
+    [self.view addSubview:_cancelBtn];
+    [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_timePickerView.mas_left).offset(40);
+        make.top.equalTo(_remarkTextView.mas_bottom).offset(40);
+    }];
+    
+    _confirmBtn = [[UIButton alloc] init];
+    [_confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
+//    _confirmBtn.backgroundColor = [UIColor redColor];
+    [self.view addSubview:_confirmBtn];
+    [_confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_timePickerView.mas_right).offset(-40);
+        make.top.equalTo(_remarkTextView.mas_bottom).offset(40);
+    }];
+    
+    [_selectRingBtn addTarget:self action:@selector(clickSelectRingBtn) forControlEvents:UIControlEventTouchDown];
+    [_cancelBtn addTarget:self action:@selector(clickcancelBtn) forControlEvents:UIControlEventTouchDown];
+    [_confirmBtn addTarget:self action:@selector(clickconfirmBtn) forControlEvents:UIControlEventTouchDown];
 
+}
 #pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 3;
@@ -77,46 +162,6 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     //选中选择器的某个拨盘中的某行时调用
     if (component == 0) {
-//        switch (row) {
-//            case 0:
-//                [self.timePickerView selectRow:23 inComponent:1 animated:YES];
-//                break;
-//            case 1:
-//                [self.timePickerView selectRow:1 inComponent:1 animated:YES];
-//                break;
-//            case 2:
-//                [self.timePickerView selectRow:3 inComponent:1 animated:YES];
-//                break;
-//            case 3:
-//                [self.timePickerView selectRow:5 inComponent:1 animated:YES];
-//                break;
-//            case 4:
-//                [self.timePickerView selectRow:7 inComponent:1 animated:YES];
-//                break;
-//            case 5:
-//                [self.timePickerView selectRow:9 inComponent:1 animated:YES];
-//                break;
-//            case 6:
-//                [self.timePickerView selectRow:11 inComponent:1 animated:YES];
-//                break;
-//            case 7:
-//                [self.timePickerView selectRow:13 inComponent:1 animated:YES];
-//                break;
-//            case 8:
-//                [self.timePickerView selectRow:15 inComponent:1 animated:YES];
-//                break;
-//            case 9:
-//                [self.timePickerView selectRow:17 inComponent:1 animated:YES];
-//                break;
-//            case 10:
-//                [self.timePickerView selectRow:19 inComponent:1 animated:YES];
-//                break;
-//            case 11:
-//                [self.timePickerView selectRow:21 inComponent:1 animated:YES];
-//                break;
-//            default:
-//                break;
-//        }
         if (row != 0) {
             [self.timePickerView selectRow:row*2-1 inComponent:1 animated:YES];
         }else{
@@ -124,91 +169,41 @@
         }
     }
     if (component == 1) {
-        switch (row) {
-            case 0:
-                [self.timePickerView selectRow:0 inComponent:0 animated:YES];
-                break;
-            case 1:
-                [self.timePickerView selectRow:1 inComponent:0 animated:YES];
-                break;
-            case 2:
-                [self.timePickerView selectRow:1 inComponent:0 animated:YES];
-                break;
-            case 3:
-                [self.timePickerView selectRow:2 inComponent:0 animated:YES];
-                break;
-            case 4:
-                [self.timePickerView selectRow:2 inComponent:0 animated:YES];
-                break;
-            case 5:
-                [self.timePickerView selectRow:3 inComponent:0 animated:YES];
-                break;
-            case 6:
-                [self.timePickerView selectRow:3 inComponent:0 animated:YES];
-                break;
-            case 7:
-                [self.timePickerView selectRow:4 inComponent:0 animated:YES];
-                break;
-            case 8:
-                [self.timePickerView selectRow:4 inComponent:0 animated:YES];
-                break;
-            case 9:
-                [self.timePickerView selectRow:5 inComponent:0 animated:YES];
-                break;
-            case 10:
-                [self.timePickerView selectRow:5 inComponent:0 animated:YES];
-                break;
-            case 11:
-                [self.timePickerView selectRow:6 inComponent:0 animated:YES];
-                break;
-            case 12:
-                [self.timePickerView selectRow:6 inComponent:0 animated:YES];
-                break;
-            case 13:
-                [self.timePickerView selectRow:7 inComponent:0 animated:YES];
-                break;
-            case 14:
-                [self.timePickerView selectRow:7 inComponent:0 animated:YES];
-                break;
-            case 15:
-                [self.timePickerView selectRow:8 inComponent:0 animated:YES];
-                break;
-            case 16:
-                [self.timePickerView selectRow:8 inComponent:0 animated:YES];
-                break;
-            case 17:
-                [self.timePickerView selectRow:9 inComponent:0 animated:YES];
-                break;
-            case 18:
-                [self.timePickerView selectRow:9 inComponent:0 animated:YES];
-                break;
-            case 19:
-                [self.timePickerView selectRow:10 inComponent:0 animated:YES];
-                break;
-            case 20:
-                [self.timePickerView selectRow:10 inComponent:0 animated:YES];
-                break;
-            case 21:
-                [self.timePickerView selectRow:11 inComponent:0 animated:YES];
-                break;
-            case 22:
-                [self.timePickerView selectRow:11 inComponent:0 animated:YES];
-                break;
-            case 23:
-                [self.timePickerView selectRow:0 inComponent:0 animated:YES];
-                break;
-            default:
-                break;
+        if (row == 0 || row==23) {
+            [self.timePickerView selectRow:0 inComponent:0 animated:YES];
+        }else{
+            NSLog(@"%ld",(row+1)/2);
+            [self.timePickerView selectRow:(row+1)/2 inComponent:0 animated:YES];
         }
-//        if (row == 0) {
-//            NSLog(@"1111");
-//        }
     }
 }
-
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    UILabel* pickerLabel = (UILabel*)view;
+    if (!pickerLabel){
+        pickerLabel = [[UILabel alloc] init];
+        pickerLabel.adjustsFontSizeToFitWidth = YES;
+        pickerLabel.textAlignment = NSTextAlignmentCenter;
+        pickerLabel.textColor = [UIColor whiteColor];
+        pickerLabel.font = [UIFont systemFontOfSize:24];
+        
+    }
+    // Fill the label text here
+    pickerLabel.text=[self pickerView:pickerView titleForRow:row forComponent:component];
+    return pickerLabel;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - 点击按钮
+- (void)clickSelectRingBtn{
+    NSLog(@"%s",__func__);
+}
+- (void)clickcancelBtn{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (void)clickconfirmBtn{
+    NSLog(@"%s",__func__);
 }
 
 @end
