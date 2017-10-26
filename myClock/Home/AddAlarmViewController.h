@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface AddAlarmViewController : UIViewController
+
+@property(nonatomic,assign) SystemSoundID soundID;
 
 @end
