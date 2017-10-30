@@ -7,9 +7,10 @@
 //
 
 #import "AddAlarmViewController.h"
+#import "SelectRingViewController.h"
 
 
-@interface AddAlarmViewController ()<UIPickerViewDataSource,UIPickerViewDelegate>
+@interface AddAlarmViewController ()<UIPickerViewDataSource,UIPickerViewDelegate,SelectRingDelegate>
 
 @property(nonatomic,strong) NSArray *pickerShiChenData;
 @property(nonatomic,strong) NSArray *pickerHourData;
@@ -37,9 +38,7 @@
     _pickerHourData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23", nil];
     _pickerMinuteChenData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32",@"33",@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42",@"43",@"44",@"45",@"46",@"47",@"48",@"49",@"50",@"51",@"52",@"53",@"54",@"55",@"56",@"57",@"58",@"59", nil];
 
-    _soundID = 1008;
-    NSLog(@"-------------%u",(unsigned int)_soundID);
-    
+//    _soundID = 1008;
     
     [self setBackImage];
 //    [self.navigationItem setHidesBackButton:YES];
@@ -201,38 +200,25 @@
 }
 #pragma mark - 点击按钮
 - (void)clickSelectRingBtn{
+
+    SelectRingViewController *selectRing = [[SelectRingViewController alloc]init];
+    selectRing.title = @"选择铃声";
+    selectRing.hidesBottomBarWhenPushed = YES;
+    selectRing.delegate = self;
+    selectRing.ringIndex = 10;
+    [self.navigationController pushViewController:selectRing animated:YES];
     
-    //1.获得音效文件的全路径
-    NSURL *url=[[NSBundle mainBundle] URLForResource:@"4.wav" withExtension:nil];
-    
-    //2.加载音效文件，创建音效ID（SoundID,一个ID对应一个音效文件）
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &_soundID);
-    
-    
-    // 完成播放之后执行的soundCompleteCallback函数
-    AudioServicesAddSystemSoundCompletion(_soundID, NULL, NULL, soundCompleteCallback, NULL);
-    
-    //3.播放音效文件
-    AudioServicesPlayAlertSound(_soundID);
-    
-}
-#pragma mark - 播放完成之后执行的函数----c函数
-void soundCompleteCallback(SystemSoundID sound,void * clientData)
-{
-    NSLog(@"播放完成");
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  //震动
-    AudioServicesPlayAlertSound(sound);
 }
 - (void)clickcancelBtn{
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)clickconfirmBtn{
     NSLog(@"%s",__func__);
-    //销毁音效和震动
-    AudioServicesDisposeSystemSoundID(kSystemSoundID_Vibrate);
-    AudioServicesDisposeSystemSoundID(_soundID);
-    AudioServicesRemoveSystemSoundCompletion(_soundID);
-    
+}
+#pragma mark - SelectRingDelegate
+- (void)selectRing:(NSInteger)index
+{
+    _ringTextField.text = [NSString stringWithFormat:@"铃声%ld",index];
 }
 
 @end

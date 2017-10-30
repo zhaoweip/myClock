@@ -11,6 +11,5 @@
 
 @interface AddAlarmViewController : UIViewController
 
-@property(nonatomic,assign) SystemSoundID soundID;
 
 @end
