@@ -21,6 +21,12 @@ static UserDataManager * _instance = nil;
     
     return _instance ;
 }
+- (NSMutableArray *)alarmModelArray {
+    if (_alarmModelArray == nil) {
+        _alarmModelArray = [NSMutableArray array];
+    }
+    return _alarmModelArray;
+}
 
 - (void)saveMyBaziInfo:(Bazi *)myBazi{
     if (myBazi) {
@@ -28,5 +34,10 @@ static UserDataManager * _instance = nil;
 //        [NotificationCenter postNotificationName:@"MyBaziStatusChangedNotification" object:nil];
     }
 }
-
+- (void)saveAlarmModel:(Alarm *)alarm{
+    if (alarm) {
+        [self.alarmModelArray addObject:alarm];
+        [NotificationCenter postNotificationName:@"MyAlarmsChangedNotification" object:nil];
+    }
+}
 @end

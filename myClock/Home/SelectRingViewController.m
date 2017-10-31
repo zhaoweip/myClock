@@ -23,12 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setBackImage];
-    [self setUpTableView];
     
     _ringsArray = [[NSArray alloc] initWithObjects:@"铃声1",@"铃声2",@"铃声3",@"铃声4",@"铃声5",@"铃声6",@"铃声7",@"铃声8",@"铃声9",@"铃声10",@"铃声11",@"铃声12",@"铃声13",@"铃声14",@"铃声15", @"铃声16",@"铃声17",@"铃声18",@"铃声19",@"铃声20", nil];
     
-    
+    [self setBackImage];
+    [self setUpTableView];
+    [self setUpSelectRing];
     
     
 }
@@ -46,6 +46,14 @@
     _ringsTableView.dataSource = self;
     _ringsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_ringsTableView];
+}
+//设置选中铃声
+- (void)setUpSelectRing{
+    NSLog(@"==========%ld",_ringIndex);
+    NSIndexPath * selIndexPath = [NSIndexPath indexPathForRow:_ringIndex inSection:0];
+    UITableViewCell *newCell = [_ringsTableView cellForRowAtIndexPath:selIndexPath];
+    newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    _selectPath = selIndexPath;
 }
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -70,14 +78,12 @@
         
     }
     cell.textLabel.text = [_ringsArray objectAtIndex:indexPath.row];
-
     
     if (_selectPath == indexPath) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }else{
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
     
     return cell;
 }
@@ -119,8 +125,8 @@
     AudioServicesPlayAlertSound(_soundID);
     
     //通知tabBarVc切换控制器
-    if ([_delegate respondsToSelector:@selector(selectRing:)]) {
-        [_delegate selectRing:indexPath.row];
+    if ([_delegate respondsToSelector:@selector(selectRing:withSoundId:)]) {
+        [_delegate selectRing:indexPath.row withSoundId:_soundID];
     }
 }
 #pragma mark - 播放完成之后执行的函数----c函数
@@ -129,12 +135,7 @@ void soundCompleteCallback(SystemSoundID sound,void * clientData)
     NSLog(@"播放完成");
 }
 - (void)viewDidAppear:(BOOL)animated{
-    if (_ringIndex) {
-        NSLog(@"==========%ld",_ringIndex);
-        NSIndexPath * selIndexPath = [NSIndexPath indexPathForRow:_ringIndex inSection:0];
-        UITableViewCell *newCell = [_ringsTableView cellForRowAtIndexPath:selIndexPath];
-        newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
+    
 }
 - (void)viewWillDisappear:(BOOL)animated{
     //销毁音效和震动

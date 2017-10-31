@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 @class Bazi;
+@class Alarm;
 
 @interface UserDataManager : NSObject
 
 @property (nonatomic, strong) Bazi *myBazi;
+@property (nonatomic, strong) NSMutableArray *alarmModelArray;
+
 
 +(instancetype) shareInstance;
 
 - (void)saveMyBaziInfo:(Bazi *)myBazi;
+- (void)saveAlarmModel:(Alarm *)alarm;
 
 @end

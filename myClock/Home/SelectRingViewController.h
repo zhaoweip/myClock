@@ -13,7 +13,7 @@
 //代理
 @protocol SelectRingDelegate <NSObject>
 @optional
-- (void)selectRing:(NSInteger)index;
+- (void)selectRing:(NSInteger)index withSoundId:(SystemSoundID)soundID;
 @end
 
 

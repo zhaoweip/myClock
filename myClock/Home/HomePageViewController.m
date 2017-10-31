@@ -11,6 +11,7 @@
 #import "HomePageTableViewCell.h"
 #import "HomePageFootView.h"
 #import "AddAlarmViewController.h"
+#import "Alarm.h"
 
 
 @interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
@@ -49,21 +50,23 @@
     self.homePageTableView.tableFooterView = footView;
     
     
-//    [NotificationCenter addObserver:self
-//                           selector:@selector(setBazi)
-//                               name:@"MyBaziStatusChangedNotification"
-//                             object:nil];
+    [NotificationCenter addObserver:self
+                           selector:@selector(alarmsChange)
+                               name:@"MyAlarmsChangedNotification"
+                             object:nil];
     
 }
-//- (void)dealloc
-//{
-//    [NotificationCenter removeObserver:self];
-//}
-//- (void)setBazi{
-//    if ( [UserDataManager shareInstance].myBazi) {
-//        NSLog(@"-----------%@",[UserDataManager shareInstance].myBazi);
-//    }
-//}
+- (void)dealloc
+{
+    [NotificationCenter removeObserver:self];
+}
+- (void)alarmsChange{
+    if ( [UserDataManager shareInstance].alarmModelArray) {
+        NSLog(@"-----------%@",[UserDataManager shareInstance].alarmModelArray);
+        Alarm *alarm = [[UserDataManager shareInstance].alarmModelArray objectAtIndex:0];
+        NSLog(@"%@",alarm.remarkStr);
+    }
+}
 //设置背景图片
 - (void)setBackImage{
     UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
