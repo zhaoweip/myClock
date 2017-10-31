@@ -10,4 +10,8 @@
 
 @interface HomePageTableViewCell : UITableViewCell
 
+@property(nonatomic,strong) UILabel *title;
+@property(nonatomic,strong) UILabel *describe;
+
+
 @end

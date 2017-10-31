@@ -29,34 +29,26 @@
         make.top.mas_equalTo(15);
     }];
 
-    UILabel *title = [[UILabel alloc] init];
-    title.text = @"丁酉";
-    title.textColor = [UIColor whiteColor];
-    title.font = [UIFont systemFontOfSize:23];
-    [self addSubview:title];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+    _title = [[UILabel alloc] init];
+//    title.text = @"丁酉";
+    _title.textColor = [UIColor whiteColor];
+    _title.font = [UIFont systemFontOfSize:23];
+    [self addSubview:_title];
+    [_title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(clockImg.mas_right).offset(10);
         make.centerY.equalTo(clockImg);
     }];
     
-    UILabel *describe = [[UILabel alloc] init];
-    describe.text = @"今晚七点，新闻联播。";
-    describe.textColor = [UIColor whiteColor];
-    describe.font = [UIFont systemFontOfSize:12];
-    [self addSubview:describe];
-    [describe mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(title.mas_left);
-        make.top.equalTo(title.mas_bottom).offset(5);
+    _describe = [[UILabel alloc] init];
+//    describe.text = @"今晚七点，新闻联播。";
+    _describe.textColor = [UIColor whiteColor];
+    _describe.font = [UIFont systemFontOfSize:12];
+    [self addSubview:_describe];
+    [_describe mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_title.mas_left);
+        make.top.equalTo(_title.mas_bottom).offset(5);
     }];
 
-//    UIButton *button = [[UIButton alloc] init];
-//    [button setImage:[UIImage imageNamed:@"home_clock_normal.png"] forState:UIControlStateNormal];
-//    [button setImage:[UIImage imageNamed:@"home_clock_selected.png"] forState:UIControlStateSelected];
-//    [self addSubview:button];
-//    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(-21);
-//        make.centerY.equalTo(self);
-//    }];
     UISwitch *switchBtn = [[UISwitch alloc]init];
     switchBtn.on = YES;
     switchBtn.onTintColor = [UIColor colorWithRed:245/255.0 green:218/255.0 blue:142/255.0 alpha:1];

@@ -17,11 +17,18 @@
 @interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
 
 @property (nonatomic, strong) UITableView *homePageTableView;
+@property (nonatomic, strong) NSMutableArray *alarmModelArray;
 
 
 @end
 
 @implementation HomePageViewController
+- (NSMutableArray *)alarmModelArray {
+    if (_alarmModelArray == nil) {
+        _alarmModelArray = [NSMutableArray array];
+    }
+    return _alarmModelArray;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,9 +69,11 @@
 }
 - (void)alarmsChange{
     if ( [UserDataManager shareInstance].alarmModelArray) {
-        NSLog(@"-----------%@",[UserDataManager shareInstance].alarmModelArray);
-        Alarm *alarm = [[UserDataManager shareInstance].alarmModelArray objectAtIndex:0];
-        NSLog(@"%@",alarm.remarkStr);
+//        NSLog(@"-----------%@",[UserDataManager shareInstance].alarmModelArray);
+//        Alarm *alarm = [[UserDataManager shareInstance].alarmModelArray objectAtIndex:0];
+//        NSLog(@"%@",alarm.remarkStr);
+        self.alarmModelArray = [UserDataManager shareInstance].alarmModelArray;
+        [self.homePageTableView reloadData];
     }
 }
 //设置背景图片
@@ -76,7 +85,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _alarmModelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -93,6 +102,9 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSLog(@"creat cell:%ld", indexPath.row);
     }
+    Alarm *alarm = [_alarmModelArray objectAtIndex:indexPath.row];
+    cell.title.text = alarm.timeStr;
+    cell.describe.text = alarm.remarkStr;
     return cell;
 }
 

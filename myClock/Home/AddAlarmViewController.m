@@ -262,8 +262,7 @@
     alarm.remarkStr = _remarkTextView.text;
     //保存闹钟模型
     [[UserDataManager shareInstance] saveAlarmModel:alarm];
-
-
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - SelectRingDelegate
 - (void)selectRing:(NSInteger)index withSoundId:(SystemSoundID)soundID
