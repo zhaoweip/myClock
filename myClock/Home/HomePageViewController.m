@@ -57,22 +57,26 @@
     self.homePageTableView.tableFooterView = footView;
     
     
-    [NotificationCenter addObserver:self
-                           selector:@selector(alarmsChange)
-                               name:@"MyAlarmsChangedNotification"
-                             object:nil];
+//    [NotificationCenter addObserver:self
+//                           selector:@selector(alarmsChange)
+//                               name:@"MyAlarmsChangedNotification"
+//                             object:nil];
     
 }
-- (void)dealloc
-{
-    [NotificationCenter removeObserver:self];
-}
-- (void)alarmsChange{
-    if ( [UserDataManager shareInstance].alarmModelArray) {
-//        NSLog(@"-----------%@",[UserDataManager shareInstance].alarmModelArray);
-//        Alarm *alarm = [[UserDataManager shareInstance].alarmModelArray objectAtIndex:0];
-//        NSLog(@"%@",alarm.remarkStr);
-        self.alarmModelArray = [UserDataManager shareInstance].alarmModelArray;
+//- (void)dealloc
+//{
+//    [NotificationCenter removeObserver:self];
+//}
+//- (void)alarmsChange{
+//    if ( [[UserDataManager shareInstance] getAlarmModelArray]) {
+//        self.alarmModelArray = [[UserDataManager shareInstance] getAlarmModelArray];
+//        [self.homePageTableView reloadData];
+//    }
+//}
+//在控制器即将出现的时候，获得本地存储的闹钟，赋值给本控制器模型数组
+- (void)viewWillAppear:(BOOL)animated{
+    if ( [[UserDataManager shareInstance] getAlarmModelArray]) {
+        self.alarmModelArray = [[UserDataManager shareInstance] getAlarmModelArray];
         [self.homePageTableView reloadData];
     }
 }
@@ -117,6 +121,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSLog(@"101010----10101");
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    // 删除模型
+    [[UserDataManager shareInstance] removeObjectFromAlarmModelArrayAtIndex:indexPath.row];
+    //要即时更新本控制器的闹钟数组，在刷新页面的时候，如果数组长度不相等会出现报错
+    self.alarmModelArray = [[UserDataManager shareInstance] getAlarmModelArray];
+    // 刷新
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
 }
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{

@@ -10,12 +10,11 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 
-@interface Alarm : NSObject
+@interface Alarm : NSObject<NSCoding>
 
 @property (nonatomic, copy) NSString *timeStr;
 @property (nonatomic, copy) NSString *ringName;
 @property (nonatomic, copy) NSString *remarkStr;
 @property (nonatomic, assign) SystemSoundID soundID;
-
 
 @end
