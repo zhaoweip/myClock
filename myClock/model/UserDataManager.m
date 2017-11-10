@@ -62,6 +62,15 @@ static UserDataManager * _instance = nil;
     NSString *alarmModelArrayfile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"alarmModelArray.data"];
     [NSKeyedArchiver archiveRootObject:self.alarmModelArray toFile:alarmModelArrayfile];
 }
+//编辑一个闹钟模型
+- (void)editAlarmModelAtIndex:(NSInteger)index withNewModel:(Alarm *)alarm{
+    NSMutableArray *newAlarmModelArray = [self getAlarmModelArray];
+    [newAlarmModelArray replaceObjectAtIndex:index withObject:alarm];
+    self.alarmModelArray = newAlarmModelArray;
+    //将新的数组重新归档保存替代原来的数据
+    NSString *alarmModelArrayfile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"alarmModelArray.data"];
+    [NSKeyedArchiver archiveRootObject:self.alarmModelArray toFile:alarmModelArrayfile];
 
+}
 
 @end

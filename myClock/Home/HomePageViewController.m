@@ -121,7 +121,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSLog(@"101010----10101");
+    //点击cell，将模型以及模型下标传递给闹钟编辑页面
+    Alarm *alarmModel = [self.alarmModelArray objectAtIndex:indexPath.row];
+    AddAlarmViewController *editAlarm = [[AddAlarmViewController alloc]init];
+    editAlarm.isEditing = YES;
+    editAlarm.alarmModel = alarmModel;
+    editAlarm.indexOfModelArray = indexPath.row;
+    editAlarm.title = @"添加闹钟";
+    editAlarm.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:editAlarm animated:YES];
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     // 删除模型

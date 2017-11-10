@@ -11,5 +11,8 @@
 
 @interface AddAlarmViewController : UIViewController
 
+@property(nonatomic) BOOL isEditing;
+@property(nonatomic,strong) Alarm *alarmModel;
+@property(nonatomic,assign) NSInteger indexOfModelArray;
 
 @end

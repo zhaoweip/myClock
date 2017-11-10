@@ -41,6 +41,7 @@
     _pickerHourData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23", nil];
     _pickerMinuteChenData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32",@"33",@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42",@"43",@"44",@"45",@"46",@"47",@"48",@"49",@"50",@"51",@"52",@"53",@"54",@"55",@"56",@"57",@"58",@"59", nil];
 
+    //当页面为添加闹钟页面时，默认值如下
     _ringIndex = 0;
     _soundID = 1020;
     
@@ -48,6 +49,7 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self setBackImage];
     [self setSubView];
+    [self setEditStatus];  //设置编辑页面，会根据传入的下标以及ID设置铃声的默认值
     
     
     //增加监听，当键盘出现或改变时收出消息
@@ -61,6 +63,7 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
 }
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)aNotification
@@ -260,9 +263,19 @@
     alarm.ringName = _ringTextField.text;
     alarm.soundID = _soundID;
     alarm.remarkStr = _remarkTextView.text;
-    //保存闹钟模型
-    [[UserDataManager shareInstance] saveAlarmModel:alarm];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.isEditing) {
+        //修改闹钟模型数组
+        [[UserDataManager shareInstance] editAlarmModelAtIndex:self.indexOfModelArray withNewModel:alarm];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        //保存闹钟模型
+        [[UserDataManager shareInstance] saveAlarmModel:alarm];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
+    
 }
 #pragma mark - SelectRingDelegate
 - (void)selectRing:(NSInteger)index withSoundId:(SystemSoundID)soundID
@@ -270,10 +283,29 @@
     _ringTextField.text = [NSString stringWithFormat:@"铃声%ld",index+1];
     _ringIndex = index;
     _soundID = soundID;
-    
 }
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     return NO;
 }
+
+- (void)setEditStatus
+{
+    if (self.isEditing) {
+        //闹钟ID
+        _soundID = self.alarmModel.soundID;
+        _ringIndex = _soundID - 1020;
+        //赋值
+        NSString *shiChenStr=[self.alarmModel.timeStr substringWithRange:NSMakeRange(0, 2)];
+        NSString *hourStr   =[self.alarmModel.timeStr substringWithRange:NSMakeRange(3, 2)];
+        NSString *minuteStr =[self.alarmModel.timeStr substringWithRange:NSMakeRange(6, 2)];
+        [self.timePickerView selectRow:[self.pickerShiChenData indexOfObject:shiChenStr] inComponent:0 animated:YES];
+        [self.timePickerView selectRow:[self.pickerHourData indexOfObject:hourStr] inComponent:1 animated:YES];
+        [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:2 animated:YES];
+        _ringTextField.text = _alarmModel.ringName;
+        _remarkTextView.text = _alarmModel.remarkStr;
+        NSLog(@"%u",(unsigned int)_soundID);
+    }
+}
+
 @end

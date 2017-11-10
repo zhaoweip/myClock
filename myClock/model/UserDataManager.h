@@ -22,5 +22,6 @@
 - (void)saveAlarmModel:(Alarm *)alarm;
 - (NSMutableArray *)getAlarmModelArray;
 - (void)removeObjectFromAlarmModelArrayAtIndex:(NSUInteger)index;
+- (void)editAlarmModelAtIndex:(NSInteger)index withNewModel:(Alarm *)alarm;
 
 @end
