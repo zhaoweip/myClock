@@ -12,6 +12,7 @@
 #import "HomePageFootView.h"
 #import "AddAlarmViewController.h"
 #import "Alarm.h"
+#import <UserNotifications/UserNotifications.h>
 
 
 @interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
@@ -158,6 +159,61 @@
     addAlarm.title = @"添加闹钟";
     addAlarm.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:addAlarm animated:YES];
+    
+//    // 1.创建本地通知
+//    UILocalNotification *localNote = [[UILocalNotification alloc] init];
+//
+//    // 2.设置本地通知的内容
+//    // 2.1.设置通知发出的时间
+//    localNote.fireDate = [NSDate dateWithTimeIntervalSinceNow:3.0];
+//    // 2.2.设置通知的内容
+//    localNote.alertBody = @"在干吗?";
+//    // 2.3.设置滑块的文字（锁屏状态下：滑动来“解锁”）
+//    localNote.alertAction = @"解锁";
+//    // 2.4.决定alertAction是否生效
+//    localNote.hasAction = NO;
+//    // 2.5.设置点击通知的启动图片
+//    localNote.alertLaunchImage = @"123Abc";
+//    // 2.6.设置alertTitle
+//    localNote.alertTitle = @"你有一条新通知";
+//    // 2.7.设置有通知时的音效
+//    localNote.soundName = @"buyao.wav";
+//    // 2.8.设置应用程序图标右上角的数字
+////    localNote.applicationIconBadgeNumber = 999;
+//
+//    // 2.9.设置额外信息
+//    localNote.userInfo = @{@"type" : @1};
+//
+//    // 3.调用通知
+//    [[UIApplication sharedApplication] scheduleLocalNotification:localNote];
+    
+    
+    //通知中心
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    //1，设置推送内容
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.title = @"大标题";
+    content.subtitle = @"小标题";
+    content.body = @"这是一个本地闹钟的推送";
+    content.sound = [UNNotificationSound defaultSound];
+    content.badge = @1;
+    
+    //2，设置推送时间
+    UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+
+    //3，设置推送请求
+    NSString *requestIdentifier = @"sampleRequest";
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier
+                                                                          content:content
+                                                                          trigger:trigger1];
+    //4，推送请求添加到推送管理中心
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+        if (!error) {
+            NSLog(@"推送已添加成功 %@", requestIdentifier);
+        }
+    }];
+    
 }
 
 @end
