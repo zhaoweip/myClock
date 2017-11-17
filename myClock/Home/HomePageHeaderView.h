@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Bazi.h"
 
 @interface HomePageHeaderView : UIView
+
+@property (nonatomic, strong) Bazi *bazi;
+@property (nonatomic, copy) NSString *dateText;
+@property (nonatomic, copy) NSString *day;
 
 @end

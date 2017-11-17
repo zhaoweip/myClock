@@ -12,6 +12,7 @@
 #import "HomePageFootView.h"
 #import "AddAlarmViewController.h"
 #import "Alarm.h"
+#import "Bazi.h"
 #import <UserNotifications/UserNotifications.h>
 
 
@@ -19,6 +20,7 @@
 
 @property (nonatomic, strong) UITableView *homePageTableView;
 @property (nonatomic, strong) NSMutableArray *alarmModelArray;
+@property (nonatomic, strong) HomePageHeaderView *headerView;
 
 
 @end
@@ -50,12 +52,17 @@
     HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
     headerView.backgroundColor = [UIColor clearColor];
     self.homePageTableView.tableHeaderView = headerView;
+    self.headerView = headerView;
     
     //尾视图
     HomePageFootView *footView = [[HomePageFootView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
     footView.backgroundColor = [UIColor clearColor];
     footView.delegate = self;
     self.homePageTableView.tableFooterView = footView;
+    
+    //定时器 反复执行
+    NSTimer *timer = [NSTimer timerWithTimeInterval:60.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     
     
 //    [NotificationCenter addObserver:self
@@ -74,12 +81,45 @@
 //        [self.homePageTableView reloadData];
 //    }
 //}
+
+- (void)updateTime{
+    
+    //获得当前时间的八字以及更新头视图
+    [self getDate];
+    
+//    NSDate *currentDate = [NSDate date];
+//    NSDateFormatter *dataFormatter = [[NSDateFormatter alloc]init];
+//    [dataFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+//    NSString *dateString = [dataFormatter stringFromDate:currentDate];
+//    NSLog(@"%@",[dateString substringWithRange:NSMakeRange(11, 2)]);   //时
+//    NSLog(@"%@",[dateString substringWithRange:NSMakeRange(14, 2)]);   //分
+//    NSString *hourTemp = [dateString substringWithRange:NSMakeRange(11, 2)];
+//    NSString *minutesTemp = [dateString substringWithRange:NSMakeRange(14, 2)];
+    
+//    if ([hourTemp isEqualToString:[dateString substringWithRange:NSMakeRange(11, 2)]]) {
+//        NSLog(@"%@====%@",hourTemp,[dateString substringWithRange:NSMakeRange(11, 2)]);
+//    }else{
+//        NSLog(@"%@XXXXXXXXXX%@",hourTemp,[dateString substringWithRange:NSMakeRange(11, 2)]);
+//    }
+//
+//    if ([minutesTemp isEqualToString:[dateString substringWithRange:NSMakeRange(14, 2)]]) {
+//        NSLog(@"%@====%@",minutesTemp,[dateString substringWithRange:NSMakeRange(14, 2)]);
+//    }else{
+//        NSLog(@"%@XXXXXXXXXX%@",minutesTemp,[dateString substringWithRange:NSMakeRange(14, 2)]);
+//    }
+    
+}
+
 //在控制器即将出现的时候，获得本地存储的闹钟，赋值给本控制器模型数组
 - (void)viewWillAppear:(BOOL)animated{
     if ( [[UserDataManager shareInstance] getAlarmModelArray]) {
         self.alarmModelArray = [[UserDataManager shareInstance] getAlarmModelArray];
         [self.homePageTableView reloadData];
     }
+    
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [self getDate];
 }
 //设置背景图片
 - (void)setBackImage{
@@ -214,6 +254,51 @@
         }
     }];
     
+}
+
+- (void)getDate{
+    
+    
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *dataFormatter = [[NSDateFormatter alloc]init];
+    [dataFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+    NSString *time = [dataFormatter stringFromDate:currentDate];
+    [dataFormatter setDateFormat:@"EEEE"];
+    NSString *day = [dataFormatter stringFromDate:currentDate];
+    
+
+    //1.创建会话管理者
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml",@"text/html", @"application/json",@"text/plain",nil];
+    
+    //2.封装参数
+    NSDictionary *dict = @{
+                           @"action":@"getSiZhuAndCharacterDate",
+                           @"dateTime":time,
+                           };
+    //3.get请求
+    [manager GET:@"http://rcwifa.com/imade/index.php/Home/SiZhu/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        Bazi *bazi = [[Bazi alloc] init];
+        bazi.timeTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][0];
+        bazi.timeDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"timeGanZhi_Arr"][1];
+        bazi.dataTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][0];
+        bazi.dataDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"dataGanZhi_Arr"][1];
+        bazi.monthTianGan   = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"monthGanZhi_Arr"][0];
+        bazi.monthDiZhi     = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"monthGanZhi_Arr"][1];
+        bazi.yearTianGan    = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][0];
+        bazi.yearDiZhi      = responseObject[@"data"][@"siZhuGanZhi_Arr"][@"yearGanZhi_Arr"][1];
+        
+        bazi.detailTime     = time;
+        bazi.character      = responseObject[@"data"][@"character"];
+
+        _headerView.bazi     = bazi;
+        _headerView.dateText = time;
+        _headerView.day      = day;
+        [_headerView layoutSubviews];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure--%@",error);
+    }];
 }
 
 @end
