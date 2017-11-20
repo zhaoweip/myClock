@@ -18,6 +18,12 @@
 		E2569CCA1F9D85AD004B9D97 /* HomePageFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */; };
 		E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */; };
 		E26D4EA41FA8539E0034E2D8 /* Alarm.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D4EA31FA8539E0034E2D8 /* Alarm.m */; };
+		E2C7EC051FC2DB3C00F4BDF9 /* SKDateSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */; };
+		E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC081FC2DB9E00F4BDF9 /* SKCalendarView.m */; };
+		E2C7EC0C1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC0B1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m */; };
+		E2C7EC0F1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC0E1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m */; };
+		E2C7EC131FC2DCA400F4BDF9 /* SKCalendarManage.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC121FC2DCA400F4BDF9 /* SKCalendarManage.m */; };
+		E2C7EC171FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC161FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m */; };
 		E2F010781FA6F9A7001A5584 /* SelectRingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F010771FA6F9A7001A5584 /* SelectRingViewController.m */; };
 		E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F971191F8DE8C200B49001 /* AppDelegate.m */; };
 		E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F9711E1F8DE8C300B49001 /* Main.storyboard */; };
@@ -77,6 +83,19 @@
 		E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddAlarmViewController.m; sourceTree = "<group>"; };
 		E26D4EA21FA8539E0034E2D8 /* Alarm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alarm.h; sourceTree = "<group>"; };
 		E26D4EA31FA8539E0034E2D8 /* Alarm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Alarm.m; sourceTree = "<group>"; };
+		E2C7EC021FC2DB0600F4BDF9 /* SKConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKConstant.h; sourceTree = "<group>"; };
+		E2C7EC031FC2DB3C00F4BDF9 /* SKDateSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKDateSecurity.h; sourceTree = "<group>"; };
+		E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKDateSecurity.m; sourceTree = "<group>"; };
+		E2C7EC071FC2DB9E00F4BDF9 /* SKCalendarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKCalendarView.h; sourceTree = "<group>"; };
+		E2C7EC081FC2DB9E00F4BDF9 /* SKCalendarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKCalendarView.m; sourceTree = "<group>"; };
+		E2C7EC0A1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKCalendarCollectionViewCell.h; sourceTree = "<group>"; };
+		E2C7EC0B1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKCalendarCollectionViewCell.m; sourceTree = "<group>"; };
+		E2C7EC0D1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKWeekCollectionViewCell.h; sourceTree = "<group>"; };
+		E2C7EC0E1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKWeekCollectionViewCell.m; sourceTree = "<group>"; };
+		E2C7EC111FC2DCA400F4BDF9 /* SKCalendarManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKCalendarManage.h; sourceTree = "<group>"; };
+		E2C7EC121FC2DCA400F4BDF9 /* SKCalendarManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKCalendarManage.m; sourceTree = "<group>"; };
+		E2C7EC151FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKCalendarAnimationManage.h; sourceTree = "<group>"; };
+		E2C7EC161FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKCalendarAnimationManage.m; sourceTree = "<group>"; };
 		E2F010761FA6F9A7001A5584 /* SelectRingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectRingViewController.h; sourceTree = "<group>"; };
 		E2F010771FA6F9A7001A5584 /* SelectRingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectRingViewController.m; sourceTree = "<group>"; };
 		E2F971151F8DE8C200B49001 /* myClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +183,66 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
+		E2C7EBEB1FC2D49600F4BDF9 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EBFF1FC2DA0D00F4BDF9 /* SKCalendarView */,
+			);
+			path = SDK;
+			sourceTree = "<group>";
+		};
+		E2C7EBFF1FC2DA0D00F4BDF9 /* SKCalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EC141FC2DCEB00F4BDF9 /* Animation */,
+				E2C7EC101FC2DC7C00F4BDF9 /* Algorithm */,
+				E2C7EC061FC2DB6D00F4BDF9 /* View */,
+				E2C7EC001FC2DA2800F4BDF9 /* Tool */,
+			);
+			path = SKCalendarView;
+			sourceTree = "<group>";
+		};
+		E2C7EC001FC2DA2800F4BDF9 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EC021FC2DB0600F4BDF9 /* SKConstant.h */,
+				E2C7EC031FC2DB3C00F4BDF9 /* SKDateSecurity.h */,
+				E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		E2C7EC061FC2DB6D00F4BDF9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EC071FC2DB9E00F4BDF9 /* SKCalendarView.h */,
+				E2C7EC081FC2DB9E00F4BDF9 /* SKCalendarView.m */,
+				E2C7EC0A1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.h */,
+				E2C7EC0B1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m */,
+				E2C7EC0D1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.h */,
+				E2C7EC0E1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E2C7EC101FC2DC7C00F4BDF9 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EC111FC2DCA400F4BDF9 /* SKCalendarManage.h */,
+				E2C7EC121FC2DCA400F4BDF9 /* SKCalendarManage.m */,
+			);
+			path = Algorithm;
+			sourceTree = "<group>";
+		};
+		E2C7EC141FC2DCEB00F4BDF9 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				E2C7EC151FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.h */,
+				E2C7EC161FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		E2F9710C1F8DE8C200B49001 = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +268,7 @@
 		E2F971171F8DE8C200B49001 /* myClock */ = {
 			isa = PBXGroup;
 			children = (
+				E2C7EBEB1FC2D49600F4BDF9 /* SDK */,
 				E251DB881F9854BC00AA8C32 /* model */,
 				E2556B5E1F945E3800329E30 /* utils */,
 				E2F971501F8DE9F200B49001 /* Me */,
@@ -476,8 +556,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F9715C1F8E050800B49001 /* WPTabBar.m in Sources */,
+				E2C7EC0F1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m in Sources */,
 				E23448D61F99C8E300EEB6A4 /* BaziAlertView.m in Sources */,
 				E251DB8E1F98767000AA8C32 /* UserDataManager.m in Sources */,
+				E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */,
 				E26D4EA41FA8539E0034E2D8 /* Alarm.m in Sources */,
 				E2F971591F8DEA3B00B49001 /* AboutMePageViewController.m in Sources */,
 				E2F9715F1F8E059D00B49001 /* WPTabBarButton.m in Sources */,
@@ -490,9 +572,13 @@
 				E200755E1FC2883F0064EB29 /* YiJiCalendarViewController.m in Sources */,
 				E251DB8B1F9854D900AA8C32 /* Bazi.m in Sources */,
 				E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */,
+				E2C7EC051FC2DB3C00F4BDF9 /* SKDateSecurity.m in Sources */,
 				E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */,
+				E2C7EC0C1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m in Sources */,
 				E2F9714D1F8DE98800B49001 /* WPTabBarController.m in Sources */,
+				E2C7EC171FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m in Sources */,
 				E2569CCA1F9D85AD004B9D97 /* HomePageFootView.m in Sources */,
+				E2C7EC131FC2DCA400F4BDF9 /* SKCalendarManage.m in Sources */,
 				E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,6 +756,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = rcw.myClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -689,6 +776,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = rcw.myClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
