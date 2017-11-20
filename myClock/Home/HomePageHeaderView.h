@@ -9,10 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "Bazi.h"
 
+//代理
+@protocol HomePageHeaderViewDelegate <NSObject>
+@optional
+- (void)didClickYiJiLabel;
+@end
+
 @interface HomePageHeaderView : UIView
 
 @property (nonatomic, strong) Bazi *bazi;
 @property (nonatomic, copy) NSString *dateText;
 @property (nonatomic, copy) NSString *day;
+@property (nonatomic, weak) id<HomePageHeaderViewDelegate> delegate;
+
 
 @end

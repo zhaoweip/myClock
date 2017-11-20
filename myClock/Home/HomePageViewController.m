@@ -14,10 +14,11 @@
 #import "Alarm.h"
 #import "Bazi.h"
 #import <UserNotifications/UserNotifications.h>
+#import "YiJiCalendarViewController.h"
 
 
 
-@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate>
+@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate,HomePageHeaderViewDelegate>
 
 @property (nonatomic, strong) UITableView *homePageTableView;
 @property (nonatomic, strong) NSMutableArray *alarmModelArray;
@@ -53,6 +54,7 @@
     HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
     headerView.backgroundColor = [UIColor clearColor];
     self.homePageTableView.tableHeaderView = headerView;
+    headerView.delegate = self;
     self.headerView = headerView;
     
     //尾视图
@@ -193,6 +195,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - HomePageHeaderViewDelegate
+- (void)didClickYiJiLabel{
+    YiJiCalendarViewController *yijiCalendarView = [[YiJiCalendarViewController alloc]init];
+    yijiCalendarView.title = @"宜忌日历";
+    yijiCalendarView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:yijiCalendarView animated:YES];}
+
 #pragma mark - MyHomePageFootViewDelegate
 - (void)footViewClickAddButton
 {

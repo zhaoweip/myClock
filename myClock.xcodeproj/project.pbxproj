@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E054CAADA119670C39175ED3 /* libPods-myClock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB20429DC6F17B3088ADB85E /* libPods-myClock.a */; };
+		E200755E1FC2883F0064EB29 /* YiJiCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E200755D1FC2883F0064EB29 /* YiJiCalendarViewController.m */; };
 		E23448D61F99C8E300EEB6A4 /* BaziAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E23448D51F99C8E300EEB6A4 /* BaziAlertView.m */; };
 		E24CAEA51F97398200082216 /* HomePageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E24CAEA41F97398200082216 /* HomePageHeaderView.m */; };
 		E24CAEA81F97459400082216 /* HomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E24CAEA71F97459400082216 /* HomePageTableViewCell.m */; };
@@ -54,6 +55,9 @@
 		528DD24880DD66D6E5100E57 /* Pods-myClock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.debug.xcconfig"; sourceTree = "<group>"; };
 		77685FC525D4EA25059907E6 /* Pods-myClock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myClock.release.xcconfig"; path = "Pods/Target Support Files/Pods-myClock/Pods-myClock.release.xcconfig"; sourceTree = "<group>"; };
 		AB20429DC6F17B3088ADB85E /* libPods-myClock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-myClock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E200755C1FC2883F0064EB29 /* YiJiCalendarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YiJiCalendarViewController.h; sourceTree = "<group>"; };
+		E200755D1FC2883F0064EB29 /* YiJiCalendarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YiJiCalendarViewController.m; sourceTree = "<group>"; };
+		E20075731FC2BCBC0064EB29 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		E23448D41F99C8E300EEB6A4 /* BaziAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaziAlertView.h; sourceTree = "<group>"; };
 		E23448D51F99C8E300EEB6A4 /* BaziAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaziAlertView.m; sourceTree = "<group>"; };
 		E24CAEA31F97398200082216 /* HomePageHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageHeaderView.h; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 		0B79FD1A2C350BE80E306326 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E20075731FC2BCBC0064EB29 /* libc++.tbd */,
 				AB20429DC6F17B3088ADB85E /* libPods-myClock.a */,
 			);
 			name = Frameworks;
@@ -248,6 +253,8 @@
 				E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */,
 				E2F010761FA6F9A7001A5584 /* SelectRingViewController.h */,
 				E2F010771FA6F9A7001A5584 /* SelectRingViewController.m */,
+				E200755C1FC2883F0064EB29 /* YiJiCalendarViewController.h */,
+				E200755D1FC2883F0064EB29 /* YiJiCalendarViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -480,6 +487,7 @@
 				E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */,
 				E24CAEA51F97398200082216 /* HomePageHeaderView.m in Sources */,
 				E2F010781FA6F9A7001A5584 /* SelectRingViewController.m in Sources */,
+				E200755E1FC2883F0064EB29 /* YiJiCalendarViewController.m in Sources */,
 				E251DB8B1F9854D900AA8C32 /* Bazi.m in Sources */,
 				E2F971531F8DEA1200B49001 /* HomePageViewController.m in Sources */,
 				E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */,
@@ -658,6 +666,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/myClock/PrefixHeader.pch";
 				INFOPLIST_FILE = myClock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = rcw.myClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -676,6 +685,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/myClock/PrefixHeader.pch";
 				INFOPLIST_FILE = myClock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = rcw.myClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

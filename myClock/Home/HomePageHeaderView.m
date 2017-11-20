@@ -45,13 +45,26 @@
         make.top.equalTo(backImage.mas_bottom).offset(5);
     }];
     UILabel *tag = [[UILabel alloc] init];
-    tag.text = @"闹钟提醒";
+    tag.text = @"闹钟";
     [tag setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
     tag.textColor = [UIColor whiteColor];
     [self addSubview:tag];
     [tag mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(labelTagImg.mas_right).offset(6);
         make.centerY.equalTo(labelTagImg);
+    }];
+    
+    UILabel *yijiLabel = [[UILabel alloc] init];
+    yijiLabel.text = @"宜/忌";
+    [yijiLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+    yijiLabel.textColor = [UIColor whiteColor];
+    yijiLabel.userInteractionEnabled=YES;
+    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ad)];
+    [yijiLabel addGestureRecognizer:labelTapGestureRecognizer];
+    [self addSubview:yijiLabel];
+    [yijiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.mas_right).offset(-30);
+        make.bottom.equalTo(self.mas_bottom).offset(-70);
     }];
     
     _dateLabel = [[UILabel alloc] init];
@@ -135,6 +148,12 @@
         make.left.equalTo(tianGanLabel.mas_left);
         make.top.mas_equalTo(tianGanLabel.mas_bottom).offset(5);
     }];
+}
+- (void)ad{
+    //通知tabBarVc切换控制器
+    if ([_delegate respondsToSelector:@selector(didClickYiJiLabel)]) {
+        [_delegate didClickYiJiLabel];
+    }
 }
 
 @end

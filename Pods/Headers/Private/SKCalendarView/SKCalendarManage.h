@@ -1,1 +1,0 @@
-../../../SKCalendarView/SKCalendarView/SKCalendarView/Algorithm/SKCalendarManage.h

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F3B4BC4A95A4679F26C6DBAFD0E02F60'
+               BlueprintIdentifier = '885FCE8F5185E91C46E9C2B9AEE78581'
                BlueprintName = 'Pods-myClock'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-myClock.a'>
