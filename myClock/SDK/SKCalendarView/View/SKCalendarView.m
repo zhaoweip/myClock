@@ -93,7 +93,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.weekCollectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:layout];
     [self addSubview:self.weekCollectionView];
-    self.weekCollectionView.backgroundColor = [UIColor whiteColor];
+    self.weekCollectionView.backgroundColor = [UIColor clearColor];
     self.weekCollectionView.delegate = self;
     self.weekCollectionView.dataSource = self;
     [self.weekCollectionView registerClass:[SKWeekCollectionViewCell class] forCellWithReuseIdentifier:@"Week"];
@@ -111,7 +111,7 @@
     dateLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.calendarCollectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:dateLayout];
     [self addSubview:self.calendarCollectionView];
-    self.calendarCollectionView.backgroundColor = [UIColor whiteColor];
+    self.calendarCollectionView.backgroundColor = [UIColor clearColor];
     self.calendarCollectionView.delegate = self;
     self.calendarCollectionView.dataSource = self;
     [self.calendarCollectionView registerClass:[SKCalendarCollectionViewCell class] forCellWithReuseIdentifier:@"Calendar"];
@@ -356,10 +356,11 @@
         if (self.selectedRow == indexPath.row && !isEmpty(self.calendarManage.calendarDate[indexPath.row])) {
             cell.enableClickEffect = YES;
             cell.dateColor = [UIColor colorWithRed:204 / 255.0 green:228 / 255.0 blue:236 / 255.0 alpha:1.0];
-            cell.calendarDateColor = [UIColor whiteColor];
+            cell.calendarDateColor = [UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0];
         } else {
             cell.enableClickEffect = NO;
             cell.dateColor = nil;
+            cell.calendarDateColor = [UIColor whiteColor];
         }
         // 是否属于今天
         if (self.theDayInMonth == indexPath.row && self.calendarManage.month == self.calendarManage.theMonth && self.theYear == self.calendarManage.year) {
@@ -372,6 +373,7 @@
             
         } else {
             cell.calendarDate = getNoneNil(self.calendarManage.calendarDate[indexPath.row]);// 公历日期
+            NSLog(@"%ld----%@",(long)indexPath.row,cell.calendarDate);
             cell.calendarTitle = getNoneNil(self.calendarManage.chineseCalendarDate[indexPath.row]);// 农历日期
             cell.calendarTitleColor = nil;
         }
@@ -411,9 +413,9 @@
         cell.week = getNoneNil(self.calendarManage.weekList[indexPath.row]);
         cell.weekBackgroundColor = self.weekCollectionView.backgroundColor;
         if (indexPath.row == 0 || indexPath.row == self.calendarManage.weekList.count - 1) {
-            cell.weekColor = [UIColor redColor];
+            cell.weekColor = [UIColor whiteColor];
         } else {
-            cell.weekColor = [UIColor blackColor];
+            cell.weekColor = [UIColor whiteColor];
         }
         
         return cell;
