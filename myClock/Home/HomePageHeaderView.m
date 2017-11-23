@@ -70,6 +70,7 @@
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.text = _dateText;
     _dateLabel.font = [UIFont systemFontOfSize:22];
+    _dateLabel.textColor = [UIColor whiteColor];
     [self addSubview:_dateLabel];
     [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(35);
@@ -80,6 +81,7 @@
     _dayLabel = [[UILabel alloc] init];
     _dayLabel.text = _day;
     _dayLabel.font = [UIFont systemFontOfSize:22];
+    _dayLabel.textColor = [UIColor whiteColor];
     [self addSubview:_dayLabel];
     [_dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(_dateLabel.mas_height);

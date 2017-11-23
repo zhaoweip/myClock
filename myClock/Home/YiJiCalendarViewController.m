@@ -8,8 +8,11 @@
 
 #import "YiJiCalendarViewController.h"
 #import "SKConstant.h"
+#import "SKCalendarManage.h"
 
 @interface YiJiCalendarViewController ()<SKCalendarViewDelegate>
+@property (nonatomic, strong) UILabel * selectedDateLabel;//选择的日期
+@property (nonatomic, strong) UILabel * selectedDayLabel;//星期
 @property (nonatomic, strong) SKCalendarView * calendarView;
 @property (nonatomic, strong) UIButton * nextButton;
 @property (nonatomic, strong) UIButton * lastButton;
@@ -33,6 +36,29 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self setBackImage];
     [self.view addSubview:self.calendarView];
+    
+    //选择的日期
+    self.selectedDateLabel = [UILabel new];
+    [self.view addSubview:self.selectedDateLabel];
+    self.selectedDateLabel.font = [UIFont systemFontOfSize:24 weight:8];
+    self.selectedDateLabel.textColor = [UIColor whiteColor];
+//    self.selectedDateLabel.text = @"2012年8月12日";
+    [self.selectedDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(80);
+        make.left.mas_equalTo(50);
+    }];
+    
+    //选择的星期
+    self.selectedDayLabel = [UILabel new];
+    [self.view addSubview:self.selectedDayLabel];
+    self.selectedDayLabel.font = [UIFont systemFontOfSize:24 weight:7];
+    self.selectedDayLabel.textColor = [UIColor whiteColor];
+    self.selectedDayLabel.text = @"星期四";
+    [self.selectedDayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.selectedDateLabel.mas_bottom).offset(10);
+        make.left.equalTo(self.selectedDateLabel);
+    }];
+    
     
     // 查看下个月
     self.nextButton = [UIButton new];
@@ -114,6 +140,8 @@
     }];
     [self.backToday addTarget:self action:@selector(clickBackToday) forControlEvents:UIControlEventTouchUpInside];
 
+    
+    [self selectDateWithRow:[SKCalendarManage manage].todayPosition];
     
 }
 //设置背景图片
@@ -197,7 +225,16 @@
 #pragma mark - 点击日期
 - (void)selectDateWithRow:(NSUInteger)row
 {
-    NSLog(@"%ld-----------%ld",self.calendarView.year,self.calendarView.month);
+    NSInteger todayDate = (row-([SKCalendarManage manage].dayInWeek-2));
+
+    if (todayDate >= 1 && todayDate <= [SKCalendarManage manage].days) {
+        
+        //选择的日期
+        self.selectedDateLabel.text = [NSString stringWithFormat:@"%lu年%lu月%lu日",(unsigned long)self.calendarView.year,(unsigned long)self.calendarView.month,todayDate];
+        //选择的星期
+        self.selectedDayLabel.text = [NSString stringWithFormat:@"星期%@",[[SKCalendarManage manage].weekList objectAtIndex:row%7]];
+
+    }
     self.chineseMonthAndDayLabel.text = [NSString stringWithFormat:@"%@%@", self.calendarView.chineseCalendarMonth[row], getNoneNil(self.calendarView.chineseCalendarDay[row])];
     // 获取节日，注意：此处传入的参数为chineseCalendarDay(不包含节日等信息)
     self.holidayLabel.text = [self.calendarView getHolidayAndSolarTermsWithChineseDay:getNoneNil(self.calendarView.chineseCalendarDay[row])];

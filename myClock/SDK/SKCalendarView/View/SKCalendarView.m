@@ -373,7 +373,6 @@
             
         } else {
             cell.calendarDate = getNoneNil(self.calendarManage.calendarDate[indexPath.row]);// 公历日期
-            NSLog(@"%ld----%@",(long)indexPath.row,cell.calendarDate);
             cell.calendarTitle = getNoneNil(self.calendarManage.chineseCalendarDate[indexPath.row]);// 农历日期
             cell.calendarTitleColor = nil;
         }
