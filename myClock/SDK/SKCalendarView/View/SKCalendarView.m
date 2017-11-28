@@ -93,7 +93,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.weekCollectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:layout];
     [self addSubview:self.weekCollectionView];
-    self.weekCollectionView.backgroundColor = [UIColor clearColor];
+    self.weekCollectionView.backgroundColor = [UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0];
     self.weekCollectionView.delegate = self;
     self.weekCollectionView.dataSource = self;
     [self.weekCollectionView registerClass:[SKWeekCollectionViewCell class] forCellWithReuseIdentifier:@"Week"];
@@ -111,7 +111,7 @@
     dateLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.calendarCollectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:dateLayout];
     [self addSubview:self.calendarCollectionView];
-    self.calendarCollectionView.backgroundColor = [UIColor clearColor];
+    self.calendarCollectionView.backgroundColor = [UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0];
     self.calendarCollectionView.delegate = self;
     self.calendarCollectionView.dataSource = self;
     [self.calendarCollectionView registerClass:[SKCalendarCollectionViewCell class] forCellWithReuseIdentifier:@"Calendar"];
@@ -346,6 +346,7 @@
     // 日期
     if (collectionView == self.calendarCollectionView) {
         SKCalendarCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Calendar" forIndexPath:indexPath];
+        cell.enableLine = NO;
         // 是否属于双休日
         if ((indexPath.row + 1) % 7 == 0 || (indexPath.row + 1) % 7 == 1) {
             cell.calendarDateColor = self.dayoffInWeekColor;

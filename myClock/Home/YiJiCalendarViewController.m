@@ -25,24 +25,59 @@
 @property (nonatomic, assign) NSUInteger lastMonth;
 @property (nonatomic, assign) NSUInteger nextMonth;
 
+@property (nonatomic, strong) UILabel * yiLabel;
+@property (nonatomic, strong) UILabel * jiLabel;
+@property (nonatomic, strong) UILabel * yiDetailLabel;
+@property (nonatomic, strong) UILabel * jiDetailLabel;
+
+@property (nonatomic, strong) NSMutableArray * oneMonthYiJiEventArray;
+@property (nonatomic, strong) NSMutableArray * oneMonthYiEventArray;
+@property (nonatomic, strong) NSMutableArray * oneMonthJiEventArray;
+
 
 @end
 
 @implementation YiJiCalendarViewController
 
+- (NSMutableArray *)oneMonthYiJiEventArray{
+    if (!_oneMonthYiJiEventArray) {
+        _oneMonthYiJiEventArray = [NSMutableArray array];
+    }
+    return _oneMonthYiJiEventArray;
+}
+- (NSMutableArray *)oneMonthYiEventArray{
+    if (!_oneMonthYiEventArray) {
+        _oneMonthYiEventArray = [NSMutableArray array];
+    }
+    return _oneMonthYiEventArray;
+}
+- (NSMutableArray *)oneMonthJiEventArray{
+    if (!_oneMonthJiEventArray) {
+        _oneMonthJiEventArray = [NSMutableArray array];
+    }
+    return _oneMonthJiEventArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self setBackImage];
-    [self.view addSubview:self.calendarView];
+    [self setSubviews];
+    
+}
+//设置背景图片
+- (void)setBackImage{
+    UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
+    backImage.frame = self.view.frame;
+    [self.view addSubview:backImage];
+}
+- (void)setSubviews{
     
     //选择的日期
     self.selectedDateLabel = [UILabel new];
     [self.view addSubview:self.selectedDateLabel];
     self.selectedDateLabel.font = [UIFont systemFontOfSize:24 weight:8];
     self.selectedDateLabel.textColor = [UIColor whiteColor];
-//    self.selectedDateLabel.text = @"2012年8月12日";
     [self.selectedDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(80);
         make.left.mas_equalTo(50);
@@ -59,6 +94,8 @@
         make.left.equalTo(self.selectedDateLabel);
     }];
     
+    //日历
+    [self.view addSubview:self.calendarView];
     
     // 查看下个月
     self.nextButton = [UIButton new];
@@ -82,82 +119,45 @@
     }];
     [self.lastButton addTarget:self action:@selector(checkLastMonthCalendar) forControlEvents:UIControlEventTouchUpInside];
     
-    // 公历年
-    self.yearLabel = [UILabel new];
-    [self.view addSubview:self.yearLabel];
-    self.yearLabel.font = [UIFont systemFontOfSize:18];
-    self.yearLabel.text = [NSString stringWithFormat:@"%@年%@月", @(self.calendarView.year), @(self.calendarView.month)];
-    [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.calendarView.mas_bottom).with.offset(5);
-        make.centerX.equalTo(self.calendarView);
-    }];
-    
-    // 农历年
-    self.chineseYearLabel = [UILabel new];
-    [self.view addSubview:self.chineseYearLabel];
-    self.chineseYearLabel.font = [UIFont systemFontOfSize:18];
-    self.chineseYearLabel.text = [NSString stringWithFormat:@"%@年", self.calendarView.chineseYear];
-    self.chineseYearLabel.textAlignment = NSTextAlignmentCenter;
-    [self.chineseYearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.calendarView.mas_bottom).with.offset(50);
-        make.centerX.equalTo(self.calendarView);
-    }];
-    
-    // 农历月日
-    self.chineseMonthAndDayLabel = [UILabel new];
-    [self.view addSubview:self.chineseMonthAndDayLabel];
-    self.chineseMonthAndDayLabel.font = [UIFont systemFontOfSize:15];
-    self.chineseMonthAndDayLabel.textColor = [UIColor redColor];
-    // 默认农历日期 今天
-    self.chineseMonthAndDayLabel.text = [NSString stringWithFormat:@"%@%@", self.calendarView.chineseCalendarMonth[self.calendarView.todayInMonth - 1], getNoneNil(self.calendarView.chineseCalendarDay[self.calendarView.todayInMonth])];
-    self.chineseMonthAndDayLabel.textAlignment = NSTextAlignmentCenter;
-    [self.chineseMonthAndDayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chineseYearLabel.mas_bottom).with.offset(5);
-        make.centerX.equalTo(self.chineseYearLabel);
-    }];
-    
-    // 节日&节气
-    self.holidayLabel = [UILabel new];
-    [self.view addSubview:self.holidayLabel];
-    self.holidayLabel.font = [UIFont systemFontOfSize:15];
-    self.holidayLabel.textColor = [UIColor purpleColor];
-    self.holidayLabel.textAlignment = NSTextAlignmentCenter;
-    // 获取节日，注意：此处传入的参数为chineseCalendarDay(包含不节日等信息)
-    self.holidayLabel.text = [self.calendarView getHolidayAndSolarTermsWithChineseDay:getNoneNil(self.calendarView.chineseCalendarDay[self.calendarView.todayInMonth])];
-    [self.holidayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chineseMonthAndDayLabel.mas_bottom).with.offset(5);
-        make.centerX.equalTo(self.chineseMonthAndDayLabel);
-    }];
-    
     // 返回今天
     self.backToday = [UIButton new];
     [self.view addSubview:self.backToday];
     [self.backToday setTitle:@"返回今天" forState:UIControlStateNormal];
-    [self.backToday setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [self.backToday setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.backToday mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.calendarView.mas_top).with.offset(-5);
+        make.top.equalTo(self.calendarView.mas_bottom);
         make.centerX.equalTo(self.calendarView);
     }];
     [self.backToday addTarget:self action:@selector(clickBackToday) forControlEvents:UIControlEventTouchUpInside];
-
+    
+    //宜
+    self.yiLabel = [UILabel new];
+    self.yiLabel.text = @"宜";
+    self.yiLabel.font = [UIFont systemFontOfSize:26 weight:10];
+    self.yiLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:self.yiLabel];
+    [self.yiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lastButton.mas_bottom).offset(10);
+        make.left.equalTo(self.lastButton.mas_left);
+    }];
+    
+    //忌
+    self.jiLabel = [UILabel new];
+    self.jiLabel.text = @"忌";
+    self.jiLabel.font = [UIFont systemFontOfSize:26 weight:10];
+    self.jiLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:self.jiLabel];
     
     [self selectDateWithRow:[SKCalendarManage manage].todayPosition];
-    
-}
-//设置背景图片
-- (void)setBackImage{
-    UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
-    backImage.frame = self.view.frame;
-    [self.view addSubview:backImage];
 }
 #pragma mark - 日历设置
 - (SKCalendarView *)calendarView
 {
     if (!_calendarView) {
-        _calendarView = [[SKCalendarView alloc] initWithFrame:CGRectMake(self.view.center.x - 150, self.view.center.y - 150, 300, 300)];
+        _calendarView = [[SKCalendarView alloc] initWithFrame:CGRectMake(50, 160, 300, 300)];
         _calendarView.layer.cornerRadius = 5;
-        _calendarView.layer.borderColor = [UIColor whiteColor].CGColor;
-        _calendarView.layer.borderWidth = 0.5;
+        _calendarView.layer.borderColor = [UIColor blackColor].CGColor;
+        _calendarView.layer.borderWidth = 1;
         _calendarView.delegate = self;// 获取点击日期的方法，一定要遵循协议
         _calendarView.calendarTodayTitleColor = [UIColor redColor];// 今天标题字体颜色
         _calendarView.calendarTitleColor = [UIColor whiteColor];   //日期标题字体颜色
@@ -175,6 +175,53 @@
     }
     
     return _calendarView;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        //处理耗时
+//        [self getOneMonthData:@"2017-11"];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            //更新UI
+//            NSLog(@"0-0-0-0-");
+//        });
+//    });
+    [self getOneMonthData:@"2017-11"];
+}
+
+- (void)getOneMonthData:(NSString *)yearMonth{
+    
+    
+    NSLog(@"请求月份的时间为————————————%@",yearMonth);
+    //1.创建会话管理者
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml",@"text/html", @"application/json",@"text/plain",nil];
+    
+    //2.封装参数
+    NSDictionary *dict = @{
+                           @"action":@"getOneMonthYiJiEvent",
+                           @"dateTime":yearMonth,
+                           };
+    //3.get请求
+    [manager GET:@"http://rcwifa.com/imade/index.php/Home/SiZhu/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        //将一个月的宜忌事件存入到二维数组中去
+        [self.oneMonthYiJiEventArray  removeAllObjects];
+        [self.oneMonthYiEventArray  removeAllObjects];
+        [self.oneMonthJiEventArray  removeAllObjects];
+        for (int i = 0; i < [responseObject[@"data"][@"oneMonthYiJi_Arr"] count]; i++) {
+            [self.oneMonthYiEventArray addObject:responseObject[@"data"][@"oneMonthYiJi_Arr"][i][@"yi_Arr"]];
+            [self.oneMonthJiEventArray addObject:responseObject[@"data"][@"oneMonthYiJi_Arr"][i][@"ji_Arr"]];
+        }
+        [self.oneMonthYiJiEventArray addObject:_oneMonthYiEventArray];
+        [self.oneMonthYiJiEventArray addObject:_oneMonthJiEventArray];
+        
+        [self turnPageClickDate:yearMonth];
+      
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure-------%@",error);
+    }];
 }
 
 #pragma mark - 查看上/下一月份日历
@@ -220,24 +267,62 @@
     }
     [self.lastButton setTitle:[NSString stringWithFormat:@"%@月", @(self.lastMonth)] forState:UIControlStateNormal];
     [self.nextButton setTitle:[NSString stringWithFormat:@"%@月", @(self.nextMonth)] forState:UIControlStateNormal];
+    [self getOneMonthData:[NSString stringWithFormat:@"%lu-%lu",(unsigned long)self.calendarView.year,(unsigned long)self.calendarView.month]];
+    
 }
 
 #pragma mark - 点击日期
 - (void)selectDateWithRow:(NSUInteger)row
 {
     NSInteger todayDate = (row-([SKCalendarManage manage].dayInWeek-2));
-
+    
     if (todayDate >= 1 && todayDate <= [SKCalendarManage manage].days) {
-        
         //选择的日期
         self.selectedDateLabel.text = [NSString stringWithFormat:@"%lu年%lu月%lu日",(unsigned long)self.calendarView.year,(unsigned long)self.calendarView.month,todayDate];
         //选择的星期
         self.selectedDayLabel.text = [NSString stringWithFormat:@"星期%@",[[SKCalendarManage manage].weekList objectAtIndex:row%7]];
+        
+        NSString *yiDetailText = @"";
+        NSString *jiDetailText = @"";
+        for (NSInteger i = [_oneMonthYiJiEventArray[0][todayDate-1] count]-1; i >= 0 ; i--) {
+            yiDetailText = [NSString stringWithFormat:@"%@ %@",_oneMonthYiJiEventArray[0][todayDate-1][i],yiDetailText];
+        }
+        for (NSInteger i = [_oneMonthYiJiEventArray[1][todayDate-1] count]-1; i >=0 ; i--) {
+            jiDetailText = [NSString stringWithFormat:@"%@ %@",_oneMonthYiJiEventArray[1][todayDate-1][i],jiDetailText];
+        }
+        
+        [self.yiDetailLabel removeFromSuperview];
+        self.yiDetailLabel = [UILabel new];
+        self.yiDetailLabel.text = yiDetailText;
+        self.yiDetailLabel.numberOfLines = 0;
+        self.yiDetailLabel.font = [UIFont systemFontOfSize:15];
+        self.yiDetailLabel.textColor = [UIColor whiteColor];
+        [self.view addSubview:self.yiDetailLabel];
+        [self.yiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.yiLabel.mas_top).offset(6);
+            make.left.equalTo(self.yiLabel.mas_right).offset(10);
+            make.right.mas_equalTo(-50);
+        }];
+        
+        [self.jiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.yiDetailLabel.mas_bottom).offset(10);
+            make.left.equalTo(self.yiLabel.mas_left);
+        }];
+        
+        [self.jiDetailLabel removeFromSuperview];
+        self.jiDetailLabel = [UILabel new];
+        self.jiDetailLabel.text = jiDetailText;
+        self.jiDetailLabel.numberOfLines = 0;
+        self.jiDetailLabel.font = [UIFont systemFontOfSize:15];
+        self.jiDetailLabel.textColor = [UIColor whiteColor];
+        [self.view addSubview:self.jiDetailLabel];
+        [self.jiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.jiLabel.mas_top).offset(6);
+            make.left.equalTo(self.jiLabel.mas_right).offset(10);
+            make.right.mas_equalTo(-50);
+        }];
 
     }
-    self.chineseMonthAndDayLabel.text = [NSString stringWithFormat:@"%@%@", self.calendarView.chineseCalendarMonth[row], getNoneNil(self.calendarView.chineseCalendarDay[row])];
-    // 获取节日，注意：此处传入的参数为chineseCalendarDay(不包含节日等信息)
-    self.holidayLabel.text = [self.calendarView getHolidayAndSolarTermsWithChineseDay:getNoneNil(self.calendarView.chineseCalendarDay[row])];
 }
 
 #pragma mark - 返回今日
@@ -248,6 +333,21 @@
     self.nextMonth = _calendarView.nextMonth;// 获取下个月的月份
     [self.lastButton setTitle:[NSString stringWithFormat:@"%@月", @(self.lastMonth)] forState:UIControlStateNormal];
     [self.nextButton setTitle:[NSString stringWithFormat:@"%@月", @(self.nextMonth)] forState:UIControlStateNormal];
+    [self getOneMonthData:[NSString stringWithFormat:@"%ld-%ld",_calendarView.year,_calendarView.month]];
+
+}
+#pragma mark - 翻页定位
+- (void)turnPageClickDate:(NSString *)yearMonth{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM"];
+//    NSLog(@"%@-----%@",yearMonth,[dateFormatter stringFromDate:[NSDate date]]);
+    if ([yearMonth isEqualToString:[dateFormatter stringFromDate:[NSDate date]]]) {
+        [self selectDateWithRow:[SKCalendarManage manage].todayPosition];
+
+    }else{
+        [self selectDateWithRow:[SKCalendarManage manage].dayInWeek-1];
+
+    }
 }
 
 @end
