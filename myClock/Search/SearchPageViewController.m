@@ -9,6 +9,7 @@
 #import "SearchPageViewController.h"
 #import "Bazi.h"
 #import "BaziAlertView.h"
+#import "CalendarHeader.h"
 
 
 #define LabelTagToTop            FitSize(50,70,70,90)
@@ -57,7 +58,14 @@
     [self setSearceContent];
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
-
+    
+    
+    //按钮设置默认
+    _manBtn.selected = YES;
+    _internationalDateBtn.selected = YES;
+    _maleSelectedButton = _manBtn;
+    _dataSelectedButton = _internationalDateBtn;
+    
 }
 
 //设置背景图片
@@ -181,11 +189,37 @@
     }];
     return textField;
 }
-
+#pragma mark - 查询按钮的点击
 - (void)searchBtnClick{
     
-    NSString *time = [NSString stringWithFormat:@"%@ %@",_date.text,_time.text];
-    NSLog(@"时间为————————————%@",time);
+    NSString *date = _date.text;
+    if (date.length == 0) {
+        return;
+    }
+    //将农历转换为阳历
+    if ([_dataSelectedButton.titleLabel.text isEqualToString:@"农历"]) {
+        date = [self changeOldDateToInternationalDate:date];
+    }
+    NSString *time = [NSString stringWithFormat:@"%@ %@",date,_time.text];
+    [self getBaZiData:time];
+}
+#pragma mark - 阴历转换为阳历
+- (NSString *)changeOldDateToInternationalDate:(NSString *)date{
+    
+    NSString *year  = [date substringWithRange:NSMakeRange(0, 4)];
+    NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
+    NSString *day   = [date substringWithRange:NSMakeRange(8, 2)];
+    Lunar *lunar = [[Lunar alloc] initWithYear:[year intValue] andMonth:[month intValue] andDay:[day intValue]];
+    Solar *s = [CalendarDisplyManager obtainSolarFromLunar:lunar];
+    date = [NSString stringWithFormat:@"%i-%i-%i",s.solarYear,s.solarMonth,s.solarDay];
+    return date;
+    
+}
+#pragma mark - 请求八字数据
+- (void)getBaZiData:(NSString *)time{
+    
+    NSLog(@"请求八字时间为————————————%@",time);
+
     //1.创建会话管理者
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml",@"text/html", @"application/json",@"text/plain",nil];
@@ -218,16 +252,13 @@
         [UIView animateWithDuration:0.3 animations:^{
             self.baziAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         }];
-
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"failure--%@",error);
     }];
-}
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [_baziAlertView removeFromSuperview];
 }
-//日期选择器
+#pragma mark - 日期选择器
 - (void)showDatePick:(UITextField *)textField{
     
     if (_datePicker == nil) {
@@ -286,10 +317,11 @@
     }
     _contentView.hidden = NO;
 }
-
+#pragma mark - 日期选择器的取消按钮
 - (void)hideDatePicker{
     _contentView.hidden = YES;
 }
+#pragma mark - 日期选择器的确定按钮
 - (void)confirmDateOrTime{
     NSDate *theDate = _datePicker.date;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -302,18 +334,25 @@
     }
     _contentView.hidden = YES;
 }
-
-//点击调用
+#pragma mark - 性别选择按钮的点击
 - (void)maleBtnClick:(UIButton *)button {
     _maleSelectedButton.selected = NO;
     button.selected = YES;
     _maleSelectedButton = button;
+    NSLog(@"%@",button.titleLabel.text);
 }
+#pragma mark - 阴阳历选择按钮的点击
 - (void)dataBtnClick:(UIButton *)button {
     _dataSelectedButton.selected = NO;
     button.selected = YES;
     _dataSelectedButton = button;
+    NSLog(@"%@",button.titleLabel.text);
+
 }
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_baziAlertView removeFromSuperview];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

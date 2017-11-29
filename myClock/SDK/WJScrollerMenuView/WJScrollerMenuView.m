@@ -167,6 +167,7 @@
         UIButton *button = nil;
         button = _items[currentIndex];
         [button setTitleColor:self.selectedColor forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]];
         CGFloat offsetX = button.center.x - self.navigationTabBarWidth * 0.5;
         CGFloat offsetMax = _selectedTitlesWidth - self.navigationTabBarWidth;
         if (offsetX < 0 || offsetMax < 0) {
@@ -247,6 +248,7 @@
     //修改选中跟没选中的Button字体颜色
     for (int i=0; i<_items.count; i++) {
         [_items[i] setTitleColor:(i==index)?self.selectedColor:self.noSlectedColor forState:UIControlStateNormal];
+        [_items[i] setBackgroundColor:(i==index)?[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]:[UIColor clearColor]];
     }
     
     //如果有弹出窗就进行关闭

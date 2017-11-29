@@ -21,6 +21,10 @@
 		E26D55F91FCD4DF700C2C160 /* WJIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D55F81FCD4DF700C2C160 /* WJIndicatorView.m */; };
 		E26D55FC1FCD4E1600C2C160 /* WJPopupMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D55FB1FCD4E1600C2C160 /* WJPopupMenuView.m */; };
 		E26D55FF1FCD4E2800C2C160 /* WJScrollerMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D55FE1FCD4E2800C2C160 /* WJScrollerMenuView.m */; };
+		E2749EFD1FCE84A8001C1CE2 /* Lunar.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749EFC1FCE84A8001C1CE2 /* Lunar.m */; };
+		E2749F001FCE84B8001C1CE2 /* Solar.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749EFF1FCE84B8001C1CE2 /* Solar.m */; };
+		E2749F031FCE84C8001C1CE2 /* LunarSolarTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749F021FCE84C8001C1CE2 /* LunarSolarTransform.m */; };
+		E2749F061FCE84DA001C1CE2 /* CalendarDisplyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749F051FCE84DA001C1CE2 /* CalendarDisplyManager.m */; };
 		E2C7EC051FC2DB3C00F4BDF9 /* SKDateSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */; };
 		E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC081FC2DB9E00F4BDF9 /* SKCalendarView.m */; };
 		E2C7EC0C1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC0B1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m */; };
@@ -92,6 +96,15 @@
 		E26D55FB1FCD4E1600C2C160 /* WJPopupMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WJPopupMenuView.m; sourceTree = "<group>"; };
 		E26D55FD1FCD4E2800C2C160 /* WJScrollerMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJScrollerMenuView.h; sourceTree = "<group>"; };
 		E26D55FE1FCD4E2800C2C160 /* WJScrollerMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WJScrollerMenuView.m; sourceTree = "<group>"; };
+		E2749EFB1FCE84A8001C1CE2 /* Lunar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lunar.h; sourceTree = "<group>"; };
+		E2749EFC1FCE84A8001C1CE2 /* Lunar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lunar.m; sourceTree = "<group>"; };
+		E2749EFE1FCE84B8001C1CE2 /* Solar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Solar.h; sourceTree = "<group>"; };
+		E2749EFF1FCE84B8001C1CE2 /* Solar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Solar.m; sourceTree = "<group>"; };
+		E2749F011FCE84C8001C1CE2 /* LunarSolarTransform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LunarSolarTransform.h; sourceTree = "<group>"; };
+		E2749F021FCE84C8001C1CE2 /* LunarSolarTransform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LunarSolarTransform.m; sourceTree = "<group>"; };
+		E2749F041FCE84DA001C1CE2 /* CalendarDisplyManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarDisplyManager.h; sourceTree = "<group>"; };
+		E2749F051FCE84DA001C1CE2 /* CalendarDisplyManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarDisplyManager.m; sourceTree = "<group>"; };
+		E2749F071FCE84F2001C1CE2 /* CalendarHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarHeader.h; sourceTree = "<group>"; };
 		E2C7EC021FC2DB0600F4BDF9 /* SKConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKConstant.h; sourceTree = "<group>"; };
 		E2C7EC031FC2DB3C00F4BDF9 /* SKDateSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKDateSecurity.h; sourceTree = "<group>"; };
 		E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKDateSecurity.m; sourceTree = "<group>"; };
@@ -205,9 +218,26 @@
 			path = WJScrollerMenuView;
 			sourceTree = "<group>";
 		};
+		E2749EFA1FCE844F001C1CE2 /* CalendarTransform */ = {
+			isa = PBXGroup;
+			children = (
+				E2749EFB1FCE84A8001C1CE2 /* Lunar.h */,
+				E2749EFC1FCE84A8001C1CE2 /* Lunar.m */,
+				E2749EFE1FCE84B8001C1CE2 /* Solar.h */,
+				E2749EFF1FCE84B8001C1CE2 /* Solar.m */,
+				E2749F011FCE84C8001C1CE2 /* LunarSolarTransform.h */,
+				E2749F021FCE84C8001C1CE2 /* LunarSolarTransform.m */,
+				E2749F041FCE84DA001C1CE2 /* CalendarDisplyManager.h */,
+				E2749F051FCE84DA001C1CE2 /* CalendarDisplyManager.m */,
+				E2749F071FCE84F2001C1CE2 /* CalendarHeader.h */,
+			);
+			path = CalendarTransform;
+			sourceTree = "<group>";
+		};
 		E2C7EBEB1FC2D49600F4BDF9 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				E2749EFA1FCE844F001C1CE2 /* CalendarTransform */,
 				E26D55F61FCD4D9000C2C160 /* WJScrollerMenuView */,
 				E2C7EBFF1FC2DA0D00F4BDF9 /* SKCalendarView */,
 			);
@@ -585,13 +615,16 @@
 				E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */,
 				E26D4EA41FA8539E0034E2D8 /* Alarm.m in Sources */,
 				E2F971591F8DEA3B00B49001 /* AboutMePageViewController.m in Sources */,
+				E2749F031FCE84C8001C1CE2 /* LunarSolarTransform.m in Sources */,
 				E2F9715F1F8E059D00B49001 /* WPTabBarButton.m in Sources */,
 				E24CAEA81F97459400082216 /* HomePageTableViewCell.m in Sources */,
 				E2F971561F8DEA2600B49001 /* SearchPageViewController.m in Sources */,
 				E2F971281F8DE8C300B49001 /* main.m in Sources */,
 				E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */,
+				E2749EFD1FCE84A8001C1CE2 /* Lunar.m in Sources */,
 				E24CAEA51F97398200082216 /* HomePageHeaderView.m in Sources */,
 				E2F010781FA6F9A7001A5584 /* SelectRingViewController.m in Sources */,
+				E2749F001FCE84B8001C1CE2 /* Solar.m in Sources */,
 				E200755E1FC2883F0064EB29 /* YiJiCalendarViewController.m in Sources */,
 				E26D55F91FCD4DF700C2C160 /* WJIndicatorView.m in Sources */,
 				E251DB8B1F9854D900AA8C32 /* Bazi.m in Sources */,
@@ -603,6 +636,7 @@
 				E26D55FF1FCD4E2800C2C160 /* WJScrollerMenuView.m in Sources */,
 				E26D55FC1FCD4E1600C2C160 /* WJPopupMenuView.m in Sources */,
 				E2C7EC171FC2DD0D00F4BDF9 /* SKCalendarAnimationManage.m in Sources */,
+				E2749F061FCE84DA001C1CE2 /* CalendarDisplyManager.m in Sources */,
 				E2569CCA1F9D85AD004B9D97 /* HomePageFootView.m in Sources */,
 				E2C7EC131FC2DCA400F4BDF9 /* SKCalendarManage.m in Sources */,
 				E2F9711A1F8DE8C200B49001 /* AppDelegate.m in Sources */,

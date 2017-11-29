@@ -49,11 +49,10 @@
     
     _menuVc=[[WJScrollerMenuView alloc]initWithFrame:CGRectMake(0, 140, SCREEN_WIDTH, 50) showArrayButton:NO];
     _menuVc.delegate=self;
-    _menuVc.selectedColor=[UIColor whiteColor];
-    _menuVc.noSlectedColor=[UIColor whiteColor];
-//    _menuVc.backgroundColor = [UIColor redColor];
-    _menuVc.myTitleArray=@[@"关于我们",@"免责声明"];
     _menuVc.LineColor = [UIColor whiteColor];
+    _menuVc.selectedColor=[UIColor whiteColor];
+    _menuVc.noSlectedColor=[UIColor blackColor];
+    _menuVc.myTitleArray=@[@"关于我们",@"免责声明"];
     _menuVc.currentIndex=0;
     [self.view addSubview:_menuVc];
     
