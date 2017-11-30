@@ -187,7 +187,10 @@
 //            NSLog(@"0-0-0-0-");
 //        });
 //    });
-    [self getOneMonthData:@"2017-11"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM"];
+    NSString *yearMonth = [dateFormatter stringFromDate:[NSDate date]];
+    [self getOneMonthData:yearMonth];
 }
 
 - (void)getOneMonthData:(NSString *)yearMonth{
