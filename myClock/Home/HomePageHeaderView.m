@@ -9,8 +9,10 @@
 #import "HomePageHeaderView.h"
 
 #define BaziContentWidth         SCREEN_WIDTH*0.8
-#define BaziContentHeight        FitSize(100,100,100,100)
+#define BaziContentHeight        FitSize(90,100,100,100)
 #define SiZhuTitleLeftMargin     FitSize(10,10,15,20)
+#define DateToTop                FitSize(20,30,40,40)
+
 
 
 @interface HomePageHeaderView()
@@ -18,7 +20,6 @@
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *dayLabel;
 @property (nonatomic, strong) UIView *baziView;
-
 
 @end
 
@@ -59,7 +60,7 @@
     [yijiLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
     yijiLabel.textColor = [UIColor whiteColor];
     yijiLabel.userInteractionEnabled=YES;
-    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ad)];
+    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(enterYiJiController)];
     [yijiLabel addGestureRecognizer:labelTapGestureRecognizer];
     [self addSubview:yijiLabel];
     [yijiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -67,17 +68,19 @@
         make.bottom.equalTo(self.mas_bottom).offset(-70);
     }];
     
+    //日期
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.text = _dateText;
     _dateLabel.font = [UIFont systemFontOfSize:22];
     _dateLabel.textColor = [UIColor whiteColor];
     [self addSubview:_dateLabel];
     [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(35);
-        make.top.mas_equalTo(40);
+        make.height.mas_equalTo(30);
+        make.top.mas_equalTo(DateToTop);
         make.centerX.equalTo(self);
     }];
     
+    //星期
     _dayLabel = [[UILabel alloc] init];
     _dayLabel.text = _day;
     _dayLabel.font = [UIFont systemFontOfSize:22];
@@ -98,7 +101,7 @@
     [_baziView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(BaziContentWidth);
         make.height.mas_equalTo(BaziContentHeight);
-        make.top.mas_equalTo(130);
+        make.top.mas_equalTo(_dayLabel.mas_bottom).offset(5);
         make.centerX.equalTo(self);
     }];
     [self createOneSiZhuWithSequence:0 title:@"时" tianGan:_bazi.timeTianGan diZhi:_bazi.timeDiZhi];
@@ -151,8 +154,8 @@
         make.top.mas_equalTo(tianGanLabel.mas_bottom).offset(5);
     }];
 }
-- (void)ad{
-    //通知tabBarVc切换控制器
+- (void)enterYiJiController{
+    //通知tabBarVc进入宜忌页面
     if ([_delegate respondsToSelector:@selector(didClickYiJiLabel)]) {
         [_delegate didClickYiJiLabel];
     }
