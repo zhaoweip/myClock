@@ -10,7 +10,17 @@
 #import "SKConstant.h"
 #import "SKCalendarManage.h"
 
+#define LeftMargin                FitSize(20,28,30,28)
+#define TopMargin                 FitSize(10,80,80,100)
+#define CalendarToTop             FitSize(90,160,160,180)
+#define CalendarWidth             FitSize(280,320,350,320)
+#define ScrollerContentHeight     FitSize(SCREEN_HEIGHT*1.1,SCREEN_HEIGHT,SCREEN_HEIGHT,SCREEN_HEIGHT)
+
+
 @interface YiJiCalendarViewController ()<SKCalendarViewDelegate>
+
+@property (nonatomic, strong) UIScrollView * scrollView;
+
 @property (nonatomic, strong) UILabel * selectedDateLabel;//选择的日期
 @property (nonatomic, strong) UILabel * selectedDayLabel;//星期
 @property (nonatomic, strong) SKCalendarView * calendarView;
@@ -70,36 +80,39 @@
     UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
     backImage.frame = self.view.frame;
     [self.view addSubview:backImage];
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, ScrollerContentHeight);
+    [self.view addSubview:_scrollView];
 }
 - (void)setSubviews{
     
     //选择的日期
     self.selectedDateLabel = [UILabel new];
-    [self.view addSubview:self.selectedDateLabel];
+    [self.scrollView addSubview:self.selectedDateLabel];
     self.selectedDateLabel.font = [UIFont systemFontOfSize:24 weight:8];
     self.selectedDateLabel.textColor = [UIColor whiteColor];
     [self.selectedDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(80);
-        make.left.mas_equalTo(50);
+        make.top.mas_equalTo(TopMargin);
+        make.left.mas_equalTo(LeftMargin);
     }];
     
     //选择的星期
     self.selectedDayLabel = [UILabel new];
-    [self.view addSubview:self.selectedDayLabel];
+    [self.scrollView addSubview:self.selectedDayLabel];
     self.selectedDayLabel.font = [UIFont systemFontOfSize:24 weight:7];
     self.selectedDayLabel.textColor = [UIColor whiteColor];
-    self.selectedDayLabel.text = @"星期四";
     [self.selectedDayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.selectedDateLabel.mas_bottom).offset(10);
         make.left.equalTo(self.selectedDateLabel);
     }];
-    
+
     //日历
-    [self.view addSubview:self.calendarView];
-    
+    [self.scrollView addSubview:self.calendarView];
+
     // 查看下个月
     self.nextButton = [UIButton new];
-    [self.view addSubview:self.nextButton];
+    [self.scrollView addSubview:self.nextButton];
     [self.nextButton setTitle:[NSString stringWithFormat:@"%@月", @(self.nextMonth)] forState:UIControlStateNormal];
     [self.nextButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,10 +120,10 @@
         make.right.equalTo(self.calendarView.mas_right).with.offset(-10);
     }];
     [self.nextButton addTarget:self action:@selector(checkNextMonthCalendar) forControlEvents:UIControlEventTouchUpInside];
-    
+
     // 查看上个月
     self.lastButton = [UIButton new];
-    [self.view addSubview:self.lastButton];
+    [self.scrollView addSubview:self.lastButton];
     [self.lastButton setTitle:[NSString stringWithFormat:@"%@月", @(self.lastMonth)] forState:UIControlStateNormal];
     [self.lastButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [self.lastButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,10 +131,10 @@
         make.left.equalTo(self.calendarView.mas_left).with.offset(10);
     }];
     [self.lastButton addTarget:self action:@selector(checkLastMonthCalendar) forControlEvents:UIControlEventTouchUpInside];
-    
+
     // 返回今天
     self.backToday = [UIButton new];
-    [self.view addSubview:self.backToday];
+    [self.scrollView addSubview:self.backToday];
     [self.backToday setTitle:@"返回今天" forState:UIControlStateNormal];
     [self.backToday setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.backToday mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -129,32 +142,32 @@
         make.centerX.equalTo(self.calendarView);
     }];
     [self.backToday addTarget:self action:@selector(clickBackToday) forControlEvents:UIControlEventTouchUpInside];
-    
+
     //宜
     self.yiLabel = [UILabel new];
     self.yiLabel.text = @"宜";
     self.yiLabel.font = [UIFont systemFontOfSize:26 weight:10];
     self.yiLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:self.yiLabel];
+    [self.scrollView addSubview:self.yiLabel];
     [self.yiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lastButton.mas_bottom).offset(10);
         make.left.equalTo(self.lastButton.mas_left);
     }];
-    
+
     //忌
     self.jiLabel = [UILabel new];
     self.jiLabel.text = @"忌";
     self.jiLabel.font = [UIFont systemFontOfSize:26 weight:10];
     self.jiLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:self.jiLabel];
-    
+    [self.scrollView addSubview:self.jiLabel];
+
     [self selectDateWithRow:[SKCalendarManage manage].todayPosition];
 }
 #pragma mark - 日历设置
 - (SKCalendarView *)calendarView
 {
     if (!_calendarView) {
-        _calendarView = [[SKCalendarView alloc] initWithFrame:CGRectMake(50, 160, 300, 300)];
+        _calendarView = [[SKCalendarView alloc] initWithFrame:CGRectMake(LeftMargin, CalendarToTop, CalendarWidth, 300)];
         _calendarView.layer.cornerRadius = 5;
         _calendarView.layer.borderColor = [UIColor blackColor].CGColor;
         _calendarView.layer.borderWidth = 1;
@@ -300,29 +313,29 @@
         self.yiDetailLabel.numberOfLines = 0;
         self.yiDetailLabel.font = [UIFont systemFontOfSize:15];
         self.yiDetailLabel.textColor = [UIColor whiteColor];
-        [self.view addSubview:self.yiDetailLabel];
+        [self.scrollView addSubview:self.yiDetailLabel];
         [self.yiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.yiLabel.mas_top).offset(6);
             make.left.equalTo(self.yiLabel.mas_right).offset(10);
-            make.right.mas_equalTo(-50);
+            make.right.equalTo(self.calendarView.mas_right);
         }];
-        
+
         [self.jiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.yiDetailLabel.mas_bottom).offset(10);
             make.left.equalTo(self.yiLabel.mas_left);
         }];
-        
+
         [self.jiDetailLabel removeFromSuperview];
         self.jiDetailLabel = [UILabel new];
         self.jiDetailLabel.text = jiDetailText;
         self.jiDetailLabel.numberOfLines = 0;
         self.jiDetailLabel.font = [UIFont systemFontOfSize:15];
         self.jiDetailLabel.textColor = [UIColor whiteColor];
-        [self.view addSubview:self.jiDetailLabel];
+        [self.scrollView addSubview:self.jiDetailLabel];
         [self.jiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.jiLabel.mas_top).offset(6);
             make.left.equalTo(self.jiLabel.mas_right).offset(10);
-            make.right.mas_equalTo(-50);
+            make.right.equalTo(self.calendarView.mas_right);
         }];
 
     }

@@ -52,8 +52,8 @@
     _menuVc.delegate=self;
     _menuVc.LineColor = [UIColor whiteColor];
     _menuVc.selectedColor=[UIColor whiteColor];
-    _menuVc.noSlectedColor=[UIColor blackColor];
-    _menuVc.myTitleArray=@[@"关于我们",@"免责声明"];
+    _menuVc.noSlectedColor=[UIColor whiteColor];
+    _menuVc.myTitleArray=@[@"關於我們",@"免責聲明"];
     _menuVc.currentIndex=0;
     [self.view addSubview:_menuVc];
     
@@ -82,7 +82,7 @@
     
     //title
     UILabel *title = [[UILabel alloc] init];
-    title.text = @"关于我们";
+    title.text = @"關於我們";
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];
     [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:Title_FontSize]];
@@ -182,7 +182,7 @@
     
     //title
     UILabel *title = [[UILabel alloc] init];
-    title.text = @"免责声明";
+    title.text = @"免責聲明";
     title.textAlignment = NSTextAlignmentCenter;
     [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:Title_FontSize]];
     title.textColor = [UIColor whiteColor];
