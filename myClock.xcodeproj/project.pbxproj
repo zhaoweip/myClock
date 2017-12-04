@@ -25,6 +25,8 @@
 		E2749F001FCE84B8001C1CE2 /* Solar.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749EFF1FCE84B8001C1CE2 /* Solar.m */; };
 		E2749F031FCE84C8001C1CE2 /* LunarSolarTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749F021FCE84C8001C1CE2 /* LunarSolarTransform.m */; };
 		E2749F061FCE84DA001C1CE2 /* CalendarDisplyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2749F051FCE84DA001C1CE2 /* CalendarDisplyManager.m */; };
+		E2A8A8321FD521FB00811F26 /* water2_02.aif in Resources */ = {isa = PBXBuildFile; fileRef = E2A8A8301FD521FA00811F26 /* water2_02.aif */; };
+		E2A8A8331FD521FB00811F26 /* wood1_02.aif in Resources */ = {isa = PBXBuildFile; fileRef = E2A8A8311FD521FB00811F26 /* wood1_02.aif */; };
 		E2C7EC051FC2DB3C00F4BDF9 /* SKDateSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */; };
 		E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC081FC2DB9E00F4BDF9 /* SKCalendarView.m */; };
 		E2C7EC0C1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C7EC0B1FC2DBFC00F4BDF9 /* SKCalendarCollectionViewCell.m */; };
@@ -105,6 +107,8 @@
 		E2749F041FCE84DA001C1CE2 /* CalendarDisplyManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarDisplyManager.h; sourceTree = "<group>"; };
 		E2749F051FCE84DA001C1CE2 /* CalendarDisplyManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarDisplyManager.m; sourceTree = "<group>"; };
 		E2749F071FCE84F2001C1CE2 /* CalendarHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarHeader.h; sourceTree = "<group>"; };
+		E2A8A8301FD521FA00811F26 /* water2_02.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = water2_02.aif; sourceTree = "<group>"; };
+		E2A8A8311FD521FB00811F26 /* wood1_02.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = wood1_02.aif; sourceTree = "<group>"; };
 		E2C7EC021FC2DB0600F4BDF9 /* SKConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKConstant.h; sourceTree = "<group>"; };
 		E2C7EC031FC2DB3C00F4BDF9 /* SKDateSecurity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKDateSecurity.h; sourceTree = "<group>"; };
 		E2C7EC041FC2DB3C00F4BDF9 /* SKDateSecurity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKDateSecurity.m; sourceTree = "<group>"; };
@@ -234,6 +238,15 @@
 			path = CalendarTransform;
 			sourceTree = "<group>";
 		};
+		E2A8A82F1FD5216D00811F26 /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				E2A8A8301FD521FA00811F26 /* water2_02.aif */,
+				E2A8A8311FD521FB00811F26 /* wood1_02.aif */,
+			);
+			path = Music;
+			sourceTree = "<group>";
+		};
 		E2C7EBEB1FC2D49600F4BDF9 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +334,7 @@
 		E2F971171F8DE8C200B49001 /* myClock */ = {
 			isa = PBXGroup;
 			children = (
+				E2A8A82F1FD5216D00811F26 /* Music */,
 				E2C7EBEB1FC2D49600F4BDF9 /* SDK */,
 				E251DB881F9854BC00AA8C32 /* model */,
 				E2556B5E1F945E3800329E30 /* utils */,
@@ -531,7 +545,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2F971251F8DE8C300B49001 /* LaunchScreen.storyboard in Resources */,
+				E2A8A8321FD521FB00811F26 /* water2_02.aif in Resources */,
 				E2F971221F8DE8C300B49001 /* Assets.xcassets in Resources */,
+				E2A8A8331FD521FB00811F26 /* wood1_02.aif in Resources */,
 				E2F971201F8DE8C300B49001 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
