@@ -172,7 +172,7 @@
     [self.navigationController pushViewController:addAlarm animated:YES];
 
     //发出通知
-    [self postMyNotification];
+//    [self postMyNotification];
 }
 
 - (void)postMyNotification{

@@ -13,10 +13,14 @@
 
 @interface AddAlarmViewController ()<UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,SelectRingDelegate>
 
+@property(nonatomic,strong) NSArray *pickerMonthData;
+@property(nonatomic,strong) NSArray *pickerDateData;
+@property(nonatomic,strong) NSArray *pickerDayData;
 @property(nonatomic,strong) NSArray *pickerShiChenData;
 @property(nonatomic,strong) NSArray *pickerHourData;
 @property(nonatomic,strong) NSArray *pickerMinuteChenData;
 
+@property(nonatomic,strong) UILabel *selectTimeLabel;
 @property(nonatomic,strong) UIPickerView *timePickerView;
 @property(nonatomic,strong) UITextField *ringTextField;
 @property(nonatomic,strong) UIButton *selectRingBtn;
@@ -36,6 +40,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _pickerMonthData = [[NSArray alloc] initWithObjects:@"01月",@"02月",@"03月",@"04月",@"05月",@"06月",@"07月",@"08月",@"09月",@"10月",@"11月",@"12月", nil];
+    
+    _pickerDateData = [[NSArray alloc] initWithObjects:@"01日",@"02日",@"03日",@"04日",@"05日",@"06日",@"07日",@"08日",@"09日",@"10日",@"11日",@"12日",@"13日",@"14日",@"15日",@"16日",@"17日",@"18日",@"19日",@"20日",@"21日",@"22日",@"23日",@"24日",@"25日",@"26日",@"27日",@"28日",@"29日",@"30日",@"31日", nil];
+    
+    _pickerDayData = [[NSArray alloc] initWithObjects:@"周一",@"周二",@"周三",@"周四",@"周五",@"周六",@"周日", nil];
     
     _pickerShiChenData = [[NSArray alloc] initWithObjects:@"子时",@"丑时",@"寅时",@"卯时",@"辰时",@"巳时",@"午时",@"未时",@"申时",@"酉时",@"戌时",@"亥时", nil];
     _pickerHourData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23", nil];
@@ -82,20 +92,35 @@
     [self.view addSubview:backImage];
 }
 - (void)setSubView{
+    
+    _selectTimeLabel = [[UILabel alloc] init];
+    _selectTimeLabel.textColor = [UIColor whiteColor];
+    _selectTimeLabel.font = [UIFont systemFontOfSize:24];
+    [self.view addSubview:_selectTimeLabel];
+    [_selectTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.top.mas_equalTo(80);
+    }];
+    
     _timePickerView = [[UIPickerView alloc] init];
-    _timePickerView.backgroundColor = [UIColor clearColor];
-    _timePickerView.layer.cornerRadius = 10;
-    _timePickerView.layer.borderColor = [UIColor whiteColor].CGColor;
-    _timePickerView.layer.borderWidth = 1;
+//    _timePickerView.backgroundColor = [UIColor brownColor];
+//    _timePickerView.layer.cornerRadius = 10;
+    _timePickerView.layer.borderColor = [UIColor grayColor].CGColor;
+    _timePickerView.layer.borderWidth = 2;
     [self.view addSubview:_timePickerView];
     self.timePickerView.delegate = self;
     self.timePickerView.dataSource = self;
     [_timePickerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(40);
-        make.right.mas_equalTo(-40);
-        make.top.mas_equalTo(84);
+        make.left.mas_equalTo(-2);
+        make.right.mas_equalTo(2);
+        make.top.equalTo(_selectTimeLabel.mas_bottom).offset(15);
         make.height.mas_equalTo(150);
     }];
+//    [self.timePickerView selectRow:self.pickerMonthData.count*5 inComponent:0 animated:YES];
+//    [self.timePickerView selectRow:self.pickerDateData.count*5 inComponent:1 animated:YES];
+//    [self.timePickerView selectRow:self.pickerDayData.count*5 inComponent:2 animated:YES];
+
     
     _ringTextField = [[UITextField alloc] init];
     _ringTextField.backgroundColor = [UIColor whiteColor];
@@ -109,10 +134,10 @@
     _ringTextField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_ringTextField];
     [_ringTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_timePickerView);
-        make.top.equalTo(_timePickerView.mas_bottom).offset(15);
+        make.left.mas_equalTo(30);
+        make.top.equalTo(_timePickerView.mas_bottom).offset(20);
         make.height.mas_equalTo(40);
-        make.width.mas_equalTo(230);
+        make.width.mas_equalTo(SCREEN_WIDTH*0.6);
     }];
     
     _selectRingBtn = [[UIButton alloc] init];
@@ -123,7 +148,7 @@
     [self.view addSubview:_selectRingBtn];
     [_selectRingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_ringTextField.mas_right).offset(10);
-        make.right.mas_equalTo(-40);
+        make.right.mas_equalTo(-30);
         make.height.equalTo(_ringTextField);
         make.centerY.equalTo(_ringTextField);
     }];
@@ -133,7 +158,7 @@
     _remindTag.textColor = [UIColor whiteColor];
     [self.view addSubview:_remindTag];
     [_remindTag mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_timePickerView);
+        make.left.equalTo(_ringTextField);
         make.top.equalTo(_ringTextField.mas_bottom).offset(15);
     }];
     
@@ -142,8 +167,8 @@
     _remarkTextView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_remarkTextView];
     [_remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_timePickerView);
-        make.right.equalTo(_timePickerView);
+        make.left.equalTo(_ringTextField);
+        make.right.equalTo(_selectRingBtn);
         make.top.equalTo(_remindTag.mas_bottom).offset(15);
         make.height.mas_equalTo(180);
     }];
@@ -171,17 +196,26 @@
 }
 #pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 3;
+    return 6;
 }
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     if (component == 0) {//第一个拨盘
-        return _pickerShiChenData.count;
+        return _pickerMonthData.count*10;
     }
      else if (component == 1) {
-         return _pickerHourData.count;
+         return _pickerDateData.count*10;
+    }
+    else  if (component == 2) {
+        return _pickerDayData.count*10;
+    }
+    else if (component == 3) {
+        return _pickerShiChenData.count;
+    }
+    else  if (component == 4) {
+        return _pickerHourData.count;
     }
     else  {
-        return _pickerMinuteChenData.count;
+        return _pickerMinuteChenData.count*10;
     }
 }
 
@@ -189,31 +223,67 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     //为选择器中某个拨盘的行提供数据
     if (component == 0) {
+        return [_pickerMonthData objectAtIndex:(row%self.pickerMonthData.count)];
+    }
+    else if(component == 1){
+        return [_pickerDateData objectAtIndex:(row%self.pickerDateData.count)];
+    }
+    else if(component == 2){
+        return [_pickerDayData objectAtIndex:(row%self.pickerDayData.count)];
+    }
+    else if(component == 3){
         return [_pickerShiChenData objectAtIndex:row];
-    } else if(component == 1){
+    }
+    else if(component == 4){
         return [_pickerHourData objectAtIndex:row];
-    } else{
-        return [_pickerMinuteChenData objectAtIndex:row];
+    }
+    else{
+        return [_pickerMinuteChenData objectAtIndex:(row%self.pickerMinuteChenData.count)];
     }
     
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    
     //选中选择器的某个拨盘中的某行时调用
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    NSDate *currentDate = [NSDate date];
+//    [formatter setDateFormat:@"YYYY"];
+    NSString *currentYearString = [self getCurrentTimeWithFormatter:@"YYYY"];
+    NSInteger year    = [currentYearString integerValue];
+    NSString *month   = [self.pickerMonthData objectAtIndex:[self.timePickerView selectedRowInComponent:0]%12];
+    NSString *date    = [self.pickerDateData objectAtIndex:[self.timePickerView selectedRowInComponent:1]%31];
+    NSString *day     = [self.pickerDayData objectAtIndex:[self.timePickerView selectedRowInComponent:2]%7];
+    NSString *shichen = [self.pickerShiChenData objectAtIndex:[self.timePickerView selectedRowInComponent:3]];
+    NSString *hour    = [self.pickerHourData objectAtIndex:[self.timePickerView selectedRowInComponent:4]];
+    NSString *minutes = [self.pickerMinuteChenData objectAtIndex:[self.timePickerView selectedRowInComponent:5]%60];
+
+
     if (component == 0) {
-        if (row != 0) {
-            [self.timePickerView selectRow:row*2-1 inComponent:1 animated:YES];
-        }else{
-            [self.timePickerView selectRow:23 inComponent:1 animated:YES];
-        }
+        year = [currentYearString intValue] + row/12;
     }
     if (component == 1) {
+        date = [self pickerView:self.timePickerView titleForRow:row forComponent:component];
+    }
+    if (component == 3) {
+        if (row != 0) {
+            [self.timePickerView selectRow:row*2-1 inComponent:4 animated:YES];
+        }else{
+            [self.timePickerView selectRow:23 inComponent:4 animated:YES];
+        }
+        hour = [self.pickerHourData objectAtIndex:[self.timePickerView selectedRowInComponent:4]];
+    }
+    if (component == 4) {
         if (row == 0 || row==23) {
-            [self.timePickerView selectRow:0 inComponent:0 animated:YES];
+            [self.timePickerView selectRow:0 inComponent:3 animated:YES];
         }else{
             NSLog(@"%ld",(row+1)/2);
-            [self.timePickerView selectRow:(row+1)/2 inComponent:0 animated:YES];
+            [self.timePickerView selectRow:(row+1)/2 inComponent:3 animated:YES];
         }
+        shichen = [self.pickerShiChenData objectAtIndex:[self.timePickerView selectedRowInComponent:3]];
     }
+    
+    _selectTimeLabel.text = [NSString stringWithFormat:@"%ld年 %@ %@ %@ %@ %@:%@",year,month,date,day,shichen,hour,minutes];
+    
 }
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel* pickerLabel = (UILabel*)view;
@@ -221,7 +291,7 @@
         pickerLabel = [[UILabel alloc] init];
         pickerLabel.adjustsFontSizeToFitWidth = YES;
         pickerLabel.textAlignment = NSTextAlignmentCenter;
-        pickerLabel.textColor = [UIColor whiteColor];
+        pickerLabel.textColor = [UIColor colorWithRed:245/255.0 green:218/255.0 blue:142/255.0 alpha:1];
         pickerLabel.font = [UIFont systemFontOfSize:24];
     }
     // Fill the label text here
@@ -251,9 +321,9 @@
 }
 //点击确定的时候，将闹钟保存起来（使用模型，添加到用户数据上，采用单例以便全局使用）
 - (void)clickconfirmBtn{
-    NSInteger row1 = [self.timePickerView selectedRowInComponent:0];
-    NSInteger row2 = [self.timePickerView selectedRowInComponent:1];
-    NSInteger row3 = [self.timePickerView selectedRowInComponent:2];
+    NSInteger row1 = [self.timePickerView selectedRowInComponent:3];
+    NSInteger row2 = [self.timePickerView selectedRowInComponent:4];
+    NSInteger row3 = [self.timePickerView selectedRowInComponent:5];
     NSString *shiChenStr=[self.pickerShiChenData objectAtIndex:row1];
     NSString *hourStr=[self.pickerHourData objectAtIndex:row2];
     NSString *minuteStr=[self.pickerMinuteChenData objectAtIndex:row3];
@@ -275,7 +345,6 @@
     }
     
     
-    
 }
 #pragma mark - SelectRingDelegate
 - (void)selectRing:(NSInteger)index withSoundId:(SystemSoundID)soundID
@@ -291,6 +360,7 @@
 
 - (void)setEditStatus
 {
+    //修改页面
     if (self.isEditing) {
         //闹钟ID
         _soundID = self.alarmModel.soundID;
@@ -299,13 +369,23 @@
         NSString *shiChenStr=[self.alarmModel.timeStr substringWithRange:NSMakeRange(0, 2)];
         NSString *hourStr   =[self.alarmModel.timeStr substringWithRange:NSMakeRange(3, 2)];
         NSString *minuteStr =[self.alarmModel.timeStr substringWithRange:NSMakeRange(6, 2)];
-        [self.timePickerView selectRow:[self.pickerShiChenData indexOfObject:shiChenStr] inComponent:0 animated:YES];
-        [self.timePickerView selectRow:[self.pickerHourData indexOfObject:hourStr] inComponent:1 animated:YES];
-        [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:2 animated:YES];
+        [self.timePickerView selectRow:[self.pickerShiChenData indexOfObject:shiChenStr] inComponent:3 animated:YES];
+        [self.timePickerView selectRow:[self.pickerHourData indexOfObject:hourStr] inComponent:4 animated:YES];
+        [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:5 animated:YES];
         _ringTextField.text = _alarmModel.ringName;
         _remarkTextView.text = _alarmModel.remarkStr;
         NSLog(@"%u",(unsigned int)_soundID);
+        _selectTimeLabel.text = [NSString stringWithFormat:@"%@ %@ %@",shiChenStr,hourStr,minuteStr];
+    }else{
+        _selectTimeLabel.text = [self getCurrentTimeWithFormatter:@"yyyy年 MM月 dd日 eee HH:mm"];
     }
+}
+//获取当地时间
+- (NSString *)getCurrentTimeWithFormatter:(NSString *)formatterStr {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:formatterStr];
+    NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+    return dateTime;
 }
 
 @end
