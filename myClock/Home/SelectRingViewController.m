@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UITableView *ringsTableView;
 @property (nonatomic, strong) NSIndexPath *selectPath; //存放被点击的哪一行的标志
 @property (nonatomic, strong) NSArray *ringsArray;
+@property (nonatomic, strong) NSDictionary *ringsDict;
 
 
 
@@ -24,7 +25,8 @@
     [super viewDidLoad];
     
     
-    _ringsArray = [[NSArray alloc] initWithObjects:@"铃声1",@"铃声2",@"铃声3",@"铃声4",@"铃声5",@"铃声6",@"铃声7",@"铃声8",@"铃声9",@"铃声10",@"铃声11",@"铃声12",@"铃声13",@"铃声14",@"铃声15", @"铃声16",@"铃声17",@"铃声18",@"铃声19",@"铃声20", nil];
+    _ringsArray = [[NSArray alloc] initWithObjects:@"金",@"木",@"水",@"火",@"土", nil];
+    _ringsDict = @{@"金":@"metal",@"木":@"wood",@"水":@"water",@"火":@"fire",@"土":@"earth"};
     
     [self setBackImage];
     [self setUpTableView];
@@ -49,8 +51,9 @@
 }
 //设置选中铃声
 - (void)setUpSelectRing{
-    NSLog(@"==========%ld",_ringIndex);
-    NSIndexPath * selIndexPath = [NSIndexPath indexPathForRow:_ringIndex inSection:0];
+//    NSLog(@"==========%ld-----%@",_ringIndex,_ringKey);
+//    NSInteger aa = [_ringsArray indexOfObject:_ringKey];
+    NSIndexPath * selIndexPath = [NSIndexPath indexPathForRow:[_ringsArray indexOfObject:_ringKey] inSection:0];
     UITableViewCell *newCell = [_ringsTableView cellForRowAtIndexPath:selIndexPath];
     newCell.accessoryType = UITableViewCellAccessoryCheckmark;
     _selectPath = selIndexPath;
@@ -92,7 +95,7 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return 60;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -109,10 +112,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSLog(@"%ld",indexPath.row);
     
-    _soundID = (int)indexPath.row + 1020;
+    [self destroyAudioServices];
+
+    NSString *soundKey = [_ringsArray objectAtIndex:indexPath.row];
+    NSString *soundName = [_ringsDict objectForKey:soundKey];
     
     //1.获得音效文件的全路径
-    NSURL *url=[[NSBundle mainBundle] URLForResource:@"4.wav" withExtension:nil];
+    NSURL *url=[[NSBundle mainBundle] URLForResource:soundName withExtension:@"aif"];
     
     //2.加载音效文件，创建音效ID（SoundID,一个ID对应一个音效文件）
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &_soundID);
@@ -125,8 +131,8 @@
     AudioServicesPlayAlertSound(_soundID);
     
     //通知tabBarVc切换控制器
-    if ([_delegate respondsToSelector:@selector(selectRing:withSoundId:)]) {
-        [_delegate selectRing:indexPath.row withSoundId:_soundID];
+    if ([_delegate respondsToSelector:@selector(selectRing:withSoundName:andSoundKey:)]) {
+        [_delegate selectRing:indexPath.row withSoundName:soundName andSoundKey:soundKey];
     }
 }
 #pragma mark - 播放完成之后执行的函数----c函数
@@ -138,7 +144,10 @@ void soundCompleteCallback(SystemSoundID sound,void * clientData)
     
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    //销毁音效和震动
+    [self destroyAudioServices];
+}
+#pragma mark - 销毁音效和震动
+- (void)destroyAudioServices{
     AudioServicesDisposeSystemSoundID(kSystemSoundID_Vibrate);
     AudioServicesDisposeSystemSoundID(_soundID);
     AudioServicesRemoveSystemSoundCompletion(_soundID);

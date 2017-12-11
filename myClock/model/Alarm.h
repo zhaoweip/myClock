@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *timeStr;
 @property (nonatomic, copy) NSString *ringName;
 @property (nonatomic, copy) NSString *remarkStr;
-@property (nonatomic, assign) SystemSoundID soundID;
+//@property (nonatomic, assign) SystemSoundID soundID;
+@property (nonatomic, copy) NSString *soundName;
+
 
 @end

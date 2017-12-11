@@ -32,6 +32,7 @@
 
 @property(nonatomic,assign) NSInteger ringIndex;   //铃声下标
 @property(nonatomic,assign) SystemSoundID soundID; //铃声ID
+@property(nonatomic,copy) NSString *soundName;
 
 
 @end
@@ -52,8 +53,9 @@
     _pickerMinuteChenData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32",@"33",@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42",@"43",@"44",@"45",@"46",@"47",@"48",@"49",@"50",@"51",@"52",@"53",@"54",@"55",@"56",@"57",@"58",@"59", nil];
 
     //当页面为添加闹钟页面时，默认值如下
-    _ringIndex = 0;
-    _soundID = 1020;
+//    _ringIndex = 0;
+//    _soundID   = 1020;
+    _soundName = @"metal";
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -126,7 +128,7 @@
     _ringTextField.backgroundColor = [UIColor whiteColor];
     _ringTextField.textColor = [UIColor grayColor];
     _ringTextField.layer.cornerRadius = 10;
-    _ringTextField.text = @"铃声1";
+    _ringTextField.text = @"金";
     _ringTextField.delegate = self;
     //设置左边视图的宽度
     _ringTextField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 0)];
@@ -312,7 +314,8 @@
     selectRing.title = @"选择铃声";
     selectRing.hidesBottomBarWhenPushed = YES;
     selectRing.delegate = self;
-    selectRing.ringIndex = _ringIndex;  //将默认选择的铃声下标传到铃声选择页面
+//    selectRing.ringIndex = _ringIndex;  //将默认选择的铃声下标传到铃声选择页面
+    selectRing.ringKey = _ringTextField.text;
     [self.navigationController pushViewController:selectRing animated:YES];
     
 }
@@ -329,9 +332,11 @@
     NSString *minuteStr=[self.pickerMinuteChenData objectAtIndex:row3];
     
     Alarm *alarm = [[Alarm alloc] init];
-    alarm.timeStr = [NSString stringWithFormat:@"%@ %@:%@",shiChenStr,hourStr,minuteStr];
-    alarm.ringName = _ringTextField.text;
-    alarm.soundID = _soundID;
+    alarm.timeStr   = [NSString stringWithFormat:@"%@ %@:%@",shiChenStr,hourStr,minuteStr];
+//    alarm.timeStr   = _selectTimeLabel.text;
+    alarm.ringName  = _ringTextField.text;
+//    alarm.soundID   = _soundID;
+    alarm.soundName = _soundName;
     alarm.remarkStr = _remarkTextView.text;
     
     if (self.isEditing) {
@@ -347,11 +352,10 @@
     
 }
 #pragma mark - SelectRingDelegate
-- (void)selectRing:(NSInteger)index withSoundId:(SystemSoundID)soundID
-{
-    _ringTextField.text = [NSString stringWithFormat:@"铃声%ld",index+1];
-    _ringIndex = index;
-    _soundID = soundID;
+- (void)selectRing:(NSInteger)index withSoundName:(NSString *)soundName andSoundKey:(NSString *)soundKey{
+    _ringTextField.text = soundKey;
+//    _ringIndex = index;
+    _soundName = soundName;
 }
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
@@ -363,8 +367,8 @@
     //修改页面
     if (self.isEditing) {
         //闹钟ID
-        _soundID = self.alarmModel.soundID;
-        _ringIndex = _soundID - 1020;
+//        _soundID = self.alarmModel.soundID;
+//        _ringIndex = _soundID - 1020;
         //赋值
         NSString *shiChenStr=[self.alarmModel.timeStr substringWithRange:NSMakeRange(0, 2)];
         NSString *hourStr   =[self.alarmModel.timeStr substringWithRange:NSMakeRange(3, 2)];
@@ -374,7 +378,7 @@
         [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:5 animated:YES];
         _ringTextField.text = _alarmModel.ringName;
         _remarkTextView.text = _alarmModel.remarkStr;
-        NSLog(@"%u",(unsigned int)_soundID);
+//        NSLog(@"%u",(unsigned int)_soundID);
         _selectTimeLabel.text = [NSString stringWithFormat:@"%@ %@ %@",shiChenStr,hourStr,minuteStr];
     }else{
         _selectTimeLabel.text = [self getCurrentTimeWithFormatter:@"yyyy年 MM月 dd日 eee HH:mm"];

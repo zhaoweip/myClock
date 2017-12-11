@@ -16,7 +16,9 @@
         self.timeStr    = [aDecoder decodeObjectForKey:@"timeStr"];
         self.ringName   = [aDecoder decodeObjectForKey:@"ringName"];
         self.remarkStr  = [aDecoder decodeObjectForKey:@"remarkStr"];
-        self.soundID    = [aDecoder decodeIntForKey:@"soundID"];
+//        self.soundID    = [aDecoder decodeIntForKey:@"soundID"];
+        self.soundName  = [aDecoder decodeObjectForKey:@"soundName"];
+
     }
     return self;
 }
@@ -25,7 +27,9 @@
     [aCoder encodeObject:self.timeStr forKey:@"timeStr"];
     [aCoder encodeObject:self.ringName forKey:@"ringName"];
     [aCoder encodeObject:self.remarkStr forKey:@"remarkStr"];
-    [aCoder encodeInt:self.soundID forKey:@"soundID"];
+//    [aCoder encodeInt:self.soundID forKey:@"soundID"];
+    [aCoder encodeObject:self.soundName forKey:@"soundName"];
+
 }
 
 @end
