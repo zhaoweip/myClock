@@ -111,8 +111,14 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSLog(@"creat cell:%ld", indexPath.row);
     }
-    Alarm *alarm = [_alarmModelArray objectAtIndex:indexPath.row];
-    cell.title.text = alarm.timeStr;
+    Alarm *alarm      = [_alarmModelArray objectAtIndex:indexPath.row];
+    NSString *year    = [alarm.timeStr substringWithRange:NSMakeRange(0, 4)];
+    NSString *month   = [alarm.timeStr substringWithRange:NSMakeRange(5, 2)];
+    NSString *date    = [alarm.timeStr substringWithRange:NSMakeRange(8, 2)];
+    NSString *time    = [alarm.timeStr substringWithRange:NSMakeRange(18, 5)];
+    NSString *shichen = [alarm.timeStr substringWithRange:NSMakeRange(15, 2)];
+    
+    cell.title.text    = [NSString stringWithFormat:@"%@-%@-%@ %@(%@)",year,month,date,time,shichen];
     cell.describe.text = alarm.remarkStr;
     return cell;
 }

@@ -53,8 +53,6 @@
     _pickerMinuteChenData = [[NSArray alloc] initWithObjects:@"00",@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32",@"33",@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42",@"43",@"44",@"45",@"46",@"47",@"48",@"49",@"50",@"51",@"52",@"53",@"54",@"55",@"56",@"57",@"58",@"59", nil];
 
     //当页面为添加闹钟页面时，默认值如下
-//    _ringIndex = 0;
-//    _soundID   = 1020;
     _soundName = @"metal";
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0]];
@@ -106,8 +104,6 @@
     }];
     
     _timePickerView = [[UIPickerView alloc] init];
-//    _timePickerView.backgroundColor = [UIColor brownColor];
-//    _timePickerView.layer.cornerRadius = 10;
     _timePickerView.layer.borderColor = [UIColor grayColor].CGColor;
     _timePickerView.layer.borderWidth = 2;
     [self.view addSubview:_timePickerView];
@@ -119,10 +115,6 @@
         make.top.equalTo(_selectTimeLabel.mas_bottom).offset(15);
         make.height.mas_equalTo(150);
     }];
-//    [self.timePickerView selectRow:self.pickerMonthData.count*5 inComponent:0 animated:YES];
-//    [self.timePickerView selectRow:self.pickerDateData.count*5 inComponent:1 animated:YES];
-//    [self.timePickerView selectRow:self.pickerDayData.count*5 inComponent:2 animated:YES];
-
     
     _ringTextField = [[UITextField alloc] init];
     _ringTextField.backgroundColor = [UIColor whiteColor];
@@ -244,12 +236,10 @@
     }
     
 }
+#pragma mark - 选中选择器的某个拨盘中的某行时调用
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     
-    //选中选择器的某个拨盘中的某行时调用
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    NSDate *currentDate = [NSDate date];
-//    [formatter setDateFormat:@"YYYY"];
+    //获得每一列的对应数据，要相应的除以对应数组进行取余
     NSString *currentYearString = [self getCurrentTimeWithFormatter:@"YYYY"];
     NSInteger year    = [currentYearString integerValue];
     NSString *month   = [self.pickerMonthData objectAtIndex:[self.timePickerView selectedRowInComponent:0]%12];
@@ -259,13 +249,33 @@
     NSString *hour    = [self.pickerHourData objectAtIndex:[self.timePickerView selectedRowInComponent:4]];
     NSString *minutes = [self.pickerMinuteChenData objectAtIndex:[self.timePickerView selectedRowInComponent:5]%60];
 
-
+    //只有滑动月份的时候，相应的年份才会依次增加
     if (component == 0) {
         year = [currentYearString intValue] + row/12;
     }
-    if (component == 1) {
-        date = [self pickerView:self.timePickerView titleForRow:row forComponent:component];
+    //日期与星期联动
+    if (component == 0 || component == 1 || component == 2) {
+        
+        //月份天数限制
+        NSInteger dateInt = [[date substringToIndex:2] intValue];
+        NSInteger count   = [self howManyDaysInThisYear:(int)year withMonth:[[month substringToIndex:2] intValue]];
+        if (dateInt > count) {
+            [self.timePickerView selectRow:count-1 inComponent:1 animated:YES];
+        }
+        
+        //获取星期之前要重新获取月份日期，不然会得到跳转前的日期
+        month   = [self.pickerMonthData objectAtIndex:[self.timePickerView selectedRowInComponent:0]%12];
+        date    = [self.pickerDateData objectAtIndex:[self.timePickerView selectedRowInComponent:1]%31];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *destDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%ld-%@-%@",year,[month substringToIndex:2],[date substringToIndex:2]]];
+        NSString *weekStr = [self weekdayStringFromDate:destDate];
+        [self.timePickerView selectRow:[self.pickerDayData indexOfObject:weekStr] inComponent:2 animated:YES];
+        //星期与日期关联之后，要重新获取星期
+        day = [self.pickerDayData objectAtIndex:[self.timePickerView selectedRowInComponent:2]%7];
+        
     }
+    //时辰选择列，相应的小时会跟着跳转
     if (component == 3) {
         if (row != 0) {
             [self.timePickerView selectRow:row*2-1 inComponent:4 animated:YES];
@@ -274,6 +284,7 @@
         }
         hour = [self.pickerHourData objectAtIndex:[self.timePickerView selectedRowInComponent:4]];
     }
+    //小时选择列，相应的时辰会跟着跳转
     if (component == 4) {
         if (row == 0 || row==23) {
             [self.timePickerView selectRow:0 inComponent:3 animated:YES];
@@ -284,7 +295,7 @@
         shichen = [self.pickerShiChenData objectAtIndex:[self.timePickerView selectedRowInComponent:3]];
     }
     
-    _selectTimeLabel.text = [NSString stringWithFormat:@"%ld年 %@ %@ %@ %@ %@:%@",year,month,date,day,shichen,hour,minutes];
+    _selectTimeLabel.text = [NSString stringWithFormat:@"%ld年%@%@ %@ %@ %@:%@",year,month,date,day,shichen,hour,minutes];
     
 }
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
@@ -324,18 +335,10 @@
 }
 //点击确定的时候，将闹钟保存起来（使用模型，添加到用户数据上，采用单例以便全局使用）
 - (void)clickconfirmBtn{
-    NSInteger row1 = [self.timePickerView selectedRowInComponent:3];
-    NSInteger row2 = [self.timePickerView selectedRowInComponent:4];
-    NSInteger row3 = [self.timePickerView selectedRowInComponent:5];
-    NSString *shiChenStr=[self.pickerShiChenData objectAtIndex:row1];
-    NSString *hourStr=[self.pickerHourData objectAtIndex:row2];
-    NSString *minuteStr=[self.pickerMinuteChenData objectAtIndex:row3];
-    
-    Alarm *alarm = [[Alarm alloc] init];
-    alarm.timeStr   = [NSString stringWithFormat:@"%@ %@:%@",shiChenStr,hourStr,minuteStr];
-//    alarm.timeStr   = _selectTimeLabel.text;
+
+    Alarm *alarm    = [[Alarm alloc] init];
+    alarm.timeStr   = _selectTimeLabel.text;
     alarm.ringName  = _ringTextField.text;
-//    alarm.soundID   = _soundID;
     alarm.soundName = _soundName;
     alarm.remarkStr = _remarkTextView.text;
     
@@ -348,7 +351,6 @@
         [[UserDataManager shareInstance] saveAlarmModel:alarm];
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
     
 }
 #pragma mark - SelectRingDelegate
@@ -366,30 +368,117 @@
 {
     //修改页面
     if (self.isEditing) {
-        //闹钟ID
-//        _soundID = self.alarmModel.soundID;
-//        _ringIndex = _soundID - 1020;
-        //赋值
-        NSString *shiChenStr=[self.alarmModel.timeStr substringWithRange:NSMakeRange(0, 2)];
-        NSString *hourStr   =[self.alarmModel.timeStr substringWithRange:NSMakeRange(3, 2)];
-        NSString *minuteStr =[self.alarmModel.timeStr substringWithRange:NSMakeRange(6, 2)];
+        
+        _ringTextField.text    = _alarmModel.ringName;
+        _remarkTextView.text   = _alarmModel.remarkStr;
+        _selectTimeLabel.text  = _alarmModel.timeStr;
+        
+        NSString *yearStr      = [_alarmModel.timeStr substringWithRange:NSMakeRange(0, 5)];
+        NSString *monthStr     = [_alarmModel.timeStr substringWithRange:NSMakeRange(5, 3)];
+        NSString *dateStr      = [_alarmModel.timeStr substringWithRange:NSMakeRange(8, 3)];
+        NSString *dayStr       = [_alarmModel.timeStr substringWithRange:NSMakeRange(12, 2)];
+        NSString *shiChenStr   = [_alarmModel.timeStr substringWithRange:NSMakeRange(15, 2)];
+        NSString *hourStr      = [_alarmModel.timeStr substringWithRange:NSMakeRange(18, 2)];
+        NSString *minuteStr    = [_alarmModel.timeStr substringWithRange:NSMakeRange(21, 2)];
+
+        [self.timePickerView selectRow:[self.pickerMonthData indexOfObject:monthStr] inComponent:0 animated:YES];
+        [self.timePickerView selectRow:[self.pickerDateData indexOfObject:dateStr] inComponent:1 animated:YES];
+        [self.timePickerView selectRow:[self.pickerDayData indexOfObject:dayStr] inComponent:2 animated:YES];
         [self.timePickerView selectRow:[self.pickerShiChenData indexOfObject:shiChenStr] inComponent:3 animated:YES];
         [self.timePickerView selectRow:[self.pickerHourData indexOfObject:hourStr] inComponent:4 animated:YES];
         [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:5 animated:YES];
-        _ringTextField.text = _alarmModel.ringName;
-        _remarkTextView.text = _alarmModel.remarkStr;
-//        NSLog(@"%u",(unsigned int)_soundID);
-        _selectTimeLabel.text = [NSString stringWithFormat:@"%@ %@ %@",shiChenStr,hourStr,minuteStr];
+
+        
     }else{
-        _selectTimeLabel.text = [self getCurrentTimeWithFormatter:@"yyyy年 MM月 dd日 eee HH:mm"];
+        NSString *year    = [self getCurrentTimeWithFormatter:@"yyyy年"];
+        NSString *monthStr   = [self getCurrentTimeWithFormatter:@"MM月"];
+        NSString *dateStr    = [self getCurrentTimeWithFormatter:@"dd日"];
+        NSString *dayStr     = [self getChineseWeekFromEng:[self getCurrentTimeWithFormatter:@"eee"]];
+        NSString *shiChenStr = [self getShiChenStringFromHour:[self getCurrentTimeWithFormatter:@"HH"]];
+        NSString *hourStr = [self getCurrentTimeWithFormatter:@"HH"];
+        NSString *minuteStr = [self getCurrentTimeWithFormatter:@"mm"];
+
+
+        NSString *defaultCurrentTimeStr = [NSString stringWithFormat:@"%@%@%@ %@ %@ %@:%@",year,monthStr,dateStr,dayStr,shiChenStr,hourStr,minuteStr];
+        _selectTimeLabel.text = defaultCurrentTimeStr;
+        NSLog(@"%@",defaultCurrentTimeStr);
+        
+        [self.timePickerView selectRow:[self.pickerMonthData indexOfObject:monthStr] inComponent:0 animated:YES];
+        [self.timePickerView selectRow:[self.pickerDateData indexOfObject:dateStr] inComponent:1 animated:YES];
+        [self.timePickerView selectRow:[self.pickerDayData indexOfObject:dayStr] inComponent:2 animated:YES];
+        [self.timePickerView selectRow:[self.pickerShiChenData indexOfObject:shiChenStr] inComponent:3 animated:YES];
+        [self.timePickerView selectRow:[self.pickerHourData indexOfObject:hourStr] inComponent:4 animated:YES];
+        [self.timePickerView selectRow:[self.pickerMinuteChenData indexOfObject:minuteStr] inComponent:5 animated:YES];
+        
     }
 }
-//获取当地时间
+#pragma mark - 获取当前时间
 - (NSString *)getCurrentTimeWithFormatter:(NSString *)formatterStr {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:formatterStr];
     NSString *dateTime = [formatter stringFromDate:[NSDate date]];
     return dateTime;
+}
+#pragma mark - 获取某年某月的天数
+- (NSInteger)howManyDaysInThisYear:(NSInteger)year withMonth:(NSInteger)month{
+    if((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) || (month == 10) || (month == 12))
+        return 31 ;
+    
+    if((month == 4) || (month == 6) || (month == 9) || (month == 11))
+        return 30;
+    
+    if((year % 4 == 1) || (year % 4 == 2) || (year % 4 == 3))
+    {
+        return 28;
+    }
+    
+    if(year % 400 == 0)
+        return 29;
+    
+    if(year % 100 == 0)
+        return 28;
+    
+    return 29;
+}
+#pragma mark - 获取指定日期的星期
+- (NSString*)weekdayStringFromDate:(NSDate*)inputDate {
+    
+    NSArray *weekdays =[NSArray arrayWithObjects:[NSNull null], @"周日", @"周一", @"周二", @"周三",@"周四", @"周五", @"周六",nil];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone: timeZone];
+    NSCalendarUnit calendarUnit = NSWeekdayCalendarUnit;
+    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
+    return [weekdays objectAtIndex:theComponents.weekday];
+}
+#pragma mark - 根据小时获得时辰
+- (NSString *)getShiChenStringFromHour:(NSString *)hour{
+    int hourInt = [hour intValue];
+    if (hourInt == 0 || hourInt == 23) {
+        return @"子时";
+    }else{
+         return [_pickerShiChenData objectAtIndex:(hourInt + 1)/2];
+    }
+}
+#pragma mark - 星期的中英文转换
+- (NSString*)getChineseWeekFromEng:(NSString *)week{
+    if ([week isEqualToString:@"Mon"]) {
+        return @"周一";
+    }else if([week isEqualToString:@"Tue"]){
+        return @"周二";
+    }else if([week isEqualToString:@"Wed"]){
+        return @"周三";
+    }else if([week isEqualToString:@"Thu"]){
+        return @"周四";
+    }else if([week isEqualToString:@"Fri"]){
+        return @"周五";
+    }else if([week isEqualToString:@"Sat"]){
+        return @"周六";
+    }else if([week isEqualToString:@"Sun"]){
+        return @"周日";
+    }else{
+        return week;
+    }
 }
 
 @end
