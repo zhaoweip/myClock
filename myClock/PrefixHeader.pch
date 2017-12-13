@@ -15,6 +15,7 @@
 #import "AFNetworking.h"
 #import "UserDataManager.h"
 #import "WPLayoutUtils.h"
+#import "WPDateTimeUtils.h"
 
 #define MainScreen            [UIScreen mainScreen]
 
