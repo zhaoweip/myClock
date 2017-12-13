@@ -13,7 +13,6 @@
 #import "AddAlarmViewController.h"
 #import "Alarm.h"
 #import "Bazi.h"
-#import <UserNotifications/UserNotifications.h>
 #import "YiJiCalendarViewController.h"
 
 
@@ -22,7 +21,6 @@
 @property (nonatomic, strong) UITableView *homePageTableView;
 @property (nonatomic, strong) NSMutableArray *alarmModelArray;
 @property (nonatomic, strong) HomePageHeaderView *headerView;
-
 
 @end
 
@@ -37,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackImage];
+    
     
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
@@ -176,40 +175,8 @@
     addAlarm.title = @"添加闹钟";
     addAlarm.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:addAlarm animated:YES];
-
-    //发出通知
-//    [self postMyNotification];
-}
-
-- (void)postMyNotification{
-    //通知中心
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    
-    //1，设置推送内容
-    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-    content.title = @"大标题";
-    content.subtitle = @"小标题";
-    content.body = @"这是一个本地闹钟的推送";
-    content.sound = [UNNotificationSound soundNamed:@"wood1_02.aif"];
-    content.badge = @1;
-    
-    //2，设置推送时间
-    UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:60 repeats:YES];
-    
-    //3，设置推送请求
-    NSString *requestIdentifier = @"sampleRequest";
-    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier
-                                                                          content:content
-                                                                          trigger:trigger1];
-    //4，推送请求添加到推送管理中心
-    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-        if (!error) {
-            NSLog(@"推送已添加成功 %@", requestIdentifier);
-        }
-    }];
     
 }
-
 - (void)getDate{
     
     

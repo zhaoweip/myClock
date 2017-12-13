@@ -83,5 +83,17 @@
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
     return [weekdays objectAtIndex:theComponents.weekday];
 }
+#pragma mark - 获取两个时间的时间差（秒数）
++ (NSTimeInterval)getTimeIntervalFrom:(NSString *)startTime to:(NSString *)endTime
+{
+    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm";
+    
+    NSDate * startDate = [dateFormatter dateFromString:startTime];
+    NSDate * endDate   = [dateFormatter dateFromString:endTime];
+    
+    NSTimeInterval time = [endDate timeIntervalSinceDate:startDate];
+    return time;
+}
 
 @end

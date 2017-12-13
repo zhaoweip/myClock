@@ -34,5 +34,9 @@
  *获取指定日期的星期，注意传入格式要为NSDate；
  */
 + (NSString *)weekdayStringFromDate:(NSDate*)inputDate;
+/*
+ *获取两个时间的时间差（秒数）传入时间格式为：yyyy-MM-dd
+ */
++ (NSTimeInterval)getTimeIntervalFrom:(NSString *)startTime to:(NSString *)endTime;
 
 @end
