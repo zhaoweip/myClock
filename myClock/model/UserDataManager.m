@@ -102,31 +102,39 @@ static UserDataManager * _instance = nil;
             NSString *alarmTime = [NSString stringWithFormat:@"%@-%@-%@ %@",year,month,date,time];
             NSString *now       = [WPDateTimeUtils getCurrentTimeWithFormatter:@"YYYY-MM-dd HH:mm"];
             int countdown       = [WPDateTimeUtils getTimeIntervalFrom:now to:alarmTime];
-            NSLog(@"%d-------%d",i,countdown);
-            [self startTimerWithTime:countdown-60 withAlarmModel:alarm];
+            if (countdown) {
+                [self startTimerWithTime:countdown-60 withAlarmModel:alarm];
+                NSLog(@"已经发出定时器，距离触发通知还有--%d--秒",countdown-60);
+            }
         }
     }
     
 }
 #pragma mark - 倒计时任务
 - (void)startTimerWithTime:(int)countdown withAlarmModel:(Alarm *) alarm{
-    //获得队列
-    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-    //创建一个定时器
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    //设置开始时间
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(countdown * NSEC_PER_SEC));
-    //设置时间间隔
-    uint64_t interval = (uint64_t)(0.0* NSEC_PER_SEC);
-    //设置定时器
-    dispatch_source_set_timer(timer, start, interval, 0);
-    //设置回调
-    dispatch_source_set_event_handler(timer, ^{
+//    //获得队列
+//    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+//    //创建一个定时器
+//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+//    //设置开始时间
+//    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(countdown * NSEC_PER_SEC));
+//    //设置时间间隔
+//    uint64_t interval = (uint64_t)(0.0* NSEC_PER_SEC);
+//    //设置定时器
+//    dispatch_source_set_timer(timer, start, interval, 0);
+//    //设置回调
+//    dispatch_source_set_event_handler(timer, ^{
+//        [self postMyNotificationwithAlarmModel:alarm];
+//        dispatch_cancel(timer);
+//    });
+//    //由于定时器默认是暂停的所以我们启动一下
+//    dispatch_resume(timer);
+    //执行一次
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, countdown * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        //执行事件
         [self postMyNotificationwithAlarmModel:alarm];
-        dispatch_cancel(timer);
     });
-    //由于定时器默认是暂停的所以我们启动一下
-    dispatch_resume(timer);
 }
 #pragma mark - 发出本地闹钟通知
 - (void)postMyNotificationwithAlarmModel:(Alarm *)alarm{
@@ -144,12 +152,12 @@ static UserDataManager * _instance = nil;
     //3，设置推送请求
     NSString *requestIdentifier = @"sampleRequest";
     UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier
-                                                                        content:content
+                                                                          content:content
                                                                           trigger:trigger1];
     //4，推送请求添加到推送管理中心
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
         if (!error) {
-            NSLog(@"推送已添加成功 %@", requestIdentifier);
+            NSLog(@"%@---推送已添加成功 %@",alarm.timeStr, requestIdentifier);
         }
     }];
 }

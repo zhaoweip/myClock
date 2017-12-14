@@ -91,9 +91,12 @@
     
     NSDate * startDate = [dateFormatter dateFromString:startTime];
     NSDate * endDate   = [dateFormatter dateFromString:endTime];
-    
-    NSTimeInterval time = [endDate timeIntervalSinceDate:startDate];
-    return time;
+    if (endDate > startDate) {
+        NSTimeInterval time = [endDate timeIntervalSinceDate:startDate];
+        return time;
+    }else{
+        return 0;
+    }
 }
 
 @end
