@@ -21,6 +21,7 @@
 - (void)saveMyBaziInfo:(Bazi *)myBazi;
 - (void)saveAlarmModel:(Alarm *)alarm;
 - (NSMutableArray *)getAlarmModelArray;
+- (Alarm *)getOneAlarmFromIndex:(NSInteger)index;
 - (void)removeObjectFromAlarmModelArrayAtIndex:(NSUInteger)index;
 - (void)editAlarmModelAtIndex:(NSInteger)index withNewModel:(Alarm *)alarm;
 

@@ -16,7 +16,7 @@
 #import "YiJiCalendarViewController.h"
 
 
-@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate,HomePageHeaderViewDelegate>
+@interface HomePageViewController ()<UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,MyHomePageFootViewDelegate,HomePageHeaderViewDelegate,HomePageTableViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *homePageTableView;
 @property (nonatomic, strong) NSMutableArray *alarmModelArray;
@@ -51,14 +51,14 @@
     //头视图
     HomePageHeaderView *headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 0.5)];
     headerView.backgroundColor = [UIColor clearColor];
+    headerView.delegate        = self;
     self.homePageTableView.tableHeaderView = headerView;
-    headerView.delegate = self;
     self.headerView = headerView;
     
     //尾视图
     HomePageFootView *footView = [[HomePageFootView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
-    footView.backgroundColor = [UIColor clearColor];
-    footView.delegate = self;
+    footView.backgroundColor   = [UIColor clearColor];
+    footView.delegate          = self;
     self.homePageTableView.tableFooterView = footView;
     
     //定时器 反复执行
@@ -67,10 +67,8 @@
 }
 
 - (void)updateTime{
-    
     //获得当前时间的八字以及更新头视图
     [self getDate];
-    
 }
 
 //在控制器即将出现的时候，获得本地存储的闹钟，赋值给本控制器模型数组
@@ -79,7 +77,6 @@
         self.alarmModelArray = [[UserDataManager shareInstance] getAlarmModelArray];
         [self.homePageTableView reloadData];
     }
-    
 }
 - (void)viewDidAppear:(BOOL)animated{
     [self getDate];
@@ -105,9 +102,9 @@
     //2.如果取不到则创建一个cell 并指定一个复用标识
     if (cell == nil) {
         cell = [[HomePageTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-        
+        cell.delegate        = self;
         cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
         NSLog(@"creat cell:%ld", indexPath.row);
     }
     Alarm *alarm      = [_alarmModelArray objectAtIndex:indexPath.row];
@@ -119,6 +116,7 @@
     
     cell.title.text    = [NSString stringWithFormat:@"%@-%@-%@ %@(%@)",year,month,date,time,shichen];
     cell.describe.text = alarm.remarkStr;
+    cell.switchBtn.on  = alarm.isOpen;
     return cell;
 }
 
@@ -132,12 +130,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //点击cell，将模型以及模型下标传递给闹钟编辑页面
-    Alarm *alarmModel = [self.alarmModelArray objectAtIndex:indexPath.row];
+    Alarm *alarmModel                 = [self.alarmModelArray objectAtIndex:indexPath.row];
     AddAlarmViewController *editAlarm = [[AddAlarmViewController alloc]init];
-    editAlarm.isEditing = YES;
-    editAlarm.alarmModel = alarmModel;
+    editAlarm.isEditing         = YES;
+    editAlarm.alarmModel        = alarmModel;
     editAlarm.indexOfModelArray = indexPath.row;
-    editAlarm.title = @"添加闹钟";
+    editAlarm.title             = @"修改闹钟";
     editAlarm.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:editAlarm animated:YES];
 }
@@ -159,15 +157,23 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 #pragma mark - HomePageHeaderViewDelegate
 - (void)didClickYiJiLabel{
     YiJiCalendarViewController *yijiCalendarView = [[YiJiCalendarViewController alloc]init];
     yijiCalendarView.title = @"宜忌日历";
     yijiCalendarView.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:yijiCalendarView animated:YES];}
-
+    [self.navigationController pushViewController:yijiCalendarView animated:YES];
+    
+}
+#pragma mark - HomePageTableViewCellDelegate
+- (void)clickSwitchButton:(UISwitch *)switchBtn{
+    HomePageTableViewCell * cell = (HomePageTableViewCell*) switchBtn.superview;
+    NSIndexPath * indexpath      = [self.homePageTableView indexPathForCell:cell];
+    Alarm *alarm                 = [[UserDataManager shareInstance] getOneAlarmFromIndex:indexpath.row];
+    alarm.isOpen                 = switchBtn.on;
+    [[UserDataManager shareInstance] editAlarmModelAtIndex:indexpath.row withNewModel:alarm];
+}
 #pragma mark - MyHomePageFootViewDelegate
 - (void)footViewClickAddButton
 {
@@ -179,14 +185,12 @@
 }
 - (void)getDate{
     
-    
     NSDate *currentDate = [NSDate date];
     NSDateFormatter *dataFormatter = [[NSDateFormatter alloc]init];
     [dataFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     NSString *time = [dataFormatter stringFromDate:currentDate];
     [dataFormatter setDateFormat:@"EEEE"];
     NSString *day = [dataFormatter stringFromDate:currentDate];
-    
 
     //1.创建会话管理者
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

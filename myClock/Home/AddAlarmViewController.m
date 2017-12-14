@@ -352,10 +352,13 @@
     
     if (self.isEditing) {
         //修改闹钟模型数组
+        Alarm *oldAlarm = [[UserDataManager shareInstance] getOneAlarmFromIndex:self.indexOfModelArray];
+        alarm.isOpen    = oldAlarm.isOpen;
         [[UserDataManager shareInstance] editAlarmModelAtIndex:self.indexOfModelArray withNewModel:alarm];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         //保存闹钟模型
+        alarm.isOpen = YES;
         [[UserDataManager shareInstance] saveAlarmModel:alarm];
         [self.navigationController popViewControllerAnimated:YES];
     }

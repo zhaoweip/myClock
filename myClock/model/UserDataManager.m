@@ -37,8 +37,9 @@ static UserDataManager * _instance = nil;
         _myBazi = myBazi;
     }
 }
-//将闹钟模型数组归档保存
-- (void)saveAlarmModel:(Alarm *)alarm{
+#pragma mark - 将闹钟模型数组归档保存
+- (void)saveAlarmModel:(Alarm *)alarm
+{
     if (alarm) {
         [self.alarmModelArray addObject:alarm];
         NSString *alarmModelArrayfile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"alarmModelArray.data"];
@@ -46,8 +47,9 @@ static UserDataManager * _instance = nil;
     }
     [self setAlarmOpen];
 }
-//解档获得闹钟模型数组
-- (NSMutableArray *)getAlarmModelArray{
+#pragma mark - 解档获得闹钟模型数组
+- (NSMutableArray *)getAlarmModelArray
+{
     NSString *alarmModelArrayfile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"alarmModelArray.data"];
     NSMutableArray *alarmModelArray = [NSKeyedUnarchiver unarchiveObjectWithFile:alarmModelArrayfile];
     if (alarmModelArray) {
@@ -55,8 +57,15 @@ static UserDataManager * _instance = nil;
     }
     return self.alarmModelArray;
 }
-//从闹钟模型数组删除一个闹钟模型
-- (void)removeObjectFromAlarmModelArrayAtIndex:(NSUInteger)index{
+#pragma mark - 根据下标获得闹钟数组对用闹钟模型
+- (Alarm *)getOneAlarmFromIndex:(NSInteger)index
+{
+    Alarm *alarm = [[self getAlarmModelArray] objectAtIndex:index];
+    return alarm;
+}
+#pragma mark - 从闹钟模型数组删除一个闹钟模型
+- (void)removeObjectFromAlarmModelArrayAtIndex:(NSUInteger)index
+{
     NSMutableArray *newAlarmModelArray = [self getAlarmModelArray];
     [newAlarmModelArray removeObjectAtIndex:index];
     self.alarmModelArray = newAlarmModelArray;
@@ -66,8 +75,9 @@ static UserDataManager * _instance = nil;
     
     [self setAlarmOpen];
 }
-//编辑一个闹钟模型
-- (void)editAlarmModelAtIndex:(NSInteger)index withNewModel:(Alarm *)alarm{
+#pragma mark - 根据下标编辑一个闹钟模型，替换原来数组
+- (void)editAlarmModelAtIndex:(NSInteger)index withNewModel:(Alarm *)alarm
+{
     NSMutableArray *newAlarmModelArray = [self getAlarmModelArray];
     [newAlarmModelArray replaceObjectAtIndex:index withObject:alarm];
     self.alarmModelArray = newAlarmModelArray;
@@ -77,7 +87,7 @@ static UserDataManager * _instance = nil;
 
     [self setAlarmOpen];
 }
-//设置闹钟响铃
+#pragma mark - 设置闹钟响铃
 - (void)setAlarmOpen
 {
     for (int i = 0; i<_alarmModelArray.count; i++) {
@@ -88,15 +98,17 @@ static UserDataManager * _instance = nil;
         NSString *month = [alarm.timeStr substringWithRange:NSMakeRange(5, 2)];
         NSString *date  = [alarm.timeStr substringWithRange:NSMakeRange(8, 2)];
         NSString *time  = [alarm.timeStr substringFromIndex:18];
-        
-        NSString *alarmTime = [NSString stringWithFormat:@"%@-%@-%@ %@",year,month,date,time];
-        NSString *now       = [WPDateTimeUtils getCurrentTimeWithFormatter:@"YYYY-MM-dd HH:mm"];
-        int countdown       = [WPDateTimeUtils getTimeIntervalFrom:now to:alarmTime];
-        NSLog(@"%d-------%d",i,countdown);
-        [self startTimerWithTime:countdown-60 withAlarmModel:alarm];
+        if (alarm.isOpen == YES) {
+            NSString *alarmTime = [NSString stringWithFormat:@"%@-%@-%@ %@",year,month,date,time];
+            NSString *now       = [WPDateTimeUtils getCurrentTimeWithFormatter:@"YYYY-MM-dd HH:mm"];
+            int countdown       = [WPDateTimeUtils getTimeIntervalFrom:now to:alarmTime];
+            NSLog(@"%d-------%d",i,countdown);
+            [self startTimerWithTime:countdown-60 withAlarmModel:alarm];
+        }
     }
     
 }
+#pragma mark - 倒计时任务
 - (void)startTimerWithTime:(int)countdown withAlarmModel:(Alarm *) alarm{
     //获得队列
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
@@ -116,7 +128,7 @@ static UserDataManager * _instance = nil;
     //由于定时器默认是暂停的所以我们启动一下
     dispatch_resume(timer);
 }
-
+#pragma mark - 发出本地闹钟通知
 - (void)postMyNotificationwithAlarmModel:(Alarm *)alarm{
     //通知中心
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];

@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+//代理
+@protocol HomePageTableViewCellDelegate <NSObject>
+@optional
+- (void)clickSwitchButton:(UISwitch *)switchBtn;
+@end
+
 @interface HomePageTableViewCell : UITableViewCell
 
 @property(nonatomic,strong) UILabel *title;
 @property(nonatomic,strong) UILabel *describe;
+@property(nonatomic,strong) UISwitch *switchBtn;
+@property(nonatomic, weak)  id<HomePageTableViewCellDelegate> delegate;
 
 
 @end

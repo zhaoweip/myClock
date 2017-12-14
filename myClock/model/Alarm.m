@@ -11,25 +11,25 @@
 @implementation Alarm
 
 //解档
-- (id)initWithCoder:(NSCoder *)aDecoder{
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     if ([super init]) {
         self.timeStr    = [aDecoder decodeObjectForKey:@"timeStr"];
         self.ringName   = [aDecoder decodeObjectForKey:@"ringName"];
         self.remarkStr  = [aDecoder decodeObjectForKey:@"remarkStr"];
-//        self.soundID    = [aDecoder decodeIntForKey:@"soundID"];
         self.soundName  = [aDecoder decodeObjectForKey:@"soundName"];
-
+        self.isOpen     = [aDecoder decodeBoolForKey:@"isOpen"];
     }
     return self;
 }
 //归档
-- (void)encodeWithCoder:(NSCoder *)aCoder{
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
     [aCoder encodeObject:self.timeStr forKey:@"timeStr"];
     [aCoder encodeObject:self.ringName forKey:@"ringName"];
     [aCoder encodeObject:self.remarkStr forKey:@"remarkStr"];
-//    [aCoder encodeInt:self.soundID forKey:@"soundID"];
     [aCoder encodeObject:self.soundName forKey:@"soundName"];
-
+    [aCoder encodeBool:self.isOpen forKey:@"isOpen"];
 }
 
 @end
