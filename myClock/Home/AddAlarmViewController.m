@@ -10,6 +10,15 @@
 #import "SelectRingViewController.h"
 #import "Alarm.h"
 
+#define SelectTimeLabelToTop        FitSize(80,80,80,100)
+#define SelectTimeLabelFont         FitSize(20,24,24,24)
+#define RemarkTextViewHeight        FitSize(120,160,180,180)
+#define TimePickerViewHeight        FitSize(130,150,150,150)
+#define RingTextFieldWidth          FitSize(170,200,240,210)
+#define ConfirmBtnToTop             FitSize(20,40,40,40)
+
+
+
 @interface AddAlarmViewController ()<UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,SelectRingDelegate>
 
 @property(nonatomic,strong) NSArray *pickerMonthData;
@@ -95,12 +104,12 @@
 {
     _selectTimeLabel           = [[UILabel alloc] init];
     _selectTimeLabel.textColor = [UIColor whiteColor];
-    _selectTimeLabel.font      = [UIFont systemFontOfSize:24];
+    _selectTimeLabel.font      = [UIFont systemFontOfSize:SelectTimeLabelFont];
     [self.view addSubview:_selectTimeLabel];
     [_selectTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+        make.left.mas_equalTo(10);
         make.right.mas_equalTo(0);
-        make.top.mas_equalTo(80);
+        make.top.mas_equalTo(SelectTimeLabelToTop);
     }];
     
     _timePickerView                   = [[UIPickerView alloc] init];
@@ -113,7 +122,7 @@
         make.left.mas_equalTo(-2);
         make.right.mas_equalTo(2);
         make.top.equalTo(_selectTimeLabel.mas_bottom).offset(15);
-        make.height.mas_equalTo(150);
+        make.height.mas_equalTo(TimePickerViewHeight);
     }];
     
     _ringTextField                    = [[UITextField alloc] init];
@@ -131,7 +140,7 @@
         make.left.mas_equalTo(30);
         make.top.equalTo(_timePickerView.mas_bottom).offset(20);
         make.height.mas_equalTo(40);
-        make.width.mas_equalTo(SCREEN_WIDTH*0.6);
+        make.width.mas_equalTo(RingTextFieldWidth);
     }];
     
     _selectRingBtn                    = [[UIButton alloc] init];
@@ -164,7 +173,7 @@
         make.left.equalTo(_ringTextField);
         make.right.equalTo(_selectRingBtn);
         make.top.equalTo(_remindTag.mas_bottom).offset(15);
-        make.height.mas_equalTo(180);
+        make.height.mas_equalTo(RemarkTextViewHeight);
     }];
     
     _cancelBtn = [[UIButton alloc] init];
@@ -172,7 +181,7 @@
     [self.view addSubview:_cancelBtn];
     [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_timePickerView.mas_left).offset(40);
-        make.top.equalTo(_remarkTextView.mas_bottom).offset(40);
+        make.top.equalTo(_remarkTextView.mas_bottom).offset(ConfirmBtnToTop);
     }];
     
     _confirmBtn = [[UIButton alloc] init];
@@ -180,7 +189,7 @@
     [self.view addSubview:_confirmBtn];
     [_confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_timePickerView.mas_right).offset(-40);
-        make.top.equalTo(_remarkTextView.mas_bottom).offset(40);
+        make.top.equalTo(_remarkTextView.mas_bottom).offset(ConfirmBtnToTop);
     }];
     
     [_selectRingBtn addTarget:self action:@selector(clickSelectRingBtn) forControlEvents:UIControlEventTouchDown];
