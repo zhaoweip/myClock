@@ -17,6 +17,7 @@
 		E2556B611F945E7200329E30 /* WPLayoutUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2556B601F945E7200329E30 /* WPLayoutUtils.m */; };
 		E2569CCA1F9D85AD004B9D97 /* HomePageFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */; };
 		E2581B581F9DC738008E90C4 /* AddAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */; };
+		E25BAD2C1FE3674500F49F49 /* SearchRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25BAD2B1FE3674500F49F49 /* SearchRecordViewController.m */; };
 		E260692D1FE0BF6E007A2F5B /* WPDateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E260692C1FE0BF6E007A2F5B /* WPDateTimeUtils.m */; };
 		E26D4EA41FA8539E0034E2D8 /* Alarm.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D4EA31FA8539E0034E2D8 /* Alarm.m */; };
 		E26D55F91FCD4DF700C2C160 /* WJIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D55F81FCD4DF700C2C160 /* WJIndicatorView.m */; };
@@ -94,6 +95,8 @@
 		E2569CC91F9D85AD004B9D97 /* HomePageFootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageFootView.m; sourceTree = "<group>"; };
 		E2581B561F9DC738008E90C4 /* AddAlarmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddAlarmViewController.h; sourceTree = "<group>"; };
 		E2581B571F9DC738008E90C4 /* AddAlarmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddAlarmViewController.m; sourceTree = "<group>"; };
+		E25BAD2A1FE3674500F49F49 /* SearchRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchRecordViewController.h; sourceTree = "<group>"; };
+		E25BAD2B1FE3674500F49F49 /* SearchRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchRecordViewController.m; sourceTree = "<group>"; };
 		E260692B1FE0BF6E007A2F5B /* WPDateTimeUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WPDateTimeUtils.h; sourceTree = "<group>"; };
 		E260692C1FE0BF6E007A2F5B /* WPDateTimeUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WPDateTimeUtils.m; sourceTree = "<group>"; };
 		E26D4EA21FA8539E0034E2D8 /* Alarm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alarm.h; sourceTree = "<group>"; };
@@ -427,6 +430,8 @@
 				E2F971551F8DEA2600B49001 /* SearchPageViewController.m */,
 				E23448D41F99C8E300EEB6A4 /* BaziAlertView.h */,
 				E23448D51F99C8E300EEB6A4 /* BaziAlertView.m */,
+				E25BAD2A1FE3674500F49F49 /* SearchRecordViewController.h */,
+				E25BAD2B1FE3674500F49F49 /* SearchRecordViewController.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -644,6 +649,7 @@
 				E2F9715C1F8E050800B49001 /* WPTabBar.m in Sources */,
 				E2C7EC0F1FC2DC4300F4BDF9 /* SKWeekCollectionViewCell.m in Sources */,
 				E23448D61F99C8E300EEB6A4 /* BaziAlertView.m in Sources */,
+				E25BAD2C1FE3674500F49F49 /* SearchRecordViewController.m in Sources */,
 				E251DB8E1F98767000AA8C32 /* UserDataManager.m in Sources */,
 				E2C7EC091FC2DB9E00F4BDF9 /* SKCalendarView.m in Sources */,
 				E26D4EA41FA8539E0034E2D8 /* Alarm.m in Sources */,

@@ -10,7 +10,7 @@
 #import "Bazi.h"
 #import "BaziAlertView.h"
 #import "CalendarHeader.h"
-
+#import "SearchRecordViewController.h"
 
 #define LabelTagToTop            FitSize(50,70,70,90)
 #define LabelTagEdgeMargin       FitSize(30,42,42,42)
@@ -21,7 +21,9 @@
 #define SelectedButtonEdgeMargin FitSize(60,90,90,90)
 #define SelectedButtonToLeft     FitSize(120,150,150,150)
 
-#define SearchButtonMarginToTop  FitSize(70,100,130,130)
+#define TextFieldTopMargin       FitSize(10,16,20,18)
+#define TextFieldHeight          FitSize(40,42,45,45)
+#define SearchButtonMarginToTop  FitSize(120,140,160,160)
 
 #define DatePickHeight           SCREEN_HEIGHT*0.3
 #define DatePickContentHeight    SCREEN_HEIGHT*0.3+60
@@ -44,6 +46,7 @@
 
 @property (nonatomic, strong) UITextField *date;
 @property (nonatomic, strong) UITextField *time;
+@property (nonatomic, strong) UITextField *remark;
 
 @property (nonatomic, strong) BaziAlertView *baziAlertView;
 
@@ -130,9 +133,38 @@
     [_internationalDateBtn addTarget:self action:@selector(dataBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
-    _date = [self createTextFieldWithTag:1 andLastView:_oldDateBtn];
-    _time = [self createTextFieldWithTag:2 andLastView:_date];
+    _date = [self createTextFieldWithTag:1 andLastView:_oldDateBtn andPlaceholder:@"日期"];
+    _time = [self createTextFieldWithTag:2 andLastView:_date andPlaceholder:@"时间"];
+    
+    _remark                 = [[UITextField alloc] init];
+    _remark.backgroundColor = [UIColor whiteColor];
+    _remark.textColor       = [UIColor blackColor];
+    _remark.leftView        = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 0)];
+    _remark.leftViewMode    = UITextFieldViewModeAlways;
+    _remark.placeholder     = @"备注信息";
+    _remark.layer.cornerRadius = 10;
+    [self.view addSubview:_remark];
+    [_remark mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_time.mas_bottom).offset(TextFieldTopMargin);
+        make.left.mas_equalTo(38);
+        make.right.mas_equalTo(-38);
+        make.height.mas_equalTo(TextFieldHeight);
+    }];
 
+    //查询记录
+    UIButton *searchRecordBtn          = [[UIButton alloc] init];
+    searchRecordBtn.backgroundColor    = [UIColor whiteColor];
+    searchRecordBtn.layer.cornerRadius = 10;
+    [searchRecordBtn setTitle:@"查询记录" forState:UIControlStateNormal];
+    [searchRecordBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [searchRecordBtn addTarget:self action:@selector(searchRecordBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchRecordBtn];
+    [searchRecordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_remark.mas_bottom).offset(TextFieldTopMargin);
+        make.left.mas_equalTo(38);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(40);
+    }];
     
     //查询按钮
     UIButton *searchBtn = [[UIButton alloc] init];
@@ -157,26 +189,26 @@
     return button;
 }
 //创建textfield
-- (UITextField *)createTextFieldWithTag:(NSInteger)tag andLastView:(UIView *)lastView{
-    UITextField *textField = [[UITextField alloc] init];
-    textField.backgroundColor = [UIColor whiteColor];
-    textField.textColor = [UIColor grayColor];
+- (UITextField *)createTextFieldWithTag:(NSInteger)tag andLastView:(UIView *)lastView andPlaceholder:(NSString *)placeholder
+{
+    UITextField *textField       = [[UITextField alloc] init];
+    textField.backgroundColor    = [UIColor whiteColor];
+    textField.textColor          = [UIColor grayColor];
     textField.layer.cornerRadius = 10;
-    //设置左边视图的宽度
-    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 0)];
-    //设置显示模式为永远显示(默认不显示 必须设置 否则没有效果)
-    textField.leftViewMode = UITextFieldViewModeAlways;
+    textField.leftView           = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 0)];
+    textField.leftViewMode       = UITextFieldViewModeAlways;
+    textField.placeholder        = placeholder;
     [self.view addSubview:textField];
     
     [textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lastView.mas_bottom).offset(20);
+        make.top.equalTo(lastView.mas_bottom).offset(TextFieldTopMargin);
         make.left.mas_equalTo(38);
         make.right.mas_equalTo(-38);
-        make.height.mas_equalTo(45);
+        make.height.mas_equalTo(TextFieldHeight);
     }];
 
     textField.delegate = self;
-    textField.tag = tag;
+    textField.tag      = tag;
     [textField addTarget:self action:@selector(showDatePick:) forControlEvents:UIControlEventTouchDown];
     
     UIImageView *textFieldTag = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"date_tag.png"]];
@@ -189,9 +221,18 @@
     }];
     return textField;
 }
-#pragma mark - 查询按钮的点击
-- (void)searchBtnClick{
+#pragma mark - 查询记录按钮的点击
+- (void)searchRecordBtnClick
+{
+    SearchRecordViewController *searchRecordCtl = [[SearchRecordViewController alloc] init];
+    searchRecordCtl.title = @"查询记录";
+    searchRecordCtl.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:searchRecordCtl animated:YES];
     
+}
+#pragma mark - 查询按钮的点击
+- (void)searchBtnClick
+{
     NSString *date = _date.text;
     if (date.length == 0) {
         return;
@@ -200,7 +241,9 @@
     if ([_dataSelectedButton.titleLabel.text isEqualToString:@"农历"]) {
         date = [self changeOldDateToInternationalDate:date];
     }
-    NSString *time = [NSString stringWithFormat:@"%@ %@",date,_time.text];
+    NSString *time   = [NSString stringWithFormat:@"%@ %@",date,_time.text];
+    NSString *remark = _remark.text;
+    NSLog(@"----%@",remark);
     [self getBaZiData:time];
 }
 #pragma mark - 阴历转换为阳历
@@ -351,6 +394,7 @@
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_baziAlertView removeFromSuperview];
+    [_remark resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
