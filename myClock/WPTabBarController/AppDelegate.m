@@ -24,7 +24,7 @@
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
-    WPTabBarController *tab = [[WPTabBarController alloc] init];
+    WPTabBarController *tab        = [[WPTabBarController alloc] init];
     self.window.rootViewController = tab;
     
     //iOS 10
@@ -40,25 +40,18 @@
 }
 
 //App处于前台接收通知时，这个时候会以弹窗的形式显示通知
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
-//    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound);
-    NSLog(@"123123123");
-    //收到推送的请求
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    //收到推送
     UNNotificationRequest *request = notification.request;
-    //收到推送的内容
     UNNotificationContent *content = request.content;
-    NSString *body = content.body;
-    NSLog(@"%@",body);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:body delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    NSString *body                 = content.body;
+    UIAlertView *alert             = [[UIAlertView alloc] initWithTitle:@"提醒" message:body delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
-    //设置铃声和振动
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    AudioServicesPlaySystemSound(1027);
 }
 //点击通知来到这个方法
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler{
-    
-    
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
     //收到推送的请求
     UNNotificationRequest *request = response.notification.request;
     
@@ -137,6 +130,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //点击应用图标进入APP的时候，取消图标右上角的红色数字
+    application.applicationIconBadgeNumber = 0;
 }
 
 

@@ -65,6 +65,9 @@
     if (_nextMonth == 0) {
         _nextMonth = self.calendarManage.month + 1;
     }
+    if (_nextMonth == 13) {
+        return 1;
+    }
     return _nextMonth;
 }
 

@@ -31,9 +31,9 @@
 
 @implementation AboutMePageViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
     [self setBackImage];
     //设置导航控制器的代理为self，在代理方法里面去隐藏导航栏
     self.navigationController.delegate = self;
@@ -49,12 +49,12 @@
     }];
     
     _menuVc=[[WJScrollerMenuView alloc]initWithFrame:CGRectMake(0, MenuToLogo, SCREEN_WIDTH, 50) showArrayButton:NO];
-    _menuVc.delegate=self;
-    _menuVc.LineColor = [UIColor whiteColor];
-    _menuVc.selectedColor=[UIColor whiteColor];
+    _menuVc.delegate      =self;
+    _menuVc.LineColor     = [UIColor whiteColor];
+    _menuVc.selectedColor =[UIColor whiteColor];
     _menuVc.noSlectedColor=[UIColor whiteColor];
-    _menuVc.myTitleArray=@[@"關於我們",@"免責聲明"];
-    _menuVc.currentIndex=0;
+    _menuVc.myTitleArray  =@[@"關於我們",@"免責聲明"];
+    _menuVc.currentIndex  =0;
     [self.view addSubview:_menuVc];
     
     [self setUpLeftView];
@@ -62,15 +62,16 @@
 
 }
 //设置背景图片
-- (void)setBackImage{
+- (void)setBackImage
+{
     UIImageView *backImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_base_bg.png"]];
     backImage.frame = self.view.frame;
     [self.view addSubview:backImage];
 }
 #pragma mark - 关于我们
-- (void)setUpLeftView{
-    
-    _leftView = [[UIView alloc] init];
+- (void)setUpLeftView
+{
+    _leftView                 = [[UIView alloc] init];
     _leftView.backgroundColor = [UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0];
     [self.view addSubview:_leftView];
     [_leftView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -81,10 +82,10 @@
     }];
     
     //title
-    UILabel *title = [[UILabel alloc] init];
-    title.text = @"關於我們";
+    UILabel *title      = [[UILabel alloc] init];
+    title.text          = @"關於我們";
     title.textAlignment = NSTextAlignmentCenter;
-    title.textColor = [UIColor whiteColor];
+    title.textColor     = [UIColor whiteColor];
     [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:Title_FontSize]];
     [_leftView addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -168,9 +169,9 @@
     
 }
 #pragma mark - 免责声明
-- (void)setUpRightView:(BOOL)isHidden{
-    
-    _rightView = [[UIView alloc] init];
+- (void)setUpRightView:(BOOL)isHidden
+{
+    _rightView                 = [[UIView alloc] init];
     _rightView.backgroundColor = [UIColor colorWithRed:31/255.0 green:46/255.0 blue:67/255.0 alpha:1.0];
     [self.view addSubview:_rightView];
     [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,11 +182,11 @@
     }];
     
     //title
-    UILabel *title = [[UILabel alloc] init];
-    title.text = @"免責聲明";
+    UILabel *title      = [[UILabel alloc] init];
+    title.text          = @"免責聲明";
     title.textAlignment = NSTextAlignmentCenter;
+    title.textColor     = [UIColor whiteColor];
     [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:Title_FontSize]];
-    title.textColor = [UIColor whiteColor];
     [_rightView addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(250);
@@ -193,8 +194,8 @@
         make.centerX.equalTo(_leftView);
     }];
     
-    NSString  *testString = @"        八字玄學屬非精密科學，本應用程式所提供之所有資料只作參考之用。如因使用、誤用或依據此程式的資訊而導致的損失或破壞，本公司概不負責";
-    NSString  *testString2 = @"        本應用程式所載的所有資料、商標、標誌、圖像、短片、聲音檔案、連結及其他資料等（以下簡稱「資料」），只供參考之用，圓方文化科技有限公司（以下簡稱「本 公司」）將會盡力確保本應用程式的資料準確性，唯本公司無須事先通知而可隨時修改本應用程式的內容和任何部分。如因使用、誤用或依據此程式的資訊而導致的損失或破壞，本公司概不負責。";
+    NSString  *testString = @"        八字玄學屬非精密科學，本應用程式所提供之所有資料只作參考之用。如因使用、誤用或依據此程式的資訊而導致的損失或破壞，圓方文化科技有限公司（以下簡稱「本 公司」）概不負責";
+    NSString  *testString2 = @"        本應用程式所載的所有資料、商標、標誌、圖像、短片、聲音檔案、連結及其他資料等（以下簡稱「資料」），只供參考之用，本公司將會盡力確保本應用程式的資料準確性，唯本公司無須事先通知而可隨時修改本應用程式的內容和任何部分。如因使用、誤用或依據此程式的資訊而導致的損失或破壞，本公司概不負責。";
     
     //label1
     UILabel *label1 = [self creatLabelWithText:testString];
@@ -228,16 +229,18 @@
     _rightView.hidden = isHidden;
 }
 #pragma mark - 创建Label文本
-- (UILabel *)creatLabelWithText:(NSString *)text{
-    UILabel *label = [[UILabel alloc] init];
-    label.text = text;
-    label.font = [UIFont systemFontOfSize:TextFontSize];
-    label.textColor = [UIColor whiteColor];
+- (UILabel *)creatLabelWithText:(NSString *)text
+{
+    UILabel *label      = [[UILabel alloc] init];
+    label.text          = text;
+    label.font          = [UIFont systemFontOfSize:TextFontSize];
+    label.textColor     = [UIColor whiteColor];
     label.numberOfLines = 0;
     return label;
 }
 #pragma mark - UINavigationControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
     BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
     [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
 }
