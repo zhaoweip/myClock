@@ -31,7 +31,12 @@ static UserDataManager * _instance = nil;
     }
     return _alarmModelArray;
 }
-
+- (NSMutableArray *)searchRecordArray {
+    if (_searchRecordArray == nil) {
+        _searchRecordArray = [NSMutableArray array];
+    }
+    return _searchRecordArray;
+}
 - (void)saveMyBaziInfo:(Bazi *)myBazi{
     if (myBazi) {
         _myBazi = myBazi;
@@ -112,23 +117,6 @@ static UserDataManager * _instance = nil;
 }
 #pragma mark - 倒计时任务
 - (void)startTimerWithTime:(int)countdown withAlarmModel:(Alarm *) alarm{
-//    //获得队列
-//    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-//    //创建一个定时器
-//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-//    //设置开始时间
-//    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(countdown * NSEC_PER_SEC));
-//    //设置时间间隔
-//    uint64_t interval = (uint64_t)(0.0* NSEC_PER_SEC);
-//    //设置定时器
-//    dispatch_source_set_timer(timer, start, interval, 0);
-//    //设置回调
-//    dispatch_source_set_event_handler(timer, ^{
-//        [self postMyNotificationwithAlarmModel:alarm];
-//        dispatch_cancel(timer);
-//    });
-//    //由于定时器默认是暂停的所以我们启动一下
-//    dispatch_resume(timer);
     //执行一次
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, countdown * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -160,6 +148,25 @@ static UserDataManager * _instance = nil;
             NSLog(@"%@---推送已添加成功 %@",alarm.timeStr, requestIdentifier);
         }
     }];
+}
+#pragma mark - 保存查询记录
+- (void)saveSearchRecord:(NSString *)searchText
+{
+    if (searchText) {
+        [self.searchRecordArray addObject:searchText];
+        NSString *searchRecordArrayFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"searchRecordArray.data"];
+        [NSKeyedArchiver archiveRootObject:self.searchRecordArray toFile:searchRecordArrayFile];
+    }
+}
+#pragma mark - 获得所有查询记录
+- (NSMutableArray *)getAllSearchRecord
+{
+    NSString *searchRecordArrayFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"searchRecordArray.data"];
+    NSMutableArray *searchRecordArray = [NSKeyedUnarchiver unarchiveObjectWithFile:searchRecordArrayFile];
+    if (searchRecordArray) {
+        self.searchRecordArray = searchRecordArray;
+    }
+    return self.searchRecordArray;
 }
 
 @end

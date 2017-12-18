@@ -180,7 +180,8 @@
 
 }
 //创建单选按钮
-- (UIButton *)createButtonWithTitle:(NSString *)title{
+- (UIButton *)createButtonWithTitle:(NSString *)title
+{
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:title forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:@"Inquire_normal.png"] forState:UIControlStateNormal];
@@ -241,28 +242,28 @@
     if ([_dataSelectedButton.titleLabel.text isEqualToString:@"农历"]) {
         date = [self changeOldDateToInternationalDate:date];
     }
-    NSString *time   = [NSString stringWithFormat:@"%@ %@",date,_time.text];
-    NSString *remark = _remark.text;
-    NSLog(@"----%@",remark);
+    NSString *time       = [NSString stringWithFormat:@"%@ %@",date,_time.text];
+    NSString *remark     = _remark.text;
+    NSString *searchInfo = [NSString stringWithFormat:@"%@ %@",time,remark];
     [self getBaZiData:time];
+    [[UserDataManager shareInstance] saveSearchRecord:searchInfo];
 }
 #pragma mark - 阴历转换为阳历
-- (NSString *)changeOldDateToInternationalDate:(NSString *)date{
-    
+- (NSString *)changeOldDateToInternationalDate:(NSString *)date
+{
     NSString *year  = [date substringWithRange:NSMakeRange(0, 4)];
     NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
     NSString *day   = [date substringWithRange:NSMakeRange(8, 2)];
     Lunar *lunar = [[Lunar alloc] initWithYear:[year intValue] andMonth:[month intValue] andDay:[day intValue]];
-    Solar *s = [CalendarDisplyManager obtainSolarFromLunar:lunar];
-    date = [NSString stringWithFormat:@"%i-%i-%i",s.solarYear,s.solarMonth,s.solarDay];
+    Solar *s     = [CalendarDisplyManager obtainSolarFromLunar:lunar];
+    date         = [NSString stringWithFormat:@"%i-%i-%i",s.solarYear,s.solarMonth,s.solarDay];
     return date;
     
 }
 #pragma mark - 请求八字数据
-- (void)getBaZiData:(NSString *)time{
-    
+- (void)getBaZiData:(NSString *)time
+{
     NSLog(@"请求八字时间为————————————%@",time);
-
     //1.创建会话管理者
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml",@"text/html", @"application/json",@"text/plain",nil];
@@ -302,8 +303,8 @@
 
 }
 #pragma mark - 日期选择器
-- (void)showDatePick:(UITextField *)textField{
-    
+- (void)showDatePick:(UITextField *)textField
+{
     if (_datePicker == nil) {
         
         UIView *contenView = [[UIView alloc] initWithFrame:CGRectMake(0,DatePickContentY,SCREEN_WIDTH,DatePickContentHeight)];
@@ -349,7 +350,6 @@
         [_cancelBtn addTarget:self action:@selector(hideDatePicker) forControlEvents:UIControlEventTouchDown];
         [_confirmBtn addTarget:self action:@selector(confirmDateOrTime) forControlEvents:UIControlEventTouchDown];
 
-        
     }else{
         if (textField.tag == 1) {
             _datePicker.datePickerMode = UIDatePickerModeDate;
@@ -361,11 +361,13 @@
     _contentView.hidden = NO;
 }
 #pragma mark - 日期选择器的取消按钮
-- (void)hideDatePicker{
+- (void)hideDatePicker
+{
     _contentView.hidden = YES;
 }
 #pragma mark - 日期选择器的确定按钮
-- (void)confirmDateOrTime{
+- (void)confirmDateOrTime
+{
     NSDate *theDate = _datePicker.date;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     if (_datePicker.datePickerMode == UIDatePickerModeDate) {
@@ -378,35 +380,36 @@
     _contentView.hidden = YES;
 }
 #pragma mark - 性别选择按钮的点击
-- (void)maleBtnClick:(UIButton *)button {
+- (void)maleBtnClick:(UIButton *)button
+{
     _maleSelectedButton.selected = NO;
-    button.selected = YES;
-    _maleSelectedButton = button;
+    button.selected              = YES;
+    _maleSelectedButton          = button;
     NSLog(@"%@",button.titleLabel.text);
 }
 #pragma mark - 阴阳历选择按钮的点击
-- (void)dataBtnClick:(UIButton *)button {
+- (void)dataBtnClick:(UIButton *)button
+{
     _dataSelectedButton.selected = NO;
-    button.selected = YES;
-    _dataSelectedButton = button;
+    button.selected              = YES;
+    _dataSelectedButton          = button;
     NSLog(@"%@",button.titleLabel.text);
 
 }
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [_baziAlertView removeFromSuperview];
     [_remark resignFirstResponder];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 #pragma mark - UINavigationControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
     BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
     [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
 }
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
     return NO;
 }
 
